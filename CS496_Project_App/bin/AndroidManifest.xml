@@ -4,6 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <!-- enable access to internet -->
+    <uses-permission android:name="android.permission.INTERNET" android:maxSdkVersion="10" />
+    
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="10" />
