@@ -2,6 +2,7 @@ package ycp.edu.cs496project.mobileApp;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
@@ -29,6 +30,11 @@ public class MainActivity extends Activity {
 	public void onPlayClick(View v){
 		//a simple test to see if the button works
 		Toast.makeText(MainActivity.this, " play Button test.", Toast.LENGTH_SHORT).show();
+		
+		//create an intent to go to the gameplay activity
+		Intent startGameIntent = new Intent(this, GameScreenActivity.class);
+		startActivity(startGameIntent);
+		
 	}
 	
 	/**
