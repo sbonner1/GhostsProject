@@ -2,13 +2,30 @@ package ycp.edu.cs496project.mobileApp;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
 
 public class GameScreenActivity extends Activity {
-
+	
+	private final static int NUM_COLS = 4; //the number of columns for the game grid
+	
+	private GridView gameGrid; //the game grid
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		//initialize the grid dimensions
+		gameGrid = (GridView)findViewById(R.id.gridView);
+		//gameGrid.setNumColumns(NUM_COLS);
+		//gameGrid.setColumnWidth(20);
+		//gameGrid.setAdapter(new ImageAdapter(this));
+		
 		setContentView(R.layout.activity_game_screen);
 	}
 
@@ -18,5 +35,6 @@ public class GameScreenActivity extends Activity {
 		getMenuInflater().inflate(R.menu.game_screen, menu);
 		return true;
 	}
-
 }
+
+
