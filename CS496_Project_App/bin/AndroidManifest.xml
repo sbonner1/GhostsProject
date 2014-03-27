@@ -5,8 +5,10 @@
     android:versionName="1.0" >
 
     <!-- enable access to internet -->
-    <uses-permission android:name="android.permission.INTERNET" android:maxSdkVersion="10" />
-    
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:maxSdkVersion="10" />
+
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="10" />
@@ -24,6 +26,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="ycp.edu.cs496project.mobileApp.GameScreenActivity"
+            android:label="@string/title_activity_game_screen" >
         </activity>
     </application>
 
