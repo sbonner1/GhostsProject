@@ -9,11 +9,17 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class GhostTest {
-	private Ghost ghost;
+	private BlueGhost blueGhost;
+	private RareGhost_001 rareGhost_001;
+	private RedGhost redGhost;
+	private YellowGhost yellowGhost;
 	
 	@Before
 	public void setUp() {
-		ghost = new Ghost();
+		blueGhost = new BlueGhost();
+		rareGhost_001 = new RareGhost_001();
+		redGhost = new RedGhost();
+		yellowGhost = new YellowGhost();
 	}
 	
 	@Test
