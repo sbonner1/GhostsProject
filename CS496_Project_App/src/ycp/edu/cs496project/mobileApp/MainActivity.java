@@ -1,5 +1,6 @@
 package ycp.edu.cs496project.mobileApp;
 
+import ycp.edu.cs496project.mobileApp.servletControllers.TestController;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -45,6 +46,17 @@ public class MainActivity extends Activity {
 	public void onScoreClick(View v){
 		//simple test to see button works
 		Toast.makeText(MainActivity.this, "score button test.", Toast.LENGTH_SHORT).show();
+	}
+	
+	//simple test to see if database can be accessed
+	public void onDBTestClick(View v){
+		TestController controller = new TestController();
+		
+		try{
+			Toast.makeText(MainActivity.this, controller.test(), Toast.LENGTH_SHORT).show();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 }

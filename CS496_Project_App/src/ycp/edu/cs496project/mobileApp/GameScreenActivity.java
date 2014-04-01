@@ -2,13 +2,8 @@ package ycp.edu.cs496project.mobileApp;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
 import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 public class GameScreenActivity extends Activity {
 	
