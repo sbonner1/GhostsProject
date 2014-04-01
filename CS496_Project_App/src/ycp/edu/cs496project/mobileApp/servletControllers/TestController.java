@@ -25,8 +25,6 @@ public class TestController {
 		HttpGet httpGet = new HttpGet(uri);
 		HttpResponse resp = null;
 		
-		//return "HTTP methods work.";
-		
 		resp = client.execute(httpGet);
 		
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
