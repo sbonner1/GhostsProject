@@ -7,6 +7,8 @@ package edu.ycp.cs496.ghosts.model;
 public class User {
 	private String userName;
 	private String passwordHash;
+	private String password;
+	
 	private int score;
 	
 	public User() {
@@ -22,6 +24,14 @@ public class User {
 	
 	public String getUserName() {
 		return userName;
+	}
+	
+	public void setUserPassword(String password){
+		this.password = password;
+	}
+	
+	public String getUserPassword(){
+		return password;
 	}
 	
 	public void setPasswordHash(String passwordHash) {
