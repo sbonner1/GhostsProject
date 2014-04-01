@@ -23,12 +23,6 @@ public class FakeDatabase implements IDatabase {
 		userList = new ArrayList<User>();
 	}
 	
-	//@Override
-	
-	
-	
-	
-	
 	@Override
 	public User getUser(String userName, String password) {
 		for(User user: userList){

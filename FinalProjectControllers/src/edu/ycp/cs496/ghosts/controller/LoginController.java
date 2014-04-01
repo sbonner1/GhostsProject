@@ -8,3 +8,5 @@ public class LoginController {
 		return DatabaseProvider.getInstance().getUser(userName, password);
 	}
 }
+
+	
