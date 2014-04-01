@@ -34,7 +34,6 @@ public class TestController {
 			return JSON.getObjectMapper().readValue(entity.getContent(), String.class); 
 		} 
 		
-		// Return null if invalid response
 		
 		return "Error with test.";
 	}
