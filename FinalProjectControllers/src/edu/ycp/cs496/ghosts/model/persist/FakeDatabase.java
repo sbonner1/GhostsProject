@@ -9,6 +9,12 @@ import java.util.ArrayList;
  */
 import edu.ycp.cs496.ghosts.model.User;
 
+/**
+ * 
+ * 
+ * @author sbonner1
+ *
+ */
 public class FakeDatabase implements IDatabase {
 	
 	private ArrayList<User> userList;
@@ -16,6 +22,11 @@ public class FakeDatabase implements IDatabase {
 	public FakeDatabase() {
 		userList = new ArrayList<User>();
 	}
+	
+	//@Override
+	
+	
+	
 	
 	
 	@Override

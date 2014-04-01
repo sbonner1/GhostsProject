@@ -1,5 +1,9 @@
 package edu.ycp.cs496.ghosts.model;
-
+/**
+ * 
+ * @author 
+ * 
+ */
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
