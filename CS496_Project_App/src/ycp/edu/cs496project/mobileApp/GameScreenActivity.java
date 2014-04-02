@@ -5,13 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 /**
  * an activity for playing the game.
@@ -28,6 +26,7 @@ public class GameScreenActivity extends Activity {
 	//Integer[] imageArray = new Integer[1];
 	
 	ImageButton imgButton;
+	boolean imgNum;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,26 +49,12 @@ public class GameScreenActivity extends Activity {
 		//gameGrid.setGravity(0x11);
 		gameGrid.setAdapter(imageAdapter);
 		*/
-		
-		
 		setContentView(R.layout.activity_game_screen);
 		
+		imgNum = true;
+		
 		imgButton = (ImageButton)findViewById(R.id.imageButton);
-		
-		if(imgButton == null){
-			Toast.makeText(GameScreenActivity.this, "null", Toast.LENGTH_SHORT).show();
-		}
-		
-		
-		imgButton.setOnClickListener(new View.OnClickListener(){
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				imgButton.setImageResource(R.drawable.sample_4);
-			}
-			
-		});
+		createOnImageButtonClick();
 	}
 
 	@Override
@@ -79,32 +64,24 @@ public class GameScreenActivity extends Activity {
 		return true;
 	}
 	
-	
-	public void onImageClick(View v){
-		
-	}
-	
-	
-	
-	/*public void createOnImageButtonClick(){
-		
+	//method to create an OnClickListener for the ImageButton
+	public void createOnImageButtonClick(){
 		imgButton.setOnClickListener(new View.OnClickListener(){
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				
-				//if(imgButton. == R.drawable.sample_4){
-					//imgButton.setImageResource(R.drawable.sample_5);
-				//}else{
-					//imgButton.setImageResource(R.drawable.sample_4);
-				//}
-				
+				if(imgNum){
+					imgButton.setImageResource(R.drawable.ic_launcher);
+					imgNum = false;
+				}else{
+					imgButton.setImageResource(R.drawable.sample_4);
+					imgNum = true;
+				}
 			}
 			
 		});
-		
-	}*/
+	}
 	
 	/**
 	 * an implementation of an ArrayAdapter to use ImageView to populate the GridView
