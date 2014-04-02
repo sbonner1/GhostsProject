@@ -32,7 +32,6 @@ public class TestController {
 			return JSON.getObjectMapper().readValue(entity.getContent(), String.class); 
 		} 
 		
-		
 		return "Error with test.";
 	}
 }
