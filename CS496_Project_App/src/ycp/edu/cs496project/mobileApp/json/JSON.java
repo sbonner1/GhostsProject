@@ -1,4 +1,4 @@
-package ycp.edu.cs46project.mobileApp.json;
+package ycp.edu.cs496project.mobileApp.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -13,7 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import ycp.edu.cs46project.mobileApp.json.JSON;
+import ycp.edu.cs496project.mobileApp.json.JSON;
 
 public class TestController {
 	public String test() throws URISyntaxException, ClientProtocolException, IOException{
