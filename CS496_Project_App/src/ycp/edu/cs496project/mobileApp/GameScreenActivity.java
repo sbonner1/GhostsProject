@@ -86,6 +86,10 @@ public class GameScreenActivity extends Activity {
 		});
 	}
 	
+	public void tester(){
+		
+	}
+	
 	/**
 	 * an implementation of an ArrayAdapter to use ImageView to populate the GridView
 	 * instead of the default TextView.
