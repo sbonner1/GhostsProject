@@ -3,13 +3,17 @@ package ycp.edu.cs496project.mobileApp;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 /**
  * an activity for playing the game.
@@ -25,39 +29,33 @@ public class GameScreenActivity extends Activity {
 	private final static int NUM_COLS = 4;//the number of columns for the game grid
 	private final static int NUM_SPACES = NUM_COLS * NUM_COLS;
 	
-	//private GridView gameGrid; //the game grid
-	//Integer[] imageArray = new Integer[1];
+	private GridView gameGrid; //the game grid
+	Integer[] imageArray = {R.drawable.sample_0, R.drawable.sample_1, R.drawable.sample_2, R.drawable.sample_3,
+							R.drawable.sample_4, R.drawable.sample_5, R.drawable.sample_5, R.drawable.sample_6,
+							R.drawable.sample_7};
 	
-	ImageButton imgButton;
-	boolean imgNum;
+	private OnItemClickListener gridClickListener;
+	private ImageArrayAdapter<Integer> imageAdapter;
+	
+	ImageButton imgButton; //an image button
+	boolean imgNum;// determine which picture to assign to the image button
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		
-		//imageArray[0] = R.drawable.sample_0;
-		//ImageArrayAdapter<Integer> imageAdapter = new ImageArrayAdapter<Integer>(this, R.layout.list_image, imageArray);
-		
-		//gameGrid = (GridView)findViewById(R.id.gridView1);
-		
-		//initialize the grid dimensions
-		/*
-		gameGrid = new GridView(this);
-		gameGrid.setNumColumns(NUM_COLS);
-		gameGrid.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
-		gameGrid.setColumnWidth(90);
-		gameGrid.setVerticalSpacing(10);
-		gameGrid.setHorizontalSpacing(10);
-		//gameGrid.setGravity(0x11);
-		gameGrid.setAdapter(imageAdapter);
-		*/
 		setContentView(R.layout.activity_game_screen);
+		
+		imageAdapter = new ImageArrayAdapter<Integer>(this, R.layout.list_image, imageArray);
 		
 		imgNum = true;
 		
-		imgButton = (ImageButton)findViewById(R.id.imageButton);
-		createOnImageButtonClick();
+		//create an image button
+		//imgButton = (ImageButton)findViewById(R.id.imageButton);
+		//createOnImageButtonClick();
+		
+		initGridView();
+		
 	}
 
 	@Override
@@ -86,8 +84,21 @@ public class GameScreenActivity extends Activity {
 		});
 	}
 	
-	public void tester(){
-		
+	/**
+	 * a method to initialize the gameGrid with parameter, ImageButton Adapter and OnItemClickListener
+	 */
+	public void initGridView(){
+		gameGrid = (GridView)findViewById(R.id.gridView1);
+		gameGrid.setNumColumns(NUM_COLS);
+		gameGrid.setAdapter(imageAdapter);
+		gameGrid.setOnItemClickListener(gridClickListener = new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	}
 	
 	/**
@@ -115,21 +126,22 @@ public class GameScreenActivity extends Activity {
 		 * to be populated with images.
 		 */
 		public View getView(int position, View convertView, ViewGroup parent){
-			ImageView image;
+			ImageButton image;
 			
 			if(convertView == null){
-				image = new ImageView(getContext());
+				image = new ImageButton(getContext());
 				image.setLayoutParams(new GridView.LayoutParams(85, 85));
 				image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 				image.setPadding(8, 8, 8, 8);
 			}else{
-				image = (ImageView) convertView;
+				image = (ImageButton) convertView;
 			}
 			
-			//image.setImageResource(imageArray[position]);
+			image.setImageResource(imageArray[position]);
 			return image;
 		}
 	}
+	
 }
 
 
