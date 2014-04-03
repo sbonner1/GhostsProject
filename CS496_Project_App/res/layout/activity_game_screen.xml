@@ -9,7 +9,7 @@
     tools:context=".GameScreenActivity" >
 	
     
-    <!-- 
+    
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="100dp"
@@ -18,8 +18,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:src="@drawable/ic_launcher" />
-    -->
-
+    
+	<!-- 
     <GridView
         android:id="@+id/gridView1"
         android:layout_width="match_parent"
@@ -29,5 +29,6 @@
         android:layout_marginTop="14dp"
         android:numColumns="3" >
     </GridView>
+    -->
     
 </RelativeLayout>

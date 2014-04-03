@@ -33,12 +33,14 @@ public class GameScreenActivity extends Activity {
 	Integer[] imageArray = {R.drawable.sample_0, R.drawable.sample_1, R.drawable.sample_2, R.drawable.sample_3,
 							R.drawable.sample_4, R.drawable.sample_5, R.drawable.sample_5, R.drawable.sample_6,
 							R.drawable.sample_7};
+	boolean[] imgNum = {true, true, true, true, true, true, true};
 	
 	private OnItemClickListener gridClickListener;
 	private ImageArrayAdapter<Integer> imageAdapter;
 	
 	ImageButton imgButton; //an image button
-	boolean imgNum;// determine which picture to assign to the image button
+	
+	boolean bool;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +48,15 @@ public class GameScreenActivity extends Activity {
 		
 		setContentView(R.layout.activity_game_screen);
 		
-		imageAdapter = new ImageArrayAdapter<Integer>(this, R.layout.list_image, imageArray);
+		imageAdapter = new ImageArrayAdapter<Integer>(this, R.layout.list_imagebutton, imageArray);
 		
-		imgNum = true;
+		bool = true;
 		
 		//create an image button
-		//imgButton = (ImageButton)findViewById(R.id.imageButton);
-		//createOnImageButtonClick();
+		imgButton = (ImageButton)findViewById(R.id.imageButton);
+		createOnImageButtonClick();
 		
-		initGridView();
+		//initGridView();
 		
 	}
 
@@ -66,36 +68,45 @@ public class GameScreenActivity extends Activity {
 	}
 	
 	//method to create an OnClickListener for the ImageButton
+	
 	public void createOnImageButtonClick(){
 		imgButton.setOnClickListener(new View.OnClickListener(){
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(imgNum){
+				if(bool){
 					imgButton.setImageResource(R.drawable.ic_launcher);
-					imgNum = false;
+					bool = false;
 				}else{
 					imgButton.setImageResource(R.drawable.sample_4);
-					imgNum = true;
+					bool = true;
 				}
 			}
 			
 		});
 	}
 	
+	
 	/**
 	 * a method to initialize the gameGrid with parameter, ImageButton Adapter and OnItemClickListener
 	 */
 	public void initGridView(){
-		gameGrid = (GridView)findViewById(R.id.gridView1);
+		//gameGrid = (GridView)findViewById(R.id.gridView1);
 		gameGrid.setNumColumns(NUM_COLS);
 		gameGrid.setAdapter(imageAdapter);
 		gameGrid.setOnItemClickListener(gridClickListener = new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
 				// TODO Auto-generated method stub
-				
+				ImageButton img = (ImageButton)v;
+				if(!imgNum[position] == true){
+					imgNum[position] = false;
+					img.setImageResource(R.drawable.ic_launcher);
+				}else{
+					imgNum[position] = true;
+					img.setImageResource(imageArray[position]);
+				}
 			}
 			
 		});
