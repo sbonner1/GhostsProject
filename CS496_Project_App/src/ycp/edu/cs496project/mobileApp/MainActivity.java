@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
 	 */
 	public void onPlayClick(View v){
 		//a simple test to see if the button works
-		Toast.makeText(MainActivity.this, " play Button test.", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(MainActivity.this, " play Button test.", Toast.LENGTH_SHORT).show();
 		
 		//create an intent to go to the gameplay activity
 		Intent startGameIntent = new Intent(this, GameScreenActivity.class);

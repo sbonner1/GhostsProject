@@ -16,8 +16,11 @@ public class Gameplay
 	int Min = 0;
 	int Max = 4;
 	int nextGhost = 0;
-			
-	
+	boolean spawnRed = false;
+	boolean spawnYellow = false;
+	boolean spawnWall = false;
+	boolean spawnRare001 = false;
+		
 	boolean gameActive = false;
 	int value;
 
@@ -90,28 +93,47 @@ public class Gameplay
 
 	
 	/**@author cflinch2
-	 * Selects a random number between predefined Min and Max (inclusive)
-	 * 0 = Empty Space
-	 * 1 = Red Ghost
-	 * 2 = Yellow Ghost
-	 * 3 = Stone/Wall
-	 * 4 = Rare Ghost
+	 * Generates a random number between predefined Min and Max (inclusive)
+	 * which is used in another method to determine what the next ghost to be generated will be
+	 * and sets that ghost value to true
 	 * 
 	 * If additional ghosts are added, the Min value must be updated in the Gameplay class.
 	 * NOTE: Currently does NOT implement Rareity in any capacity
 	 */
 	public void updateNextGhost()
 	{
-		
 		nextGhost = Min + (int)(Math.random() * ((Max - Min) + 1));
-		
-		/*
-		 * First, get a random number 1 - 100,
-		 * If that number is 90-99, a second number is generated, this will determine WHICH rare ghost you will get and can be updated as new ghosts are added
-		 * If you get a 100, a wall spawns
-		 * If you get a
-		 */
 	}
+	
+	/*
+	 * if (nextGhost >= 1 && nextGhost <= 45)
+		{
+			spawnRed = true;
+		}
+		
+		else if (nextGhost >= 46 && nextGhost <= 90)
+		{
+			spawnYellow = true;
+		}
+		
+		else if (nextGhost == 0)
+		{
+			spawnWall = true;
+		}
+		
+		//Spawn Rare Ghost
+		// This will be updated as more rare ghosts are added, which will be further divided by their rarity
+		else
+		{
+			nextGhost = Min + (int)(Math.random() * ((Max - Min) + 1));
+			
+			if (nextGhost >= 0 && nextGhost <= 100)
+			{
+				spawnRare001 = true;
+			}
+		}
+	 */
+	
 	
 	public int getNextGhost()
 	{
@@ -123,9 +145,17 @@ public class Gameplay
 		return gameActive;
 	}
 	
-	public void setGameActive()
+	public void setGameActive(boolean x)
 	{
-		gameActive = !gameActive;
+		if (x == true)
+		{
+			gameActive = true;
+		}
+		
+		else
+		{
+			gameActive = false;
+		}
 	}
 	
  

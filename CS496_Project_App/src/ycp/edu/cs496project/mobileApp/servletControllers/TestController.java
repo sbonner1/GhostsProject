@@ -13,7 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import ycp.edu.cs46project.mobileApp.json.JSON;
+import ycp.edu.cs496project.mobileApp.json.JSON;
 
 public class TestController {
 	public String test() throws URISyntaxException, ClientProtocolException, IOException{
@@ -25,15 +25,12 @@ public class TestController {
 		HttpGet httpGet = new HttpGet(uri);
 		HttpResponse resp = null;
 		
-		//return "HTTP methods work.";
-		
 		resp = client.execute(httpGet);
 		
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 			HttpEntity entity = resp.getEntity();
 			return JSON.getObjectMapper().readValue(entity.getContent(), String.class); 
 		} 
-		
 		
 		return "Error with test.";
 	}
