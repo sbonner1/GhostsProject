@@ -33,6 +33,9 @@ public class GameScreenActivity extends Activity {
 	Integer[] imageArray = {R.drawable.sample_0, R.drawable.sample_1, R.drawable.sample_2, R.drawable.sample_3,
 							R.drawable.sample_4, R.drawable.sample_5, R.drawable.sample_5, R.drawable.sample_6,
 							R.drawable.sample_7};
+	
+	ImageButton[] imgButtonArr = new ImageButton[imageArray.length];
+	
 	boolean[] imgNum = {true, true, true, true, true, true, true};
 	
 	private OnItemClickListener gridClickListener;
@@ -48,15 +51,20 @@ public class GameScreenActivity extends Activity {
 		
 		setContentView(R.layout.activity_game_screen);
 		
+		//initialize the ImageButtons that will be placed in the GridView
+		for(int i = 0; i < imgButtonArr.length; i++){
+			imgButtonArr[i] = new ImageButton(this);
+		}
+		
 		imageAdapter = new ImageArrayAdapter<Integer>(this, R.layout.list_imagebutton, imageArray);
 		
 		bool = true;
 		
 		//create an image button
-		imgButton = (ImageButton)findViewById(R.id.imageButton);
-		createOnImageButtonClick();
+		//imgButton = (ImageButton)findViewById(R.id.imageButton);
+		//createOnImageButtonClick();
 		
-		//initGridView();
+		initGridView();
 		
 	}
 
@@ -92,7 +100,7 @@ public class GameScreenActivity extends Activity {
 	 * a method to initialize the gameGrid with parameter, ImageButton Adapter and OnItemClickListener
 	 */
 	public void initGridView(){
-		//gameGrid = (GridView)findViewById(R.id.gridView1);
+		gameGrid = (GridView)findViewById(R.id.gridView1);
 		gameGrid.setNumColumns(NUM_COLS);
 		gameGrid.setAdapter(imageAdapter);
 		gameGrid.setOnItemClickListener(gridClickListener = new OnItemClickListener(){
@@ -108,7 +116,6 @@ public class GameScreenActivity extends Activity {
 					img.setImageResource(imageArray[position]);
 				}
 			}
-			
 		});
 	}
 	
