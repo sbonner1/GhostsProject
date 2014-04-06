@@ -15,6 +15,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import ycp.edu.cs496project.mobileApp.json.JSON;
 
+//temporary controller to test connectivity with the database
 public class TestController {
 	public String test() throws URISyntaxException, ClientProtocolException, IOException{
 		
@@ -32,6 +33,6 @@ public class TestController {
 			return JSON.getObjectMapper().readValue(entity.getContent(), String.class); 
 		} 
 		
-		return "Error at test controller.";
+		return "Error connecting to database.";
 	}
 }

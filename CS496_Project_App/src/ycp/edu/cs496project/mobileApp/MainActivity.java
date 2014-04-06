@@ -29,13 +29,9 @@ public class MainActivity extends Activity {
 	 * @param v a view
 	 */
 	public void onPlayClick(View v){
-		//a simple test to see if the button works
-		//Toast.makeText(MainActivity.this, " play Button test.", Toast.LENGTH_SHORT).show();
-		
 		//create an intent to go to the gameplay activity
 		Intent startGameIntent = new Intent(this, GameScreenActivity.class);
 		startActivity(startGameIntent);
-		
 	}
 	
 	/**
@@ -46,12 +42,12 @@ public class MainActivity extends Activity {
 	public void onScoreClick(View v){
 		//simple test to see button works
 		Toast.makeText(MainActivity.this, "score button test.", Toast.LENGTH_SHORT).show();
+		//TODO: access the database and get 
 	}
 	
 	//simple test to see if database can be accessed
 	public void onDBTestClick(View v){
 		TestController controller = new TestController();
-		
 		try{
 			Toast.makeText(MainActivity.this, controller.test(), Toast.LENGTH_SHORT).show();
 		}catch(Exception e){
