@@ -64,7 +64,7 @@ public class GameScreenActivity extends Activity {
 		//imgButton = (ImageButton)findViewById(R.id.imageButton);
 		//createOnImageButtonClick();
 		
-		initGridView();
+		initGridView(); //initialize the GridView
 		
 	}
 
@@ -76,7 +76,6 @@ public class GameScreenActivity extends Activity {
 	}
 	
 	//method to create an OnClickListener for the ImageButton
-	
 	public void createOnImageButtonClick(){
 		imgButton.setOnClickListener(new View.OnClickListener(){
 
