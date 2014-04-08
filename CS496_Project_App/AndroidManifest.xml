@@ -31,6 +31,10 @@
             android:name="ycp.edu.cs496project.mobileApp.GameScreenActivity"
             android:label="@string/title_activity_game_screen" >
         </activity>
+        <activity
+            android:name="ycp.edu.cs496project.mobileApp.PlayerInfoActivity"
+            android:label="@string/title_activity_player_info" >
+        </activity>
     </application>
 
 </manifest>
