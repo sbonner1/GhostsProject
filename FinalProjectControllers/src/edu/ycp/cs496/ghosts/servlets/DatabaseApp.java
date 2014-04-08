@@ -15,8 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 //import org.eclipse.jetty.util.ajax.JSON;
 import edu.ycp.cs496.ghosts.model.json.JSON;
 
-public class DatabaseApp {
-	public class InventoryApp extends HttpServlet {
+public class DatabaseApp extends HttpServlet{
 		private static final long serialVersionUID = 1L;
 		
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,5 +36,4 @@ public class DatabaseApp {
 			}
 		}
 		
-	}
 }

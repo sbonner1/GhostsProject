@@ -7,7 +7,7 @@
 	<!-- Servlets -->
 	<servlet>
 		<servlet-name>DatabaseApp</servlet-name>
-		<servlet-class>edu.ycp.cs496.ghosts.servlet.DatabaseApp</servlet-class>
+		<servlet-class>edu.ycp.cs496.ghosts.servlets.DatabaseApp</servlet-class>
 	</servlet>
 	
 	<!-- Servlet mappings (mapping of paths to servlets). -->

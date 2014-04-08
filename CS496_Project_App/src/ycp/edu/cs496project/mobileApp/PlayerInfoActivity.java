@@ -11,10 +11,10 @@ import android.widget.TabHost;
  * An Activity for the user to view their highscore and trophy information from the database. The user will be able to
  * use tabs to switch between viewing the highscore and trophies stored on the server-side database.  
  * 
- * @author user
+ * @author josh coady
  *
  */
-@SuppressWarnings("deprecation")
+//@SuppressWarnings("deprecation")
 public class PlayerInfoActivity extends TabActivity {
 
 	TabHost tabhost; //the TabHost for this activity
