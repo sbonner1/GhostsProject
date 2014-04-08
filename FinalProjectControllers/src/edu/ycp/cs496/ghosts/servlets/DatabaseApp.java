@@ -24,7 +24,7 @@ public class DatabaseApp extends HttpServlet{
 				//retrieve from the database
 				
 				//get user
-				
+				//blabbity blah
 				//get password
 				
 				resp.setStatus(HttpServletResponse.SC_OK);
