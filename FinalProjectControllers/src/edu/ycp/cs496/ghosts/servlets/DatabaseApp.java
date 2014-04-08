@@ -23,6 +23,10 @@ public class DatabaseApp extends HttpServlet{
 			if(pathInfo == null || pathInfo.equals("") || pathInfo.equals("/")){
 				//retrieve from the database
 				
+				//get user
+				//blabbity blah
+				//get password
+				
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), "Error");
