@@ -3,7 +3,6 @@ package ycp.edu.cs496project.mobileApp;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 /**
  * an activity for playing the game.
@@ -23,49 +20,27 @@ import android.widget.Toast;
  */
 public class GameScreenActivity extends Activity {
 	
-	//comment to test chris's github fetch issue
-	
-	
 	private final static int NUM_COLS = 4;//the number of columns for the game grid
-	private final static int NUM_SPACES = NUM_COLS * NUM_COLS;
+	private final static int NUM_GRID_SPACES = NUM_COLS * NUM_COLS; //the number of positions in the game grid
 	
 	private GridView gameGrid; //the game grid
+	//an array of resource ids for the images that will be placed into the gridView
 	Integer[] imageArray = {R.drawable.sample_0, R.drawable.sample_1, R.drawable.sample_2, R.drawable.sample_3,
 							R.drawable.sample_4, R.drawable.sample_5, R.drawable.sample_5, R.drawable.sample_6,
 							R.drawable.sample_7};
 	
-	ImageButton[] imgButtonArr = new ImageButton[imageArray.length];
-	
-	boolean[] imgNum = {true, true, true, true, true, true, true};
-	
 	private OnItemClickListener gridClickListener;
 	private ImageArrayAdapter<Integer> imageAdapter;
-	
-	ImageButton imgButton; //an image button
-	
-	boolean bool;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		setContentView(R.layout.activity_game_screen);
 		
-		//initialize the ImageButtons that will be placed in the GridView
-		for(int i = 0; i < imgButtonArr.length; i++){
-			imgButtonArr[i] = new ImageButton(this);
-		}
-		
-		imageAdapter = new ImageArrayAdapter<Integer>(this, R.layout.list_imagebutton, imageArray);
-		
-		bool = true;
-		
-		//create an image button
-		//imgButton = (ImageButton)findViewById(R.id.imageButton);
-		//createOnImageButtonClick();
-		
-		initGridView();
-		
+		//initialize the adapter to place images into gridView
+		imageAdapter = new ImageArrayAdapter<Integer>(this, R.layout.list_image, imageArray);
+		//initialize the GridView
+		initGridView(); 
 	}
 
 	@Override
@@ -74,27 +49,6 @@ public class GameScreenActivity extends Activity {
 		getMenuInflater().inflate(R.menu.game_screen, menu);
 		return true;
 	}
-	
-	//method to create an OnClickListener for the ImageButton
-	
-	public void createOnImageButtonClick(){
-		imgButton.setOnClickListener(new View.OnClickListener(){
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				if(bool){
-					imgButton.setImageResource(R.drawable.ic_launcher);
-					bool = false;
-				}else{
-					imgButton.setImageResource(R.drawable.sample_4);
-					bool = true;
-				}
-			}
-			
-		});
-	}
-	
 	
 	/**
 	 * a method to initialize the gameGrid with parameter, ImageButton Adapter and OnItemClickListener
@@ -107,14 +61,8 @@ public class GameScreenActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
 				// TODO Auto-generated method stub
-				ImageButton img = (ImageButton)v;
-				if(!imgNum[position] == true){
-					imgNum[position] = false;
-					img.setImageResource(R.drawable.ic_launcher);
-				}else{
-					imgNum[position] = true;
-					img.setImageResource(imageArray[position]);
-				}
+				ImageView img = (ImageView) v;
+				img.setImageResource(R.drawable.ic_launcher);
 			}
 		});
 	}
@@ -136,7 +84,6 @@ public class GameScreenActivity extends Activity {
 		 */
 		public ImageArrayAdapter(Context context, int resource, T[] imageArray) {
 			super(context, resource, imageArray);
-			
 		}
 		
 		/**
@@ -144,22 +91,20 @@ public class GameScreenActivity extends Activity {
 		 * to be populated with images.
 		 */
 		public View getView(int position, View convertView, ViewGroup parent){
-			ImageButton image;
-			
+			ImageView image;
 			if(convertView == null){
-				image = new ImageButton(getContext());
+				image = new ImageView(getContext());
 				image.setLayoutParams(new GridView.LayoutParams(85, 85));
 				image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 				image.setPadding(8, 8, 8, 8);
 			}else{
-				image = (ImageButton) convertView;
+				image = (ImageView) convertView;
 			}
 			
 			image.setImageResource(imageArray[position]);
 			return image;
 		}
 	}
-	
 }
 
 
