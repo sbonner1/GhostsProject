@@ -7,8 +7,7 @@
     <string name="highscore_button_text">Highscore</string>
     <string name="title_activity_game_screen">GameScreenActivity</string>
     <string name="hello_world">Hello world!</string>
-    
-    
     <string name="dbTestButton_text">DB Test</string>
+    <string name="title_activity_player_info">PlayerInfoActivity</string>
 
 </resources>

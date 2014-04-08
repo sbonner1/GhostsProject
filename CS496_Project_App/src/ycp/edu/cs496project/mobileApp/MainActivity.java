@@ -35,14 +35,15 @@ public class MainActivity extends Activity {
 	}
 	
 	/**
-	 * an onClick method to see the game's highscores
+	 * an onClick method to see the game's highscores and the user's trophies
 	 * 
 	 * @param v a view
 	 */
 	public void onScoreClick(View v){
 		//simple test to see button works
-		Toast.makeText(MainActivity.this, "score button test.", Toast.LENGTH_SHORT).show();
-		//TODO: access the database and get 
+		//Toast.makeText(MainActivity.this, "score button test.", Toast.LENGTH_SHORT).show();
+		Intent playerInfoIntent = new Intent(this, PlayerInfoActivity.class);
+		startActivity(playerInfoIntent);
 	}
 	
 	//simple test to see if database can be accessed

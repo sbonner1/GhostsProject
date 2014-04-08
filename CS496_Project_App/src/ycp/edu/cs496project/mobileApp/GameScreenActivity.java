@@ -28,9 +28,8 @@ public class GameScreenActivity extends Activity {
 	Integer[] imageArray = {R.drawable.sample_0, R.drawable.sample_1, R.drawable.sample_2, R.drawable.sample_3,
 							R.drawable.sample_4, R.drawable.sample_5, R.drawable.sample_5, R.drawable.sample_6,
 							R.drawable.sample_7};
-	
-	private OnItemClickListener gridClickListener;
-	private ImageArrayAdapter<Integer> imageAdapter;
+	private OnItemClickListener gridClickListener; //the itemClickListener for clicking Images in the GridView
+	private ImageArrayAdapter<Integer> imageAdapter; //the adapter to place images on the GridView
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +47,15 @@ public class GameScreenActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.game_screen, menu);
 		return true;
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		
+		//game loop
+		
+		
 	}
 	
 	/**
