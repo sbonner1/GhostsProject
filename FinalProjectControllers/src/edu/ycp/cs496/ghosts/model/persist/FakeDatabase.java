@@ -1,21 +1,22 @@
 package edu.ycp.cs496.ghosts.model.persist;
 import java.util.ArrayList;
+import java.util.List;
 
-
-/**
- * @author sbonner1
- * 
- * 
- * 
- */
 import edu.ycp.cs496.ghosts.model.User;
 
+
 /**
- * 
- * 
  * @author sbonner1
- *
+ * 
+ * Implementation of the {@link IDatabase} interface that stores
+ * objects using in-memory data structures.  It doesn't
+ * provide actual persistence, but is useful as a proof
+ * of concept.
+ * 
  */
+
+
+
 public class FakeDatabase implements IDatabase {
 	
 	private ArrayList<User> userList;
@@ -23,15 +24,16 @@ public class FakeDatabase implements IDatabase {
 	public FakeDatabase() {
 		userList = new ArrayList<User>();
 		
+		//Preliminary add to the user list 
 		userList.add(new User("Shane", "sbonner"));
 		userList.add(new User("Josh", "jcoady"));
 		userList.add(new User("Chris", "cflinch"));
 	}
 	
 	@Override
-	public User getUser(String userName, String password) {
+	public User getUser(String userName) {
 		for(User user: userList){
-			if(user.getUserName() == userName && user.getUserPassword() == password){
+			if(user.getUserName() == userName){// && user.getUserPassword() == password){
 				return user;
 			}
 		}
@@ -39,11 +41,39 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	@Override
+	public void addNewUser(User user) {
+		// TODO Auto-generated method stub
+		userList.add(user);
+	}
+	
+	@Override
+	public void deleteUser(String userName) {
+		//check that item is in inventory
+		for(User user : userList){
+			//if item is present, delete it
+			if(user.getUserName().equals(userName)){
+				userList.remove(user);
+				System.out.println(user.getUserName() + " deleted.");
+				break;
+			}
+		}
+	}
+	
+	@Override
+	public ArrayList<User> getUserList() {
+		// return a copy
+		return new ArrayList<User>(userList);
+	}
+	
+	@Override
 	public void deleteUserList(){
 		userList = null;
 	}
 	
-	
+	@Override
+	public void replaceUserList(ArrayList<User> newUserList) {
+		userList = newUserList;
+	}
 	
 	@Override
 	public void replaceUser(String oldUserName, User newUser) {
@@ -57,6 +87,10 @@ public class FakeDatabase implements IDatabase {
 			}
 		}
 	}
+
+	
+	
+	
 	
 
 }
