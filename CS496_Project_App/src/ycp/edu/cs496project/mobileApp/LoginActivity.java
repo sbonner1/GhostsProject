@@ -73,6 +73,7 @@ public class LoginActivity extends Activity {
 		}
 		
 		//check database to see if username is being used
+		//if so, create a new user and log new user in?
 		
 		Toast.makeText(LoginActivity.this, invalid_submission_message, Toast.LENGTH_SHORT).show();
 		
