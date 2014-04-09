@@ -8,12 +8,26 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+/**
+ * 
+ * @author josh coady
+ *
+ */
 public class MainActivity extends Activity {
+	
+	private String username; //a player's username
+	private String password; //the player's password
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		
+		if(username == null || password == null){
+			//TODO: go to the login page
+		}
+		
 	}
 
 	@Override
@@ -53,6 +67,11 @@ public class MainActivity extends Activity {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	public void onGoToLoginClick(View v){
+		Intent loginIntent = new Intent(this, LoginActivity.class);
+		startActivity(loginIntent);
 	}
 
 }

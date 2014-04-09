@@ -6,8 +6,13 @@
     <string name="play_button_text">Play Game</string>
     <string name="highscore_button_text">Highscore</string>
     <string name="title_activity_game_screen">GameScreenActivity</string>
-    <string name="hello_world">Hello world!</string>
     <string name="dbTestButton_text">DB Test</string>
     <string name="title_activity_player_info">PlayerInfoActivity</string>
+    <string name="title_activity_login">Login/Register</string>
+    
+    <string name="username_label_text">Username:</string>
+    <string name="password_label_text">Password:</string>
+    <string name="login_button_text">Login</string>
+    <string name="register_button_text">Register</string>
 
 </resources>

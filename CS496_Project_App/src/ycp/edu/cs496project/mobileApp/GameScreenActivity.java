@@ -108,7 +108,7 @@ public class GameScreenActivity extends Activity {
 			}else{
 				image = (ImageView) convertView;
 			}
-			
+			//set the image using an image file's resource id
 			image.setImageResource(imageArray[position]);
 			return image;
 		}
