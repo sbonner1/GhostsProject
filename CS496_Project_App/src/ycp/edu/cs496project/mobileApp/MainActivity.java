@@ -40,8 +40,7 @@ public class MainActivity extends Activity {
 	 * @param v a view
 	 */
 	public void onScoreClick(View v){
-		//simple test to see button works
-		Toast.makeText(MainActivity.this, "score button test.", Toast.LENGTH_SHORT).show();
+		//start the player info activity
 		Intent playerInfoIntent = new Intent(this, PlayerInfoActivity.class);
 		startActivity(playerInfoIntent);
 	}
