@@ -11,11 +11,11 @@ public class User {
 	
 	private int score;
 	
-	public User() {
+	public User(String userName, String password) {
 		//access database to pull name/password info
 		score = 0;
+		
 	}
-	
 	//getter and setter methods for this class
 	
 	public void setUserName(String userName) {
