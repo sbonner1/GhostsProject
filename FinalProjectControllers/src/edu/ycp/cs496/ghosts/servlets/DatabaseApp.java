@@ -46,6 +46,17 @@ public class DatabaseApp extends HttpServlet{
 					pathInfo = pathInfo.substring(1);
 				}
 				
+				////////////////////////////////////////
+				
+				//to get something from a JSON document from the request:
+				//		JSON.getObjectMapper().readValue() will enable you to read the information from the JSON document
+				//		req.getReader() - reads the document
+				//		String.class - the class/object the data from the JSON document will be encapsulated as
+				
+				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
+				
+				////////////////////////////////////////
+				
 				GetUserController controller = new GetUserController(); //**FIX THIS SO WE CAN GET PASSWORD INFO TOO**
 				User user = controller.getUser(pathInfo);				//GetUserController and several other classes
 																		//will require changes if the user parameter
