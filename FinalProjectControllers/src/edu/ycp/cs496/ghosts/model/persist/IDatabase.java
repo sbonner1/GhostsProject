@@ -11,6 +11,10 @@ import edu.ycp.cs496.ghosts.model.User;
 public interface IDatabase {
 	
 	public User getUser(String userName, String password);
+
+	void replaceUser(String oldUserName, User newUser);
+
+	void deleteUserList();
 	
 	
 }
