@@ -1,7 +1,7 @@
 package edu.ycp.cs496.ghosts.servlets;
 /**
  * @author sbonner1
- * This class will handle the get, post, etc. methods for the database
+ * This class is the servlet for accessing the UserList database
  * 
  */
 
@@ -58,14 +58,14 @@ public class DatabaseApp extends HttpServlet{
 				////////////////////////////////////////
 				
 				GetUserController controller = new GetUserController(); //**FIX THIS SO WE CAN GET PASSWORD INFO TOO**
-				User user = controller.getUser(pathInfo);				//GetUserController and several other classes
+				User user = controller.getUser(pathInfo, password);		//GetUserController and several other classes
 																		//will require changes if the user parameter
 																		//is changed back to include its password
 				if (user == null) {
 					// No such item, so return a NOT FOUND response
 					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 					resp.setContentType("text/plain");
-					resp.getWriter().println("No such item: " + pathInfo);
+					resp.getWriter().println("No such user: " + pathInfo);
 					return;
 				}
 				
@@ -123,8 +123,9 @@ public class DatabaseApp extends HttpServlet{
 			}
 
 			User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
+			String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 			AddUser controller = new AddUser(); //********WILL ALSO NEED TO CHANGE THIS TO INCLUDE PASSWORD******
-			controller.addNewUser(newUser);
+			controller.addNewUser(newUser, password);
 
 			resp.setStatus(HttpServletResponse.SC_OK);
 			resp.setContentType("application/json");
@@ -132,7 +133,7 @@ public class DatabaseApp extends HttpServlet{
 		}
 		@Override 
 		protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, JsonGenerationException, JsonMappingException, IOException{
-			String pathInfo = req.getPathInfo(); //the path
+			String pathInfo = req.getPathInfo(); 
 			//if there is an item name then delete it
 			//else, if there is no item name, delete the whole database
 			if(pathInfo != null){
@@ -148,16 +149,16 @@ public class DatabaseApp extends HttpServlet{
 				GetUserList responseController = new GetUserList();
 				
 				//retrieve inventory and show the update
-				List<User> inventory = responseController.getUserList();
+				ArrayList<User> userList = responseController.getUserList();
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
-				JSON.getObjectMapper().writeValue(resp.getWriter(), inventory);
+				JSON.getObjectMapper().writeValue(resp.getWriter(), userList);
 			}else{
 				
-				//delete the entire inventory
+				//delete the entire list
 				DeleteUserList controller = new DeleteUserList();
 				controller.deleteUserList();
-				resp.getWriter().println("Inventory Deleted.");
+				resp.getWriter().println("User List Deleted.");
 			}
 		}
 }

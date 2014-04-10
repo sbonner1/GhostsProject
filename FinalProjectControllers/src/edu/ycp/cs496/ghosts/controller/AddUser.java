@@ -7,8 +7,8 @@ import edu.ycp.cs496.ghosts.model.persist.IDatabase;
 
 
 public class AddUser {
-	public void addNewUser(User user) {
+	public void addNewUser(User user, String password) {
 		IDatabase db = DatabaseProvider.getInstance();
-		db.addNewUser(user);
+		db.addNewUser(user, password);
 	}
 }

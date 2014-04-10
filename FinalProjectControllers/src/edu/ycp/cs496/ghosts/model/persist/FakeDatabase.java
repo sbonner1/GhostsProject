@@ -31,7 +31,7 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	@Override
-	public User getUser(String userName) {
+	public User getUser(String userName, String Password) {
 		for(User user: userList){
 			if(user.getUserName() == userName){// && user.getUserPassword() == password){
 				return user;
@@ -41,9 +41,10 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	@Override
-	public void addNewUser(User user) {
+	public void addNewUser(User user, String password) {
 		// TODO Auto-generated method stub
 		userList.add(user);
+		user.setUserPassword(password);
 	}
 	
 	@Override
