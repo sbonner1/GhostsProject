@@ -28,7 +28,6 @@ import edu.ycp.cs496.ghosts.controller.ReplaceUserList;
 import edu.ycp.cs496.ghosts.model.User;
 //import org.eclipse.jetty.util.ajax.JSON;
 import edu.ycp.cs496.ghosts.model.json.JSON;
-import edu.ycp.cs496.ghosts.model.persist.IDatabase;
 
 public class DatabaseApp extends HttpServlet{
 		private static final long serialVersionUID = 1L;
