@@ -28,6 +28,7 @@ import edu.ycp.cs496.ghosts.controller.ReplaceUserList;
 import edu.ycp.cs496.ghosts.model.User;
 //import org.eclipse.jetty.util.ajax.JSON;
 import edu.ycp.cs496.ghosts.model.json.JSON;
+import edu.ycp.cs496.ghosts.model.persist.IDatabase;
 
 public class DatabaseApp extends HttpServlet{
 		private static final long serialVersionUID = 1L;
@@ -95,10 +96,10 @@ public class DatabaseApp extends HttpServlet{
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
 
-				resp.getWriter().println("Inventory Replaced."); 
+				resp.getWriter().println("User Replaced."); 
 				JSON.getObjectMapper().writeValue(resp.getWriter(), newUserList);
 			}else{
-				//get the item name
+				//get the user name
 				if(pathInfo.startsWith("/")){
 					pathInfo = pathInfo.substring(1);
 				}
@@ -116,15 +117,30 @@ public class DatabaseApp extends HttpServlet{
 		@Override 
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, JsonGenerationException, JsonMappingException, IOException{
 			String pathInfo = req.getPathInfo(); //the path
-			//check to see that there is no pathname after "/inventory"
-			if(pathInfo != null){
-				resp.getWriter().println("Post unsuccessful, new item not added to list");
+			//check to see that there is no pathname after 
+			if(pathInfo == null){
+				resp.getWriter().println("Post unsuccessful, new user not added to list");
 				return;
 			}
+			
+			
 
 			User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
 			String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
-			AddUser controller = new AddUser(); //********WILL ALSO NEED TO CHANGE THIS TO INCLUDE PASSWORD******
+
+			GetUserList responseController = new GetUserList();
+			ArrayList<User> userList = responseController.getUserList();
+
+			for(User user: userList){
+				if(user.getUserName() == newUser.getUserName()){
+					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					resp.setContentType("text/plain");
+					resp.getWriter().println("User " + pathInfo + "already exists");
+					return;
+				}
+			}
+			
+			AddUser controller = new AddUser(); 
 			controller.addNewUser(newUser, password);
 
 			resp.setStatus(HttpServletResponse.SC_OK);
