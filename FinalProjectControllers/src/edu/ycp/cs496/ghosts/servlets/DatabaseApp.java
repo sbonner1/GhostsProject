@@ -69,6 +69,8 @@ public class DatabaseApp extends HttpServlet{
 					return;
 				}
 				
+				System.out.println(user.getUserName());
+				
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), user);
