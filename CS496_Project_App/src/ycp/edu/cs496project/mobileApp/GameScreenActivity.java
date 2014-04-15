@@ -21,7 +21,8 @@ import android.widget.ImageView;
 public class GameScreenActivity extends Activity {
 	
 	private final static int NUM_COLS = 4;//the number of columns for the game grid
-	private final static int NUM_GRID_SPACES = NUM_COLS * NUM_COLS; //the number of positions in the game grid
+	private final static int NUM_ROWS = 6;//the number of rows for the game grid
+	private final static int NUM_GRID_SPACES = NUM_COLS * NUM_ROWS; //the number of positions in the game grid
 	
 	private GridView gameGrid; //the game grid
 	//an array of resource ids for the images that will be placed into the gridView

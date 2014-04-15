@@ -1,4 +1,4 @@
-package ycp.edu.cs496project.mobilApp.model;
+package ycp.edu.cs496project.mobileApp.model;
 /**
  * @author sbonner1
  *
