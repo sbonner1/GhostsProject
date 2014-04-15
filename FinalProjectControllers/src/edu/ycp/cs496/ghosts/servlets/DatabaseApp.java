@@ -34,33 +34,42 @@ public class DatabaseApp extends HttpServlet{
 		
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			String pathInfo = req.getPathInfo();
-			if (pathInfo == null || pathInfo.equals("") || pathInfo.equals("/")) {
+			String action = req.getParameter("action");
+			
+			if (pathInfo == null) {
+				
+				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				resp.setContentType("text/plain");
+				resp.getWriter().println("null path");
+				return;
+			}
+			
+			if(action.equals("getUserList")){
 				//retrieve inventory from database
 				GetUserList getController = new GetUserList();
 				List<User> userList = getController.getUserList();
-				//print inventory to user's terminal
-				JSON.getObjectMapper().writeValue(resp.getWriter(), userList);
-			}else{
+				//print userList to user's terminal
+				ArrayList<String> userNameList = new ArrayList<String>();
+				
+				for(User user : userList){
+					String userName = user.getUserName();
+					userNameList.add(userName);
+				}
+				
+				
+				JSON.getObjectMapper().writeValue(resp.getWriter(), userNameList);
+				}
+			
+			if(action.equals("getUser")){
 				// Get the user name
 				if (pathInfo.startsWith("/")) {
 					pathInfo = pathInfo.substring(1);
 				}
 				
-				////////////////////////////////////////
-				
-				//to get something from a JSON document from the request:
-				//		JSON.getObjectMapper().readValue() will enable you to read the information from the JSON document
-				//		req.getReader() - reads the document
-				//		String.class - the class/object the data from the JSON document will be encapsulated as
-				
 				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 				
-				////////////////////////////////////////
-				
-				GetUserController controller = new GetUserController(); //**FIX THIS SO WE CAN GET PASSWORD INFO TOO**
-				User user = controller.getUser(pathInfo, password);		//GetUserController and several other classes
-																		//will require changes if the user parameter
-																		//is changed back to include its password
+				GetUserController controller = new GetUserController(); 
+				User user = controller.getUser(pathInfo, password);																																						
 				if (user == null) {
 					// No such item, so return a NOT FOUND response
 					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -71,7 +80,7 @@ public class DatabaseApp extends HttpServlet{
 				
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
-				JSON.getObjectMapper().writeValue(resp.getWriter(), user);
+				JSON.getObjectMapper().writeValue(resp.getWriter(), user.getUserName());
 			}
 		}
 		@Override
@@ -116,42 +125,47 @@ public class DatabaseApp extends HttpServlet{
 		@Override 
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, JsonGenerationException, JsonMappingException, IOException{
 			String pathInfo = req.getPathInfo(); //the path
+			String action = req.getParameter("action");
+			
 			//check to see that there is no pathname after 
 			if(pathInfo == null){
 				resp.getWriter().println("Post unsuccessful, new user not added to list");
 				return;
 			}
 			
-			
+			if(action.equals("addUser")){
+				User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
+				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 
-			User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
-			String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
+				GetUserList responseController = new GetUserList();
+				ArrayList<User> userList = responseController.getUserList();
 
-			GetUserList responseController = new GetUserList();
-			ArrayList<User> userList = responseController.getUserList();
-
-			for(User user: userList){
-				if(user.getUserName() == newUser.getUserName()){
-					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-					resp.setContentType("text/plain");
-					resp.getWriter().println("User " + pathInfo + "already exists");
-					return;
+				for(User user: userList){
+					if(user.getUserName() == newUser.getUserName()){
+						resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+						resp.setContentType("text/plain");
+						resp.getWriter().println("User " + pathInfo + "already exists");
+						return;
+					}
 				}
-			}
-			
-			AddUser controller = new AddUser(); 
-			controller.addNewUser(newUser, password);
+				
+				AddUser controller = new AddUser(); 
+				controller.addNewUser(newUser, password);
 
-			resp.setStatus(HttpServletResponse.SC_OK);
-			resp.setContentType("application/json");
-			JSON.getObjectMapper().writeValue(resp.getWriter(), newUser);
+				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.setContentType("application/json");
+				JSON.getObjectMapper().writeValue(resp.getWriter(), newUser);
+			}
+
+		
 		}
 		@Override 
 		protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, JsonGenerationException, JsonMappingException, IOException{
 			String pathInfo = req.getPathInfo(); 
+			String action = req.getParameter("action");
 			//if there is an item name then delete it
 			//else, if there is no item name, delete the whole database
-			if(pathInfo != null){
+			if(action.equals("deleteUser")){
 				// Get the item name
 				if(pathInfo.startsWith("/")) {
 					pathInfo = pathInfo.substring(1);
@@ -168,7 +182,8 @@ public class DatabaseApp extends HttpServlet{
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), userList);
-			}else{
+			}
+			if(action.equals("deleteUserList")){
 				
 				//delete the entire list
 				DeleteUserList controller = new DeleteUserList();
