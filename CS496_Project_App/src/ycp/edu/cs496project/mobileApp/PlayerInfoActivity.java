@@ -1,5 +1,11 @@
 package ycp.edu.cs496project.mobileApp;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+import org.apache.http.client.ClientProtocolException;
+
+import ycp.edu.cs496project.mobileApp.servletControllers.HighscoreController;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -39,11 +45,12 @@ public class PlayerInfoActivity extends FragmentActivity{
 		setContentView(R.layout.activity_player_info);
 		
 		//initialize 2 arrays to test adpaters and fragments//////////////////////////////////
-		
+		/*
 		leaderboardArr = new String[3];
 		for(int i = 0; i < leaderboardArr.length; i++){
 			leaderboardArr[i] = "score";
 		}
+		*/
 		
 		trophyArr = new String[3];
 		for(int i = 0; i < trophyArr.length; i++){
@@ -51,6 +58,14 @@ public class PlayerInfoActivity extends FragmentActivity{
 		}
 		
 		///////////////////////////////////////////////////
+		
+		//get the leaderboard from the database
+		HighscoreController scoreController = new HighscoreController();
+		try {
+			leaderboardArr = (String[]) scoreController.getLeaderboard().toArray();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 		
 		//initialize the tabHost
 		initTabHost();
