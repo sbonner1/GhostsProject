@@ -33,58 +33,12 @@ public class DatabaseApp extends HttpServlet{
 		private static final long serialVersionUID = 1L;
 		
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			String pathInfo = req.getPathInfo();
 			String action = req.getParameter("action");
-			
-			if (pathInfo == null) {
-				
-				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				resp.setContentType("text/plain");
-				resp.getWriter().println("null path");
-				return;
-			}
-			
-			if(action.equals("getUserList")){
-				//retrieve inventory from database
-				GetUserList getController = new GetUserList();
-				List<User> userList = getController.getUserList();
-				//print userList to user's terminal
-				ArrayList<String> userNameList = new ArrayList<String>();
-				
-				for(User user : userList){
-					String userName = user.getUserName();
-					userNameList.add(userName);
-				}
-				
-				
-				JSON.getObjectMapper().writeValue(resp.getWriter(), userNameList);
-				}
-			
-			if(action.equals("getUser")){
-				// Get the user name
-				if (pathInfo.startsWith("/")) {
-					pathInfo = pathInfo.substring(1);
-				}
-				
-				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
-				
-				GetUserController controller = new GetUserController(); 
-				User user = controller.getUser(pathInfo, password);																																						
-				if (user == null) {
-					// No such item, so return a NOT FOUND response
-					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-					resp.setContentType("text/plain");
-					resp.getWriter().println("No such user: " + pathInfo);
-					return;
-				}
-				
-				System.out.println(user.getUserName());
-				
-				resp.setStatus(HttpServletResponse.SC_OK);
-				resp.setContentType("application/json");
-				JSON.getObjectMapper().writeValue(resp.getWriter(), user.getUserName());
+			if (action != null) {
+				req.setAttribute("action", action);
 			}
 		}
+		
 		@Override
 		protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, JsonGenerationException, JsonMappingException, IOException{
 			String pathInfo = req.getPathInfo(); 
@@ -131,19 +85,51 @@ public class DatabaseApp extends HttpServlet{
 			
 			//check to see that there is no pathname after 
 			if(pathInfo == null){
-				resp.getWriter().println("Post unsuccessful, new user not added to list");
+				resp.getWriter().println("Post unsuccessful");
 				return;
 			}
+			if(action.equals("getUserList")){
+				//retrieve inventory from database
+				GetUserList getController = new GetUserList();
+				List<User> userList = getController.getUserList();
+				//print userList to user's terminal
+				ArrayList<String> userNameList = new ArrayList<String>();
+				
+				for(User user : userList){
+					String userName = user.getUserName();
+					userNameList.add(userName);
+				}
+				
+				
+				JSON.getObjectMapper().writeValue(resp.getWriter(), userNameList);
+				}
 			
-			if(action.equals("addUser")){
-				User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
+			if(action.equals("getUser")){
+				// Get the user name
+				if (pathInfo.startsWith("/")) {
+					pathInfo = pathInfo.substring(1);
+				}
+				
 				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
+				
+				GetUserController controller = new GetUserController(); 
+				User user = controller.getUser(pathInfo, password);																																						
+				if (user == null) {
+					// No such item, so return a NOT FOUND response
+					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					resp.setContentType("text/plain");
+					resp.getWriter().println("No such user: " + pathInfo);
+					return;
+				}
+			
+				if(action.equals("addUser")){
+					User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
+	
+					GetUserList responseController = new GetUserList();
+					ArrayList<User> userList = responseController.getUserList();
 
-				GetUserList responseController = new GetUserList();
-				ArrayList<User> userList = responseController.getUserList();
-
-				for(User user: userList){
-					if(user.getUserName() == newUser.getUserName()){
+				for(User users: userList){
+					if(users.getUserName() == newUser.getUserName()){
 						resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 						resp.setContentType("text/plain");
 						resp.getWriter().println("User " + pathInfo + "already exists");
@@ -151,14 +137,14 @@ public class DatabaseApp extends HttpServlet{
 					}
 				}
 				
-				AddUser controller = new AddUser(); 
-				controller.addNewUser(newUser, password);
+				AddUser addController = new AddUser(); 
+				addController.addNewUser(newUser, password);
 
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), newUser);
 			}
-
+			}
 		
 		}
 		@Override 

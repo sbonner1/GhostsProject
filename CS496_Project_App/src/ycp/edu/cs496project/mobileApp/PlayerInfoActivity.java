@@ -62,7 +62,7 @@ public class PlayerInfoActivity extends FragmentActivity{
 		//get the leaderboard from the database
 		HighscoreController scoreController = new HighscoreController();
 		try {
-			leaderboardArr = (String[]) scoreController.getLeaderboard().toArray();
+			leaderboardArr = scoreController.getLeaderboard().toArray(leaderboardArr);
 		} catch (Exception e){
 			e.printStackTrace();
 		}
