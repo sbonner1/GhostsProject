@@ -1,10 +1,5 @@
 package ycp.edu.cs496project.mobileApp;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-import org.apache.http.client.ClientProtocolException;
-
 import ycp.edu.cs496project.mobileApp.servletControllers.HighscoreController;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
