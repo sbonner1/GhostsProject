@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
 	 */
 	public void onPlayClick(View v){
 		//create an intent to go to the gameplay activity
-		Intent startGameIntent = new Intent(this, GameScreenActivity.class);
+		Intent startGameIntent = new Intent(this, MarbleMadness.class);
 		startActivity(startGameIntent);
 	}
 	
