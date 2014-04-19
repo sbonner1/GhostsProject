@@ -93,16 +93,33 @@ public class DatabaseApp extends HttpServlet{
 				GetUserList getController = new GetUserList();
 				List<User> userList = getController.getUserList();
 				//print userList to user's terminal
-				ArrayList<String> userNameList = new ArrayList<String>();
-				
+				String[] userNameList = new String[userList.size()]; //return the list of user names for the scoreboard as
+																	 //an array of strings to be displayed
+				int count = 0;
 				for(User user : userList){
 					String userName = user.getUserName();
-					userNameList.add(userName);
+					userNameList[count] = userName;
+					count++;
 				}
 				
 				
 				JSON.getObjectMapper().writeValue(resp.getWriter(), userNameList);
 				}
+			
+			if(action.equals("getUserScore")){
+				GetUserList getController = new GetUserList();
+				List<User> userList = getController.getUserList();
+				
+				int[] scoreList = new int[userList.size()]; //return the list of scores for the scoreboard as an array of integers
+				
+				int count = 0; //count variable to iterate through the list
+				for(User user : userList){
+					int userScore = user.getUserScore();
+					scoreList[count] = userScore;
+					count++;
+				}
+				JSON.getObjectMapper().writeValue(resp.getWriter(), scoreList);
+			}
 			
 			if(action.equals("getUser")){
 				// Get the user name
@@ -121,10 +138,10 @@ public class DatabaseApp extends HttpServlet{
 					resp.getWriter().println("No such user: " + pathInfo);
 					return;
 				}
-			
-				if(action.equals("addUser")){
+			}
+			if(action.equals("addUser")){
 					User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
-	
+					String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 					GetUserList responseController = new GetUserList();
 					ArrayList<User> userList = responseController.getUserList();
 
@@ -144,9 +161,9 @@ public class DatabaseApp extends HttpServlet{
 				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), newUser);
 			}
-			}
-		
 		}
+		
+		
 		@Override 
 		protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, JsonGenerationException, JsonMappingException, IOException{
 			String pathInfo = req.getPathInfo(); 
@@ -169,7 +186,7 @@ public class DatabaseApp extends HttpServlet{
 				ArrayList<User> userList = responseController.getUserList();
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
-				JSON.getObjectMapper().writeValue(resp.getWriter(), userList);
+	 			JSON.getObjectMapper().writeValue(resp.getWriter(), userList);
 			}
 			if(action.equals("deleteUserList")){
 				
