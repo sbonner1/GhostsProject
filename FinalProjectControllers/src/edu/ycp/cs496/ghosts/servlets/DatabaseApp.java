@@ -109,7 +109,7 @@ public class DatabaseApp extends HttpServlet{
 				JSON.getObjectMapper().writeValue(resp.getWriter(), userNameList);
 			}
 			
-			if(action.equals("getUserScore")){
+			if(action.equals("getUserScoreList")){
 				GetUserList getController = new GetUserList();
 				List<User> userList = getController.getUserList();
 				
@@ -123,7 +123,27 @@ public class DatabaseApp extends HttpServlet{
 				}
 				JSON.getObjectMapper().writeValue(resp.getWriter(), scoreList);
 			}
-			
+			if(action.equals("getUserScore")){
+				if (pathInfo.startsWith("/")) {
+					pathInfo = pathInfo.substring(1);
+				}
+				
+				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
+				GetUserController getController = new GetUserController();
+				User user = getController.getUser(pathInfo, password);
+				if (user == null) {
+					// No such item, so return a NOT FOUND response
+					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					resp.setContentType("text/plain");
+					resp.getWriter().println("No such user: " + pathInfo);
+					return;
+				}
+				
+				int userScore = user.getUserScore();
+				
+				JSON.getObjectMapper().writeValue(resp.getWriter(), userScore);
+				
+			}
 			if(action.equals("getUser")){
 				// Get the user name
 				if (pathInfo.startsWith("/")) {
@@ -141,6 +161,9 @@ public class DatabaseApp extends HttpServlet{
 					resp.getWriter().println("No such user: " + pathInfo);
 					return;
 				}
+				
+				JSON.getObjectMapper().writeValue(resp.getWriter(), user);
+				
 			}
 			if(action.equals("addUser")){
 					User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
