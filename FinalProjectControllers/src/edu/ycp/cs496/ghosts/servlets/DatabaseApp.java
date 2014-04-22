@@ -121,6 +121,8 @@ public class DatabaseApp extends HttpServlet{
 					scoreList[count] = userScore;
 					count++;
 				}
+				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), scoreList);
 			}
 			if(action.equals("getUserScore")){
@@ -140,7 +142,8 @@ public class DatabaseApp extends HttpServlet{
 				}
 				
 				int userScore = user.getUserScore();
-				
+				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), userScore);
 				
 			}
@@ -161,7 +164,8 @@ public class DatabaseApp extends HttpServlet{
 					resp.getWriter().println("No such user: " + pathInfo);
 					return;
 				}
-				
+				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), user);
 				
 			}
