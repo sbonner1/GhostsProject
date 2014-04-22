@@ -23,7 +23,7 @@ import ycp.edu.cs496project.mobileApp.json.JSON;
 public class HighscoreController {
 	public String[] getLeaderboard() throws URISyntaxException, ClientProtocolException, IOException{
 		
-		URI uri = URIUtils.createURI("http", "10.0.2.2", 8081, "/DatabaseApp/Josh", "?action=getUserScore", null);
+		URI uri = URIUtils.createURI("http", "10.0.2.2", 8081, "/DatabaseApp/Josh", "?action=getUserScoreList", null);
 		
 		//send an http GET request
 		HttpClient client = new DefaultHttpClient();
@@ -33,7 +33,8 @@ public class HighscoreController {
 		resp = client.execute(httpPost);
 		
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
-			HttpEntity entity = resp.getEntity();			return JSON.getObjectMapper().readValue(entity.getContent(), String[].class);
+			HttpEntity entity = resp.getEntity();
+			return JSON.getObjectMapper().readValue(entity.getContent(), String[].class);
 		}
 		
 		return null;
