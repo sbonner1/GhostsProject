@@ -34,7 +34,6 @@ public class HighscoreController {
 		
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 			HttpEntity entity = resp.getEntity();
-			System.out.println("resp branch");
 			return JSON.getObjectMapper().readValue(entity.getContent(), String[].class);
 		}
 		
