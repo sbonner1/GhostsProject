@@ -4,7 +4,7 @@ package edu.ycp.cs496.ghosts.model;
  *
  * * This class is the basic model construct for the user. 
  */
-public class User {
+public class User implements Cloneable {
 	private String userName;
 	private String passwordHash;
 	private String password;
@@ -13,6 +13,8 @@ public class User {
 	
 	public User(String userName, String password) {
 		//access database to pull name/password info
+		this.userName = userName;
+		this.passwordHash = password;
 		score = 0;
 		
 	}
@@ -48,5 +50,15 @@ public class User {
 	
 	public int getUserScore(){
 		return score;
+	}
+	
+	@Override
+	public User clone() {
+		try {
+			User dup = (User) super.clone();
+			return dup;
+		} catch (CloneNotSupportedException e) {
+			throw new IllegalStateException("This can't happen", e);
+		}
 	}
 }

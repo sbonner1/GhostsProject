@@ -33,8 +33,8 @@ public class FakeDatabase implements IDatabase {
 	@Override
 	public User getUser(String userName, String Password) {
 		for(User user: userList){
-			if(user.getUserName() == userName){// && user.getUserPassword() == password){
-				return user;
+			if(user.getUserName().equals(userName)){// && user.getUserPassword() == password){
+				return user.clone();
 			}
 		}
 		return null;	
