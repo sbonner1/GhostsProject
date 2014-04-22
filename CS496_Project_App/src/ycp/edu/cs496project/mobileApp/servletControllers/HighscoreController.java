@@ -3,6 +3,7 @@ package ycp.edu.cs496project.mobileApp.servletControllers;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.util.Log;
 import ycp.edu.cs496project.mobileApp.json.JSON;
 
 /**
@@ -21,22 +23,26 @@ import ycp.edu.cs496project.mobileApp.json.JSON;
  *
  */
 public class HighscoreController {
-	public String[] getLeaderboard() throws URISyntaxException, ClientProtocolException, IOException{
+	public int[] getLeaderboard() throws URISyntaxException, ClientProtocolException, IOException{
 		
 		URI uri = URIUtils.createURI("http", "10.0.2.2", 8081, "/DatabaseApp/Josh", "?action=getUserScoreList", null);
 		
-		//send an http GET request
+		//send an http POST request 
 		HttpClient client = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(uri);
 		HttpResponse resp = null;
 		
+		//execute the POST request
 		resp = client.execute(httpPost);
 		
+		//if a OK 200 response is received, return the array of integers sent via JSON
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 			HttpEntity entity = resp.getEntity();
-			return JSON.getObjectMapper().readValue(entity.getContent(), String[].class);
+			Log.i("HighScoreController Test", "array retrieved from server.");
+			return JSON.getObjectMapper().readValue(entity.getContent(), int[].class);
 		}
-		
+		Log.i("HighScoreController Test", "Did not get array from server.");
+		//if an OK 200 response is not received then return null
 		return null;
 	}
 }

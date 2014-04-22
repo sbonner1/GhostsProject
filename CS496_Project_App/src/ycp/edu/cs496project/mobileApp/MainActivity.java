@@ -26,7 +26,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		
 		if(username == null || password == null){
 			//TODO: go to the login page
 		}
@@ -61,14 +60,15 @@ public class MainActivity extends Activity {
 	 */
 	public void onScoreClick(View v) throws UnknownHostException, IOException{
 		//start the player info activity
-		//if(InetAddress.getByName("10.0.2.2").isReachable(1000)){
+		if(InetAddress.getByName("10.0.2.2").isReachable(1000)){
 			Intent playerInfoIntent = new Intent(this, PlayerInfoActivity.class);
 			startActivity(playerInfoIntent);
-		//}else{
-			//Toast.makeText(MainActivity.this, "Server is offline", Toast.LENGTH_SHORT).show();
-		//}
+		}else{
+			Toast.makeText(MainActivity.this, "Server is offline", Toast.LENGTH_SHORT).show();
+		}
 	}
 	
+	//onClick event to go to login 
 	public void onGoToLoginClick(View v){
 		Intent loginIntent = new Intent(this, LoginActivity.class);
 		startActivity(loginIntent);

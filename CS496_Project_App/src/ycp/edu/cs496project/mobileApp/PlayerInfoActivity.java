@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.TabHost.OnTabChangeListener;
@@ -18,6 +19,8 @@ import android.widget.TabHost.OnTabChangeListener;
  */
 public class PlayerInfoActivity extends FragmentActivity{	
 	
+	String logTag = "PlayerInfo";
+	
 	private FragmentTabHost tabHost; //the tab host for the fragments
 	private ListFragment highScoreFragment; //a fragment to display the leaderboard
 	private ListFragment trophyFragment; //a fragment to display the players' trophies
@@ -25,7 +28,8 @@ public class PlayerInfoActivity extends FragmentActivity{
 	private ArrayAdapter<String> highScoreAdapter; //the adapter for highscore data
 	private ArrayAdapter<String> trophyAdapter; //the adapter for trophy data
 	
-	private String[] leaderboardArr; //an array to store the leaderboard data once it is received from the server
+	private int[] leaderboardArr; //an array to store the leaderboard data as Integers once it is received from the server
+	private String[] scoreStr; // the array of leaderboard scores once they are converted from Integers to Strings
 	private String[] trophyArr; //an array to store the player's trophies once they are received from the server
 	
 	private TabListener tabListener; //an OnTabChangeListener to switch fragments on tab click
@@ -57,16 +61,29 @@ public class PlayerInfoActivity extends FragmentActivity{
 			//if the user is unable to retrieve the leaderboard from the server, then initialize
 			//an array of empty strings so the activity does not crash, otherwise, display the leaderboard from the server.
 			if(leaderboardArr == null){
-				leaderboardArr = new String[3];
-				for(int i = 0; i < leaderboardArr.length; i++){
-					leaderboardArr[i] = "recieved null array from database";
-				}
+				scoreStr = new String[3];
+				scoreStr[0] = "null";
+				scoreStr[1] = "null";
+				scoreStr[2] = "null";
+				Log.i(logTag, "set an empty leaderboard.");
 			}else{
-				highScoreAdapter = new ArrayAdapter<String>(this,R.layout.tab_list_item, leaderboardArr);
+				scoreStr = new String[leaderboardArr.length];
+				for(int i = 0; i < scoreStr.length; i++){
+					scoreStr[i] = String.valueOf(leaderboardArr[i]);
+				}
+				Log.i(logTag, "int array converted to String arr");
 			}
+			
+			highScoreAdapter = new ArrayAdapter<String>(this, R.layout.tab_list_item, scoreStr);
+			Log.i(logTag, "highscore adapter initialized.");
+			
 		} catch (Exception e){
 			e.printStackTrace();
 		}
+		
+		/*
+		 * use controllers to get the user's trophy data
+		 */
 		
 		//initialize the tabHost
 		initTabHost();
@@ -75,8 +92,7 @@ public class PlayerInfoActivity extends FragmentActivity{
 		highScoreFragment = new ListFragment();
 		trophyFragment = new ListFragment();
 		 
-		//initialize the adapters with leaderboard and trophy data
-		highScoreAdapter = new ArrayAdapter<String>(this, R.layout.tab_list_item, leaderboardArr);
+		//initialize the adapter and trophy data
 		trophyAdapter = new ArrayAdapter<String>(this, R.layout.tab_list_item, trophyArr);
 		
 		//set the adapters to their respective fragments
