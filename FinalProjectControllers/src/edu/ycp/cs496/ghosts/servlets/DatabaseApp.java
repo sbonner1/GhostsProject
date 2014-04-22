@@ -88,6 +88,7 @@ public class DatabaseApp extends HttpServlet{
 				resp.getWriter().println("Post unsuccessful");
 				return;
 			}
+			
 			if(action.equals("getUserList")){
 				//retrieve inventory from database
 				GetUserList getController = new GetUserList();
@@ -102,9 +103,10 @@ public class DatabaseApp extends HttpServlet{
 					count++;
 				}
 				
-				
+				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), userNameList);
-				}
+			}
 			
 			if(action.equals("getUserScore")){
 				GetUserList getController = new GetUserList();
@@ -156,7 +158,7 @@ public class DatabaseApp extends HttpServlet{
 				
 				AddUser addController = new AddUser(); 
 				addController.addNewUser(newUser, password);
-
+				
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), newUser);
