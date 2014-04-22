@@ -33,8 +33,7 @@ public class HighscoreController {
 		resp = client.execute(httpPost);
 		
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
-			HttpEntity entity = resp.getEntity();
-			return JSON.getObjectMapper().readValue(entity.getContent(), String[].class);
+			HttpEntity entity = resp.getEntity();			return JSON.getObjectMapper().readValue(entity.getContent(), String[].class);
 		}
 		
 		return null;

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import ycp.edu.cs496project.mobileApp.servletControllers.TestController;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
