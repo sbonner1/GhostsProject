@@ -1,5 +1,9 @@
 package ycp.edu.cs496project.mobileApp;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import ycp.edu.cs496project.mobileApp.servletControllers.TestController;
 import android.os.Bundle;
 import android.app.Activity;
@@ -41,6 +45,7 @@ public class MainActivity extends Activity {
 	 * an onClick method to start the game
 	 * 
 	 * @param v a view
+	 * @throws UnknownHostException 
 	 */
 	public void onPlayClick(View v){
 		//create an intent to go to the gameplay activity
@@ -52,11 +57,17 @@ public class MainActivity extends Activity {
 	 * an onClick method to see the game's highscores and the user's trophies
 	 * 
 	 * @param v a view
+	 * @throws IOException 
+	 * @throws UnknownHostException 
 	 */
-	public void onScoreClick(View v){
+	public void onScoreClick(View v) throws UnknownHostException, IOException{
 		//start the player info activity
-		Intent playerInfoIntent = new Intent(this, PlayerInfoActivity.class);
-		startActivity(playerInfoIntent);
+		//if(InetAddress.getByName("10.0.2.2").isReachable(1000)){
+			Intent playerInfoIntent = new Intent(this, PlayerInfoActivity.class);
+			startActivity(playerInfoIntent);
+		//}else{
+			//Toast.makeText(MainActivity.this, "Server is offline", Toast.LENGTH_SHORT).show();
+		//}
 	}
 	
 	//simple test to see if database can be accessed

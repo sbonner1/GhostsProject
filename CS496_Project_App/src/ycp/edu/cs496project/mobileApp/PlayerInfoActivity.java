@@ -39,13 +39,7 @@ public class PlayerInfoActivity extends FragmentActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_player_info);
 		
-		//initialize 2 arrays to test adpaters and fragments//////////////////////////////////
-		/*
-		leaderboardArr = new String[3];
-		for(int i = 0; i < leaderboardArr.length; i++){
-			leaderboardArr[i] = "score";
-		}
-		*/
+		///////////////////////////////////////////////////
 		
 		trophyArr = new String[3];
 		for(int i = 0; i < trophyArr.length; i++){
@@ -56,8 +50,20 @@ public class PlayerInfoActivity extends FragmentActivity{
 		
 		//get the leaderboard from the database
 		HighscoreController scoreController = new HighscoreController();
+		
 		try {
-			leaderboardArr = scoreController.getLeaderboard().toArray(leaderboardArr);
+			leaderboardArr = scoreController.getLeaderboard();
+			
+			//if the user is unable to retrieve the leaderboard from the server, then initialize
+			//an array of empty strings so the activity does not crash, otherwise, display the leaderboard from the server.
+			if(leaderboardArr == null){
+				leaderboardArr = new String[3];
+				for(int i = 0; i < leaderboardArr.length; i++){
+					leaderboardArr[i] = "recieved null array from database";
+				}
+			}else{
+				highScoreAdapter = new ArrayAdapter<String>(this,R.layout.tab_list_item, leaderboardArr);
+			}
 		} catch (Exception e){
 			e.printStackTrace();
 		}
