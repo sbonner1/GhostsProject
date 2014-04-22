@@ -62,21 +62,11 @@ public class MainActivity extends Activity {
 	 */
 	public void onScoreClick(View v) throws UnknownHostException, IOException{
 		//start the player info activity
-		//if(InetAddress.getByName("10.0.2.2").isReachable(1000)){
+		if(InetAddress.getByName("10.0.2.2").isReachable(1000)){
 			Intent playerInfoIntent = new Intent(this, PlayerInfoActivity.class);
 			startActivity(playerInfoIntent);
-		//}else{
-			//Toast.makeText(MainActivity.this, "Server is offline", Toast.LENGTH_SHORT).show();
-		//}
-	}
-	
-	//simple test to see if database can be accessed
-	public void onDBTestClick(View v){
-		TestController controller = new TestController();
-		try{
-			Toast.makeText(MainActivity.this, controller.test(), Toast.LENGTH_SHORT).show();
-		}catch(Exception e){
-			e.printStackTrace();
+		}else{
+			Toast.makeText(MainActivity.this, "Server is offline", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
