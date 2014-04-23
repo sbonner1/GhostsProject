@@ -27,7 +27,8 @@ public class HighscoreController {
 		
 		String tag = "HighscoreController";
 		
-		URI uri = URIUtils.createURI("http", "10.0.2.2", 8081, "/DatabaseApp/", "?action=getUserScoreList", null);
+		//URI uri = URIUtils.createURI("http", "10.0.2.2", 8081, "/DatabaseApp/", "?action=getUserScoreList", null);
+		String uri = "http://10.0.2.2:8081/DatabaseApp/?action=getUserScoreList";
 		
 		//send an http POST request 
 		HttpClient client = new DefaultHttpClient();
