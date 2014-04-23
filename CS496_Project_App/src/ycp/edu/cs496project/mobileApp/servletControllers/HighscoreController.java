@@ -25,7 +25,9 @@ import ycp.edu.cs496project.mobileApp.json.JSON;
 public class HighscoreController {
 	public int[] getLeaderboard() throws URISyntaxException, ClientProtocolException, IOException{
 		
-		URI uri = URIUtils.createURI("http", "10.0.2.2", 8081, "/DatabaseApp/Josh", "?action=getUserScoreList", null);
+		String tag = "HighscoreController";
+		
+		URI uri = URIUtils.createURI("http", "10.0.2.2", 8081, "/DatabaseApp/", "?action=getUserScoreList", null);
 		
 		//send an http POST request 
 		HttpClient client = new DefaultHttpClient();
@@ -35,13 +37,16 @@ public class HighscoreController {
 		//execute the POST request
 		resp = client.execute(httpPost);
 		
+		Log.i(tag, resp.getStatusLine().toString());
+		
 		//if a OK 200 response is received, return the array of integers sent via JSON
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 			HttpEntity entity = resp.getEntity();
-			Log.i("HighScoreController Test", "array retrieved from server.");
+			Log.i(tag, "array retrieved from server.");
 			return JSON.getObjectMapper().readValue(entity.getContent(), int[].class);
 		}
-		Log.i("HighScoreController Test", "Did not get array from server.");
+		
+		Log.i(tag, "Did not get array from server.");
 		//if an OK 200 response is not received then return null
 		return null;
 	}

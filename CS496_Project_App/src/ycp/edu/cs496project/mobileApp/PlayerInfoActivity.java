@@ -65,7 +65,7 @@ public class PlayerInfoActivity extends FragmentActivity{
 				scoreStr[0] = "null";
 				scoreStr[1] = "null";
 				scoreStr[2] = "null";
-				Log.i(logTag, "set an empty leaderboard.");
+				Log.i(logTag, "empty leaderboard.");
 			}else{
 				scoreStr = new String[leaderboardArr.length];
 				for(int i = 0; i < scoreStr.length; i++){
@@ -148,7 +148,6 @@ public class PlayerInfoActivity extends FragmentActivity{
 			
 		}
 	}
-
 }
 
 
