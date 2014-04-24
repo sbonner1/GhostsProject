@@ -15,8 +15,6 @@ import edu.ycp.cs496.ghosts.model.User;
  * 
  */
 
-
-
 public class FakeDatabase implements IDatabase {
 	
 	private ArrayList<User> userList;
