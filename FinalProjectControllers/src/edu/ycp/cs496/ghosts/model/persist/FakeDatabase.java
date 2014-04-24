@@ -28,6 +28,9 @@ public class FakeDatabase implements IDatabase {
 		userList.add(new User("Shane", "sbonner"));
 		userList.add(new User("Josh", "jcoady"));
 		userList.add(new User("Chris", "cflinch"));
+		userList.get(0).setUserScore(200);
+		userList.get(1).setUserScore(150);
+		userList.get(2).setUserScore(800);
 	}
 	
 	@Override
