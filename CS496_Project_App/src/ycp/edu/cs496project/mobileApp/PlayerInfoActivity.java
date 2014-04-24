@@ -1,6 +1,7 @@
 package ycp.edu.cs496project.mobileApp;
 
 import ycp.edu.cs496project.mobileApp.servletControllers.HighscoreController;
+import ycp.edu.cs496project.mobileApp.servletControllers.UserNameListController;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -30,6 +31,8 @@ public class PlayerInfoActivity extends FragmentActivity{
 	
 	private int[] leaderboardArr; //an array to store the leaderboard data as Integers once it is received from the server
 	private String[] scoreStr; // the array of leaderboard scores once they are converted from Integers to Strings
+	private String[] userNameArr; //an array to store the users' names once they are retrieved from the server
+	
 	private String[] trophyArr; //an array to store the player's trophies once they are received from the server
 	
 	private TabListener tabListener; //an OnTabChangeListener to switch fragments on tab click
@@ -47,7 +50,7 @@ public class PlayerInfoActivity extends FragmentActivity{
 		
 		trophyArr = new String[3];
 		for(int i = 0; i < trophyArr.length; i++){
-			trophyArr[i] = "trophy";
+			trophyArr[i] = "need to implement trophies";
 		}
 		
 		///////////////////////////////////////////////////
@@ -55,6 +58,7 @@ public class PlayerInfoActivity extends FragmentActivity{
 		//get the leaderboard from the database
 		HighscoreController scoreController = new HighscoreController();
 		
+		//get the highscores from the server
 		try {
 			leaderboardArr = scoreController.getLeaderboard();
 			
@@ -74,12 +78,33 @@ public class PlayerInfoActivity extends FragmentActivity{
 				Log.i(logTag, "int array converted to String arr");
 			}
 			
-			highScoreAdapter = new ArrayAdapter<String>(this, R.layout.tab_list_item, scoreStr);
-			Log.i(logTag, "highscore adapter initialized.");
-			
 		} catch (Exception e){
 			e.printStackTrace();
 		}
+		
+		UserNameListController nameListController = new UserNameListController();
+		
+		//get the usernames from the server
+		try{
+			userNameArr = nameListController.getUserNameList();
+			
+			//if the controller returns a null array, then initialize the array with "null"
+			if(userNameArr == null){
+				userNameArr = new String[3];
+				for(int i = 0; i < userNameArr.length; i++){
+					userNameArr[i] = "null";
+				}
+			}
+		}catch(Exception e){
+			
+		}
+		
+		for(int i = 0; i < userNameArr.length; i++){
+			userNameArr[i] = userNameArr[i] + " : " + scoreStr[i];
+		}
+		
+		highScoreAdapter = new ArrayAdapter<String>(this, R.layout.tab_list_item, userNameArr);
+		Log.i(logTag, "highscore adapter initialized.");
 		
 		/*
 		 * use controllers to get the user's trophy data

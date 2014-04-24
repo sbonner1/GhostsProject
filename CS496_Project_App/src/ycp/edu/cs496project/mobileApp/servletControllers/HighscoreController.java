@@ -1,7 +1,6 @@
 package ycp.edu.cs496project.mobileApp.servletControllers;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.apache.http.HttpEntity;
@@ -10,7 +9,6 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.util.Log;
@@ -27,7 +25,6 @@ public class HighscoreController {
 		
 		String tag = "HighscoreController";
 		
-		//URI uri = URIUtils.createURI("http", "10.0.2.2", 8081, "/DatabaseApp/", "?action=getUserScoreList", null);
 		String uri = "http://10.0.2.2:8081/DatabaseApp/?action=getUserScoreList";
 		
 		//send an http POST request 
