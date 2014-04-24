@@ -55,53 +55,8 @@ public class PlayerInfoActivity extends FragmentActivity{
 		
 		///////////////////////////////////////////////////
 		
-		//get the leaderboard from the database
-		HighscoreController scoreController = new HighscoreController();
-		
-		//get the highscores from the server
-		try {
-			leaderboardArr = scoreController.getLeaderboard();
-			
-			//if the user is unable to retrieve the leaderboard from the server, then initialize
-			//an array of empty strings so the activity does not crash, otherwise, display the leaderboard from the server.
-			if(leaderboardArr == null){
-				scoreStr = new String[3];
-				scoreStr[0] = "null";
-				scoreStr[1] = "null";
-				scoreStr[2] = "null";
-				Log.i(logTag, "empty leaderboard.");
-			}else{
-				scoreStr = new String[leaderboardArr.length];
-				for(int i = 0; i < scoreStr.length; i++){
-					scoreStr[i] = String.valueOf(leaderboardArr[i]);
-				}
-				Log.i(logTag, "int array converted to String arr");
-			}
-			
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-		
-		UserNameListController nameListController = new UserNameListController();
-		
-		//get the usernames from the server
-		try{
-			userNameArr = nameListController.getUserNameList();
-			
-			//if the controller returns a null array, then initialize the array with "null"
-			if(userNameArr == null){
-				userNameArr = new String[3];
-				for(int i = 0; i < userNameArr.length; i++){
-					userNameArr[i] = "null";
-				}
-			}
-		}catch(Exception e){
-			
-		}
-		
-		for(int i = 0; i < userNameArr.length; i++){
-			userNameArr[i] = userNameArr[i] + " : " + scoreStr[i];
-		}
+		//get the leaderboard from the server
+		getLeaderboard();
 		
 		highScoreAdapter = new ArrayAdapter<String>(this, R.layout.tab_list_item, userNameArr);
 		Log.i(logTag, "highscore adapter initialized.");
@@ -151,6 +106,57 @@ public class PlayerInfoActivity extends FragmentActivity{
 		tabHost.setOnTabChangedListener(tabListener);
 		//initially select the first tab
 		tabHost.setCurrentTab(0);
+	}
+	
+	/**
+	 * a method to get a list of users' highscores from to server
+	 */
+	public void getLeaderboard(){
+		//get the leaderboard from the database
+		HighscoreController scoreController = new HighscoreController();
+		
+		//get the highscores from the server
+		try {
+			leaderboardArr = scoreController.getLeaderboard();
+			
+			//if the user is unable to retrieve the leaderboard from the server, then initialize
+			//an array of empty strings so the activity does not crash, otherwise, display the leaderboard from the server.
+			if(leaderboardArr == null){
+				scoreStr = new String[3];
+				scoreStr[0] = "null";
+				scoreStr[1] = "null";
+				scoreStr[2] = "null";
+			}else{
+				scoreStr = new String[leaderboardArr.length];
+				for(int i = 0; i < scoreStr.length; i++){
+					scoreStr[i] = String.valueOf(leaderboardArr[i]);
+				}
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		UserNameListController nameListController = new UserNameListController();
+		
+		//get the usernames from the server
+		try{
+			userNameArr = nameListController.getUserNameList();
+			
+			//if the controller returns a null array, then initialize the array with "null"
+			if(userNameArr == null){
+				userNameArr = new String[3];
+				for(int i = 0; i < userNameArr.length; i++){
+					userNameArr[i] = "null";
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		//combine the arrays of usernames and highscores
+		for(int i = 0; i < userNameArr.length; i++){
+			userNameArr[i] = userNameArr[i] + " : " + scoreStr[i];
+		}
 	}
 	
 	/**

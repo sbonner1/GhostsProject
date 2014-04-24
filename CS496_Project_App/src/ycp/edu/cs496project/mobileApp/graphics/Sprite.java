@@ -11,14 +11,17 @@ public class Sprite {
 	private float mDx;
 	private float mDy;
 	private Bitmap mBitmap;
+	private int type;
 	
 	public Sprite(Resources res, int imgResourceId, float x, float y, float dx, float dy) {
 		//TODO 1:  Add code to the constructor to set each of the class fields based on the parameters.
+		mBitmap = BitmapFactory.decodeResource(res,imgResourceId);
+		type = imgResourceId;
 		mX = x;
 		mY = y;
 		mDx = dx;
 		mDy = dy;
-		mBitmap = BitmapFactory.decodeResource(res,imgResourceId);
+		
 	}
 	
 	public void update(long elapsedTime) {
@@ -97,5 +100,9 @@ public class Sprite {
 		return getWidth()/2;
 	}
 
-
+	public int getGhostType() {
+		return type;
+	}
+		
+	
 }

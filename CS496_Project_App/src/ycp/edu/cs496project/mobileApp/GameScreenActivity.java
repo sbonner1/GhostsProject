@@ -26,9 +26,9 @@ public class GameScreenActivity extends Activity {
 	
 	private GridView gameGrid; //the game grid
 	//an array of resource ids for the images that will be placed into the gridView
-	Integer[] imageArray = {R.drawable.sample_0, R.drawable.sample_1, R.drawable.sample_2, R.drawable.sample_3,
-							R.drawable.sample_4, R.drawable.sample_5, R.drawable.sample_5, R.drawable.sample_6,
-							R.drawable.sample_7};
+	//Integer[] imageArray = {R.drawable.sample_0, R.drawable.sample_1, R.drawable.sample_2, R.drawable.sample_3,
+	//						R.drawable.sample_4, R.drawable.sample_5, R.drawable.sample_5, R.drawable.sample_6,
+	//						R.drawable.sample_7};
 	private OnItemClickListener gridClickListener; //the itemClickListener for clicking Images in the GridView
 	private ImageArrayAdapter<Integer> imageAdapter; //the adapter to place images on the GridView
 	
@@ -38,7 +38,7 @@ public class GameScreenActivity extends Activity {
 		setContentView(R.layout.activity_game_screen);
 		
 		//initialize the adapter to place images into gridView
-		imageAdapter = new ImageArrayAdapter<Integer>(this, R.layout.list_image, imageArray);
+		//imageAdapter = new ImageArrayAdapter<Integer>(this, R.layout.list_image, imageArray);
 		//initialize the GridView
 		initGridView(); 
 	}
@@ -110,7 +110,7 @@ public class GameScreenActivity extends Activity {
 				image = (ImageView) convertView;
 			}
 			//set the image using an image file's resource id
-			image.setImageResource(imageArray[position]);
+			//image.setImageResource(imageArray[position]);
 			return image;
 		}
 	}
