@@ -14,11 +14,14 @@ import org.apache.http.client.utils.URIUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
+import android.util.Log;
 import ycp.edu.cs496project.mobileApp.json.JSON;
 import ycp.edu.cs496project.mobileApp.model.User;
 
 public class UserLoginController {
 	public User loginUser(String userName, String password) throws ClientProtocolException, IOException, URISyntaxException{
+		
+		String tag = "loginController";
 		
 		User user = new User(userName, password);
 		
@@ -34,6 +37,8 @@ public class UserLoginController {
 		HttpResponse resp = null;
 		
 		resp = client.execute(httpGet);
+		
+		Log.i(tag, resp.getStatusLine().toString());
 		
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 			HttpEntity entity = resp.getEntity();

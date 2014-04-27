@@ -58,6 +58,10 @@ public class PlayerInfoActivity extends FragmentActivity{
 		//get the leaderboard from the server
 		getLeaderboard();
 		
+		/*
+		 * implement a method to get the user's trophies from the server
+		 */
+		
 		highScoreAdapter = new ArrayAdapter<String>(this, R.layout.tab_list_item, userNameArr);
 		Log.i(logTag, "highscore adapter initialized.");
 		

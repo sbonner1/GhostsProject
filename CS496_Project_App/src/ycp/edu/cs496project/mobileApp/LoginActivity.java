@@ -27,6 +27,12 @@ public class LoginActivity extends Activity {
 	//a message to display if a user registering selects a username that is already being used
 	private static final String username_exists_message = "Username already being used.";
 	
+	private TextView userLabel; //text label for the username textbox
+	private TextView passwordLabel; //text label for the password textbox
+	private EditText usernameText; //textbox to enter the username
+	private EditText passwordText; //textbox to enter the user's password
+	private Button button; //a button to either log in or register a new user
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,7 +48,7 @@ public class LoginActivity extends Activity {
 	}
 	
 	/**
-	 * 
+	 *  a method to set the view when a user is logging in 
 	 */
 	public void setLoginView(){
 		//the layout for the user to log in
@@ -52,37 +58,106 @@ public class LoginActivity extends Activity {
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.FILL_PARENT);
 		//a label for the username textbox
-		TextView userLabel = new TextView(this);
+		userLabel = new TextView(this);
 		userLabel.setText("Username:");
 		userLabel.setLayoutParams(new LayoutParams(
 				LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
 		//the username textbox
-		final EditText usernameText = new EditText(this);
+		usernameText = new EditText(this);
 		usernameText.setInputType(0x00000001); //set inputType to normal text
 		usernameText.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));
 		//a label for the password textbox
-		TextView passwordLabel = new TextView(this);
+		passwordLabel = new TextView(this);
 		passwordLabel.setText("Password:");
 		passwordLabel.setLayoutParams(new LayoutParams(
 				LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
 		//the password texbox
-		final EditText passwordText = new EditText(this);
+		passwordText = new EditText(this);
 		passwordText.setInputType(0x00000081); //set inputType text password type
 		passwordText.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));
 		// Add a login button
-		Button loginButton = new Button(this);
-		loginButton.setText("Login");
-		loginButton.setLayoutParams(new LayoutParams(
+		button = new Button(this);
+		button.setText("Login");
+		button.setLayoutParams(new LayoutParams(
 				LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
 		
-		loginButton.setOnClickListener(new View.OnClickListener() {
+		setLoginButtonListener();
+		
+		//add widgets to view
+		loginLayout.addView(userLabel);
+		loginLayout.addView(usernameText);
+		loginLayout.addView(passwordLabel);
+		loginLayout.addView(passwordText);
+		loginLayout.addView(button);
+		
+		setContentView(loginLayout, llp);
+	}
+	
+	/**
+	 * a method to set the UI for registering a new user. 
+	 */
+	public void setRegisterNewUserView(){
+		//the layout for registering a user
+		LinearLayout registerLayout = new LinearLayout(this);
+		registerLayout.setOrientation(LinearLayout.VERTICAL);
+		LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.FILL_PARENT);
+		//a label for the username textbox
+		userLabel = new TextView(this);
+		userLabel.setText("Username:");
+		userLabel.setLayoutParams(new LayoutParams(
+				LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		//the username textbox
+		usernameText = new EditText(this);
+		usernameText.setInputType(0x00000001); //set inputType to normal text
+		usernameText.setLayoutParams(new LayoutParams(
+				LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		//a label for the password textbox
+		passwordLabel = new TextView(this);
+		passwordLabel.setText("Password:");
+		passwordLabel.setLayoutParams(new LayoutParams(
+				LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		//the password texbox
+		passwordText = new EditText(this);
+		passwordText.setInputType(0x00000081); //set inputType text password type
+		passwordText.setLayoutParams(new LayoutParams(
+				LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		// Add a login button
+		button = new Button(this);
+		button.setText("Register");
+		button.setLayoutParams(new LayoutParams(
+				LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		
+		setRegisterClickListener();
+		
+		//add widgets to the view
+		registerLayout.addView(userLabel);
+		registerLayout.addView(usernameText);
+		registerLayout.addView(passwordLabel);
+		registerLayout.addView(passwordText);
+		registerLayout.addView(button);
+
+		setContentView(registerLayout, llp);
+	}
+	
+	/**
+	 * a method to initialize the OnclickListener for the button when a user logs in
+	 */
+	public void setLoginButtonListener(){
+		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String username = usernameText.getText().toString();
@@ -104,81 +179,28 @@ public class LoginActivity extends Activity {
 				}
 			}
 		});
-		
-		//add widgets to view
-		loginLayout.addView(userLabel);
-		loginLayout.addView(usernameText);
-		loginLayout.addView(passwordLabel);
-		loginLayout.addView(passwordText);
-		loginLayout.addView(loginButton);
-		
-		setContentView(loginLayout, llp);
 	}
 	
 	/**
-	 * 
+	 * a method to set the onClickListener for the button when using the Register user view
 	 */
-	public void setRegisterNewUserView(){
-		//the layout for registering a user
-		LinearLayout registerLayout = new LinearLayout(this);
-		registerLayout.setOrientation(LinearLayout.VERTICAL);
-		LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.FILL_PARENT);
-		//a label for the username textbox
-		TextView userLabel = new TextView(this);
-		userLabel.setText("Username:");
-		userLabel.setLayoutParams(new LayoutParams(
-				LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT));
-		//the username textbox
-		final EditText usernameText = new EditText(this);
-		usernameText.setInputType(0x00000001); //set inputType to normal text
-		usernameText.setLayoutParams(new LayoutParams(
-				LayoutParams.MATCH_PARENT,
-				LayoutParams.WRAP_CONTENT));
-		//a label for the password textbox
-		TextView passwordLabel = new TextView(this);
-		passwordLabel.setText("Password:");
-		passwordLabel.setLayoutParams(new LayoutParams(
-				LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT));
-		//the password texbox
-		final EditText passwordText = new EditText(this);
-		passwordText.setInputType(0x00000081); //set inputType text password type
-		passwordText.setLayoutParams(new LayoutParams(
-				LayoutParams.MATCH_PARENT,
-				LayoutParams.WRAP_CONTENT));
-		// Add a login button
-		Button registerButton = new Button(this);
-		registerButton.setText("Register");
-		registerButton.setLayoutParams(new LayoutParams(
-				LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT));
-		
-		//set the onClickListener for the register button
-		registerButton.setOnClickListener(new View.OnClickListener() {
+	public void setRegisterClickListener(){
+		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String username = usernameText.getText().toString();
 				String password = passwordText.getText().toString();
-				//TODO: register user with database
+				
+				
+				
 			}
 		});
-		
-		//add widgets to the view
-		registerLayout.addView(userLabel);
-		registerLayout.addView(usernameText);
-		registerLayout.addView(passwordLabel);
-		registerLayout.addView(passwordText);
-		registerLayout.addView(registerButton);
-
-		setContentView(registerLayout, llp);
 	}
 
 	/**
+	 * sets the layout UI for a pre-existing user to log in to the server
 	 * 
-	 * @param v
+	 * @param v a view
 	 */
 	public void onLoginViewClick(View v){
 		setLoginView();
@@ -186,7 +208,7 @@ public class LoginActivity extends Activity {
 	
 	/**
 	 * 
-	 * @param v
+	 * @param v a view
 	 */
 	public void onRegisterViewClick(View v){
 		setRegisterNewUserView();
