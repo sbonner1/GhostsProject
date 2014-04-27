@@ -168,10 +168,10 @@ public class LoginActivity extends Activity {
 				try{
 					User user = controller.loginUser(username, password);
 					
-					if(user != null){
-						Toast.makeText(LoginActivity.this, user.getUserName(), Toast.LENGTH_SHORT).show();
+					if(user == null){
+						Toast.makeText(LoginActivity.this, "unable to get data", Toast.LENGTH_SHORT).show();
 					}else{
-						Toast.makeText(LoginActivity.this, "unable to retrieve data", Toast.LENGTH_SHORT).show();
+						Toast.makeText(LoginActivity.this, user.getUserName(), Toast.LENGTH_SHORT).show();
 					}
 					
 				}catch(Exception e){
