@@ -28,6 +28,9 @@ public class Panel extends SurfaceView implements Callback
 	private int tooManyGhosts;
 	private int score;
 	private double countdownTime;
+	private int redChain;
+	private int yellowChain;
+	private int greenChain;
 	
 	/* TODO 1: Add fields for: Sprite (for the ball object), 
 	 * a field for a thread object, 
@@ -53,6 +56,7 @@ public class Panel extends SurfaceView implements Callback
 			score = 0;
 			tooManyGhosts = 10;
 			countdownTime = 30.0;
+			redChain = 0;
 			
 			//Register the class as the callback (using getHolder.addCallback(this);)
 			getHolder().addCallback(this);
@@ -136,27 +140,29 @@ public class Panel extends SurfaceView implements Callback
 		}
 	}
 	
-	/*
+	/**
 	 * Creates a random number and based on the number spawns the appropriate entity
+	 * Called in ViewThread
 	 */
 	public void tryToSpawn()
 	{
-		 int nextGhost = getRandomNum(0, 1000);
-	     if (nextGhost > 950)
+		 int nextGhost = getRandomNum(0, 10);
+	     if (nextGhost >= 1 && nextGhost <= 5 )
 	     {
 	   	  createGhost(GhostEnums.redGhost,0,0,3);
 	     }
 	     
-	     if (nextGhost > 925 && nextGhost < 950)
+	     if (nextGhost >= 6 && nextGhost <= 8)
 	     {
 	   	  createGhost(GhostEnums.yellowGhost,0,0,3);
 	     }
 	     
-	     if (nextGhost > 900 && nextGhost < 925)
+	     if (nextGhost == 9)
 	     {
 	   	  createGhost(GhostEnums.greenGhost,0,0,4);
 	     }
 	}
+	
 	/**
 	 * Creates a ghost based on the ghostEnum type and randomly sets the initial location and velocity based on the ranges passed in as parameters 
 	 * @param ghostEnum
@@ -164,7 +170,6 @@ public class Panel extends SurfaceView implements Callback
 	 * @param MinVel
 	 * @param MaxVel
 	 */
-	
 	public void createGhost(GhostEnums ghostEnum, int MinLoc, int MinVel, int MaxVel)
 	{	
 		//int MinLoc = minLoc;
@@ -198,6 +203,11 @@ public class Panel extends SurfaceView implements Callback
 	// TODO 6: Draw Canvas and Ghosts
 	/*Add code to doDraw() to draw the background and Ghosts; be sure to do this in a thread safe manner.
 	 *  Also add a check of the game flag displaying a message when the game is over.*/
+	/**
+	 * Draws the canvas, the ghosts, and the relevant scores
+	 * @param canvas
+	 * @param elapsed
+	 */
 	public void doDraw(Canvas canvas, long elapsed) 
 	{
 		canvas.drawColor(Color.BLACK);
@@ -216,11 +226,17 @@ public class Panel extends SurfaceView implements Callback
 				canvas.drawText("Game Over", 10, 30, mPaint);
 			}
 			canvas.drawText(getCountdownString(getCountdownTime()), 10, 10, mPaint);
-			canvas.drawText(getScoreString(getScore()), 100, 10, mPaint);
+			canvas.drawText("Score:" + getScoreString(getScore()), 100, 10, mPaint);
+			canvas.drawText("Red Chain:" + getScoreString(getRedChain()), 100, 40, mPaint);
+			canvas.drawText("Yellow Chain:" + getScoreString(getYellowChain()), 200, 40, mPaint);
+			canvas.drawText("Green Chain:" + getScoreString(getGreenChain()), 300, 40, mPaint);
 		}
 	}
 	
 	/* TODO 7: Add code to the onTouchEvent() event handler to compute a change in velocity based on a user swipe, i.e. the further they swipe the more there will be a velocity change in that direction.*/
+	/**
+	 * Handles touchEvents and updates the sprite list(s) by removing ghosts and updating the chain values
+	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) 
 	{
@@ -235,21 +251,14 @@ public class Panel extends SurfaceView implements Callback
 
 	    if (checkGameEnd() != true)
 	    {
-		    // Use move touch event
 		    switch (event.getAction()) 
 		    {
-		     	//case MotionEvent.ACTION_MOVE:
+		    	//Case tap/click
 		    	case MotionEvent.ACTION_DOWN: 
-		            // Modify velocities according to movement
-		            //deltaX = currentX - previousX;
-		            //deltaY = currentY - previousY;
-		        		//Updated
-		        	//nextGhost = Min + (int)(Math.random() * ((Max - Min) + 1));
-		        		deltaX = getRandomNum(-3, 3);
-		        		deltaY = getRandomNum(-3, 3);
+	        		deltaX = getRandomNum(-3, 3);
+	        		deltaY = getRandomNum(-3, 3);
 		        		
-	            //when there is a move action ALL of the sprites will move
-		            // Update ball velocities
+	        		//when there is a move action ALL of the sprites will move
 		        	synchronized(mSpriteList)
 		        	{
 		        		ArrayList<Sprite> toRemove = new ArrayList<Sprite>();
@@ -263,8 +272,31 @@ public class Panel extends SurfaceView implements Callback
 			    				//sprite.changeVelocity(deltaX * scalingFactor, deltaY * scalingFactor);
 			    			}
 			    		}
-		        		
-		        		for (Sprite sprite : toRemove) {
+		        				        		
+		        		//Keep track of chain values
+		        		for (Sprite sprite : toRemove) 
+		        		{
+		        			if (sprite.getGhostType() == R.drawable.red_ghost)
+		        			{
+		        				redChain++;
+		        				yellowChain = 0;
+		        				greenChain = 0;
+		        			}
+		        			
+		        			if (sprite.getGhostType() == R.drawable.yellow_ghost)
+		        			{
+		        				redChain = 0;
+		        				yellowChain++;
+		        				greenChain = 0;
+		        			}
+		        			
+		        			if (sprite.getGhostType() == R.drawable.green_ghost)
+		        			{
+		        				redChain = 0;
+		        				yellowChain = 0;
+		        				greenChain++;
+		        			}
+		        			
 		        			mSpriteList.remove(sprite);
 		        		}
 		        	}
@@ -311,34 +343,61 @@ public class Panel extends SurfaceView implements Callback
 	    return true;
 	}
 	
+	/**Distance formula, requires (x,y) for two different points
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return
+	 */
 	private float distance(float x1, float y1, float x2, float y2) {
 		return (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 	}
 	
+	/**
+	 * Decrements the timer by the double value parameter, called from ViewThread
+	 * @param value
+	 */
 	public void updateCountdownTime(double value)
 	{
 		countdownTime -= value;
 	}
-	
+
+	/**
+	 * Getter for countdownTime, called from Panel in CheckGameOver and used to display value in doDraw
+	 * @return
+	 */
 	public double getCountdownTime()
 	{
 		return countdownTime;
 	}
 	
+	/**
+	 * Converts doubles to strings for displaying in doDraw
+	 * @param countdownTime
+	 * @return
+	 */
 	private String getCountdownString(double countdownTime)
 	{
 		return String.valueOf(countdownTime);
 	}
 	
+	/**
+	 * Converts ints to strings for displaying in doDraw
+	 * @param score
+	 * @return
+	 */
 	private String getScoreString(int score)
 	{
 		return String.valueOf(score);
 	}
 	
+	/**
+	 * Used to update gameOver boolean if the timer reaches 0.0
+	 * @return
+	 */
 	public boolean checkGameEnd() 
 	{
-		// TODO 8: Check if ball is within hole region
-		//if (mSpriteList.size() > tooManyGhosts)
 		if (getCountdownTime() <= 0.0)
 		{
 			return true;
@@ -347,10 +406,44 @@ public class Panel extends SurfaceView implements Callback
 		return false;
 	}
 
+	/**
+	 * Getter for score, returns an int value
+	 * @return
+	 */
 	public int getScore()
 	{
 		return score;
 	}
+	
+	/**
+	 * Getter for redChain
+	 * @return
+	 */
+	public int getRedChain()
+	{
+		return redChain;
+	}
+	
+	/**
+	 * Getter for yellowChain
+	 * @return
+	 */
+	public int getYellowChain()
+	{
+		return yellowChain;
+	}
+	
+	/** 
+	 * Getter for greenChain
+	 * @return
+	 */
+	public int getGreenChain()
+	{
+		return greenChain;
+	}
+	
+	
+	
 	
 	
 }
