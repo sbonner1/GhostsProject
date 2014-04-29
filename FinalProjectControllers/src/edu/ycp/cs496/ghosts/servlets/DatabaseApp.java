@@ -155,7 +155,8 @@ public class DatabaseApp extends HttpServlet{
 				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 				
 				GetUserController controller = new GetUserController(); 
-				User user = controller.getUser(pathInfo, password);																																						
+				User user = controller.getUser(pathInfo, password);		
+				System.out.println("accessed database");
 				if (user == null) {
 					// No such item, so return a NOT FOUND response
 					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -163,7 +164,10 @@ public class DatabaseApp extends HttpServlet{
 					resp.getWriter().println("No such user: " + pathInfo);
 					return;
 				}
+				System.out.println(user.getUserName());
 				
+				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), user);
 				
 			}
