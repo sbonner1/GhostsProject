@@ -170,7 +170,9 @@ public class DatabaseApp extends HttpServlet{
 			if(action.equals("addUser")){
 					User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
 					String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
+					/*
 					GetUserList responseController = new GetUserList();
+					
 					ArrayList<User> userList = responseController.getUserList();
 
 				for(User users: userList){
@@ -181,13 +183,20 @@ public class DatabaseApp extends HttpServlet{
 						return;
 					}
 				}
+				*/
 				
 				AddUser addController = new AddUser(); 
-				addController.addNewUser(newUser, password);
+				boolean success = addController.addNewUser(newUser, password);
 				
-				resp.setStatus(HttpServletResponse.SC_OK);
-				resp.setContentType("application/json");
-				JSON.getObjectMapper().writeValue(resp.getWriter(), newUser);
+				if (success) {
+					resp.setStatus(HttpServletResponse.SC_OK);
+					resp.setContentType("application/json");
+					JSON.getObjectMapper().writeValue(resp.getWriter(), newUser);
+				} else {
+					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					resp.setContentType("text/plain");
+					resp.getWriter().println("User " + pathInfo + "already exists");
+				}
 			}
 		}
 		

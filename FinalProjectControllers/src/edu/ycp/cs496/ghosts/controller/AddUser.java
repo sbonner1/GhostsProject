@@ -7,9 +7,11 @@ import edu.ycp.cs496.ghosts.model.persist.IDatabase;
 
 
 public class AddUser {
-	public void addNewUser(User user, String password) {
+	public boolean addNewUser(User user, String password) {
+		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+		
 		IDatabase db = DatabaseProvider.getInstance();
-		db.addNewUser(user, password);
+		return db.addNewUser(user, hashedPassword);
 		
 	}
 }

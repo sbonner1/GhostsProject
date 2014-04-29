@@ -44,10 +44,30 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	@Override
-	public void addNewUser(User user, String password) {
+	public boolean addNewUser(User user, String hashedPassword) {
 		// TODO Auto-generated method stub
-		userList.add(user);
-		user.setUserPassword(password);
+		
+		// make sure user with same username doesn't already exist
+		if (findUser(user.getUserName()) != null) {
+			return false;
+		}
+		
+		user.setUserPassword(hashedPassword);
+		// TODO: generate a unique id
+		
+		userList.add(user.clone());
+		
+		return true;
+	}
+	
+	@Override
+	public User findUser(String userName) {
+		for(User user: userList){
+			if(user.getUserName().equals(userName)){
+				return user;
+			}
+		}
+		return null;
 	}
 	
 	@Override
