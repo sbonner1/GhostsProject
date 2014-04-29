@@ -4,6 +4,7 @@ import ycp.edu.cs496project.mobileApp.model.User;
 import ycp.edu.cs496project.mobileApp.servletControllers.UserLoginController;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -14,11 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
+ * This activity will handle logging in as well as registering of users into the server. 
  * 
  * @author josh coady
  *
  */
 public class LoginActivity extends Activity {
+	
+	String loginTag = "login test";
+	String registerTag = "register test";
 	
 	//an error message to display if user attempts to login without typing a username or password
 	private static final String empty_str_error_message = "Please enter both a username and password.";
@@ -32,6 +37,8 @@ public class LoginActivity extends Activity {
 	private EditText usernameText; //textbox to enter the username
 	private EditText passwordText; //textbox to enter the user's password
 	private Button button; //a button to either log in or register a new user
+	
+	private User user;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -166,17 +173,20 @@ public class LoginActivity extends Activity {
 				UserLoginController controller = new UserLoginController();
 				
 				try{
-					User user = controller.loginUser(username, password);
-					
-					if(user == null){
-						Toast.makeText(LoginActivity.this, "unable to get data", Toast.LENGTH_SHORT).show();
-					}else{
-						Toast.makeText(LoginActivity.this, user.getUserName(), Toast.LENGTH_SHORT).show();
-					}
+					user = controller.loginUser(username, password);
 					
 				}catch(Exception e){
 					e.printStackTrace();
 				}
+				
+				if(user == null){
+					Toast.makeText(LoginActivity.this, "empty", Toast.LENGTH_SHORT).show();
+					Log.i(loginTag, "null user object");
+				}else{
+					Toast.makeText(LoginActivity.this, "success", Toast.LENGTH_SHORT).show();
+					Log.i(loginTag, user.getUserName());
+				}
+				
 			}
 		});
 	}
@@ -207,6 +217,7 @@ public class LoginActivity extends Activity {
 	}
 	
 	/**
+	 * sets the layou UI for registering a user to the server
 	 * 
 	 * @param v a view
 	 */

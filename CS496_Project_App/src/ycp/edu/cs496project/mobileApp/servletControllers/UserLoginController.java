@@ -1,6 +1,7 @@
 package ycp.edu.cs496project.mobileApp.servletControllers;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URISyntaxException;
 
 import org.apache.http.HttpEntity;
@@ -45,20 +46,21 @@ public class UserLoginController {
 		//create URI
 		String uri = "http://10.0.2.2:8081/DatabaseApp/" + userName + "?action=getUser";
 		
-		//create a JSON object with the user's login information
-		JSONObject jsonUserInfo = new JSONObject();
-		jsonUserInfo.put("userName", userName);
-		jsonUserInfo.put("password", password);
+		//create a StringWriter that places 
+		StringWriter sw = new StringWriter();
+		JSON.getObjectMapper().writeValue(sw, password);
 		
 		//send an http POST request
 		HttpClient client = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(uri);
 		HttpResponse resp = null;
 		
-		//attach the user's login information to the POST request
-		StringEntity jsonEntity = new StringEntity(jsonUserInfo.toString());
-		jsonEntity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+		//attach the user's password to the POST request using a StringEntity
+		StringEntity jsonEntity = new StringEntity(sw.toString());
+		jsonEntity.setContentType("application/json");
 		httpPost.setEntity(jsonEntity);
+		
+		Log.i(tag, "password: " + sw.toString());
 		
 		resp = client.execute(httpPost);
 		
@@ -66,8 +68,7 @@ public class UserLoginController {
 		
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 			HttpEntity entity = resp.getEntity();
-			System.out.println("resp branch");
-			Log.i(tag, "login success.");
+			Log.i(tag, "retrieved user from server");
 			return JSON.getObjectMapper().readValue(entity.getContent(), User.class);
 		}
 		Log.i(tag, "failed to login.");
