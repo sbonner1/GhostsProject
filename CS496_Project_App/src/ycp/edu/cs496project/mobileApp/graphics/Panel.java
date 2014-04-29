@@ -23,8 +23,7 @@ public class Panel extends SurfaceView implements Callback
 	public static float mHeight;
 	private float previousX;
 	private float previousY;
-	//final private float holeRadius = 20.0f;
-	//final private float ballStopped = 0.1f;
+	private int numGhosts;	
 	private int tooManyGhosts;
 	private int score;
 	private double countdownTime;
@@ -54,7 +53,8 @@ public class Panel extends SurfaceView implements Callback
 
 		// TODO 2: Initialize class fields
 			score = 0;
-			tooManyGhosts = 10;
+			numGhosts = 0;
+			tooManyGhosts = 30;
 			countdownTime = 30.0;
 			redChain = 0;
 			
@@ -76,6 +76,7 @@ public class Panel extends SurfaceView implements Callback
 			//ADD CODE IN THE CONSTRUCTOR 2 PART E			
 			//Add one sprite to the list (for the first ghost) starting at (0,0) (or wherever you wish) and with a random velocity between -3 and 3. Don't forget to set the field for the number of sprites.
 			createGhost(GhostEnums.redGhost,0,this.getWidth(),3);
+			numGhosts++;
 	}
 	
 	/**
@@ -123,7 +124,7 @@ public class Panel extends SurfaceView implements Callback
   */
 	public void update(long elapsedTime) 
 	{
-		if (gameOver != true)
+		if (getGameOver() == false)
 		{
 		   synchronized (mSpriteList) 
 		   {
@@ -147,20 +148,28 @@ public class Panel extends SurfaceView implements Callback
 	public void tryToSpawn()
 	{
 		 int nextGhost = getRandomNum(0, 10);
-	     if (nextGhost >= 1 && nextGhost <= 5 )
-	     {
-	   	  createGhost(GhostEnums.redGhost,0,0,3);
-	     }
-	     
-	     if (nextGhost >= 6 && nextGhost <= 8)
-	     {
-	   	  createGhost(GhostEnums.yellowGhost,0,0,3);
-	     }
-	     
-	     if (nextGhost == 9)
-	     {
-	   	  createGhost(GhostEnums.greenGhost,0,0,4);
-	     }
+		 if (getGameOver() == false)
+		 {
+			 if (nextGhost == 0)
+			 {
+				 createGhost(GhostEnums.deathGhost,0,0,3);
+			 }
+			 
+		     if (nextGhost >= 1 && nextGhost <= 5 )
+		     {
+		   	  	createGhost(GhostEnums.redGhost,0,0,3);	
+		     }
+		     
+		     if (nextGhost >= 6 && nextGhost <= 8)
+		     {
+		   	  	createGhost(GhostEnums.yellowGhost,0,0,3);
+		     }
+		     
+		     if (nextGhost == 9)
+		     {
+		   	  	createGhost(GhostEnums.greenGhost,0,0,4);
+		     }
+		 }
 	}
 	
 	/**
@@ -183,19 +192,27 @@ public class Panel extends SurfaceView implements Callback
 		
 		Sprite ghost = null;
 		
+		if (ghostEnum == GhostEnums.deathGhost)
+		{
+			ghost = new Sprite(getResources(), R.drawable.death_ghost2, startX, startY, velocityX, velocityY);
+			numGhosts++;
+		}
 		if (ghostEnum == GhostEnums.redGhost)
 		{
 			ghost = new Sprite(getResources(), R.drawable.red_ghost, startX, startY, velocityX, velocityY);
+			numGhosts++;
 		}
 		
 		if (ghostEnum == GhostEnums.yellowGhost)
 		{
 			ghost = new Sprite(getResources(), R.drawable.yellow_ghost, startX, startY, velocityX, velocityY);
+			numGhosts++;
 		}
 		
 		if (ghostEnum == GhostEnums.greenGhost)
 		{
 			ghost = new Sprite(getResources(), R.drawable.green_ghost, startX, startY, velocityX, velocityY);
+			numGhosts++;
 		}
 		
 		mSpriteList.add(ghost);
@@ -221,7 +238,7 @@ public class Panel extends SurfaceView implements Callback
 		        sprite.doDraw(canvas);
 		    }
 			
-			if (checkGameEnd() == true)
+			if (getGameOver() == true)
 			{
 				canvas.drawText("Game Over", 10, 30, mPaint);
 			}
@@ -265,7 +282,7 @@ public class Panel extends SurfaceView implements Callback
 		        		for (Sprite sprite : mSpriteList) 
 			    		{
 		        			//draw the ball(s) because they are sprites in the sprite list
-			    			if (Math.abs(distance(currentX, currentY, sprite.getCenterX(), sprite.getCenterY())) < sprite.getRadius()*2)
+			    			if (Math.abs(distance(currentX, currentY, sprite.getCenterX(), sprite.getCenterY())) < sprite.getRadius()*2 && getGameOver() == false)
 			    			{
 			    				toRemove.add(sprite);
 			    				score++;
@@ -276,6 +293,10 @@ public class Panel extends SurfaceView implements Callback
 		        		//Keep track of chain values
 		        		for (Sprite sprite : toRemove) 
 		        		{
+		        			if (sprite.getGhostType() == R.drawable.death_ghost2)
+		        			{
+		        				setGameEnd();
+		        			}
 		        			if (sprite.getGhostType() == R.drawable.red_ghost)
 		        			{
 		        				redChain++;
@@ -298,9 +319,10 @@ public class Panel extends SurfaceView implements Callback
 		        			}
 		        			
 		        			mSpriteList.remove(sprite);
+		        			numGhosts--;
 		        		}
 		        	}
-	/*	        	
+	        	
 		     	case MotionEvent.ACTION_MOVE:
 		           		deltaX = getRandomNum(-3, 3);
 		        		deltaY = getRandomNum(-3, 3);
@@ -313,14 +335,13 @@ public class Panel extends SurfaceView implements Callback
 		        		for (Sprite sprite : mSpriteList) 
 			    		{
 		
-	//?						if (sprite.getGhostType() < 3)
+							if (sprite.getGhostType() == R.drawable.death_ghost2)
 		        			{
 			        			//draw the ball(s) because they are sprites in the sprite list
 				    			if (Math.abs(distance(currentX, currentY, sprite.getCenterX(), sprite.getCenterY())) < sprite.getRadius()* 3)
 				    			{
 				    				toRemove.add(sprite);
 				    				score++;
-				    				//sprite.changeVelocity(deltaX * scalingFactor, deltaY * scalingFactor);
 				    			}
 				    			//sprite.changeVelocity(deltaX * scalingFactor, deltaY * scalingFactor);
 		        			}
@@ -328,10 +349,11 @@ public class Panel extends SurfaceView implements Callback
 		        		
 		        		for (Sprite sprite : toRemove) {
 		        			mSpriteList.remove(sprite);
+		        			numGhosts--;
 		        		}
 		        	}
-		    }
-	*/
+		    
+	
 		    }
 	    }
 
@@ -407,6 +429,23 @@ public class Panel extends SurfaceView implements Callback
 	}
 
 	/**
+	 * Used to set gameOver to true in the event a deathGhost is banished
+	 */
+	public void setGameEnd()
+	{
+		gameOver = true;
+	}
+	
+	/**
+	 * Getter for gameOver value, used in multiple locations
+	 * @return
+	 */
+	public boolean getGameOver()
+	{
+		return gameOver;
+	}
+	
+	/**
 	 * Getter for score, returns an int value
 	 * @return
 	 */
@@ -440,6 +479,24 @@ public class Panel extends SurfaceView implements Callback
 	public int getGreenChain()
 	{
 		return greenChain;
+	}
+	
+	/**
+	 * Getter for numGhosts, used to determine if there are too many on screen to spawn more in ViewThread
+	 * @return
+	 */
+	public int getNumGhosts()
+	{
+		return numGhosts;
+	}
+	
+	/**
+	 * Getter for tooManyGhosts, used to determine if there are too many on screen to spawn more in ViewThread
+	 * @return
+	 */
+	public int getTooManyGhosts()
+	{
+		return tooManyGhosts;
 	}
 	
 	

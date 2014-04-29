@@ -64,9 +64,9 @@ public class ViewThread extends Thread {
 	                spawnElapsing += mElapsed;
 	                countdownElapsing += mElapsed;
 	                
-	                if(mPanel.checkGameEnd() != true) 
+	                if(mPanel.getGameOver() != true) 
 	                {
-		                if(spawnElapsing >= 500)
+		                if (spawnElapsing >= 500 && mPanel.getNumGhosts() < mPanel.getTooManyGhosts())
 		                { 
 		                	mPanel.tryToSpawn();
 		                	spawnElapsing = (long) 0;
