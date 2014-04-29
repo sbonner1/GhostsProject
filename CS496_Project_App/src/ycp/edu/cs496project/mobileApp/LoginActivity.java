@@ -2,8 +2,10 @@ package ycp.edu.cs496project.mobileApp;
 
 import ycp.edu.cs496project.mobileApp.model.User;
 import ycp.edu.cs496project.mobileApp.servletControllers.UserLoginController;
+import ycp.edu.cs496project.mobileApp.servletControllers.UserRegisterController;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -173,20 +175,22 @@ public class LoginActivity extends Activity {
 				UserLoginController controller = new UserLoginController();
 				
 				try{
+					//get the user's information from the server, if the user exists
 					user = controller.loginUser(username, password);
 					
+					//if no such user currently exists, then send a Toast with the message that either
+					//the username or password entered may be incorrect.
+					//if the user does exist and the information is retrieved from the server, then go directly to the 
+					//main menu (MainActivity).
+					if(user == null){
+						Toast.makeText(LoginActivity.this, invalid_submission_message, Toast.LENGTH_SHORT).show();
+						Log.i(loginTag, "null user object");
+					}else{
+						Log.i(loginTag, user.getUserName());
+					}
 				}catch(Exception e){
 					e.printStackTrace();
-				}
-				
-				if(user == null){
-					Toast.makeText(LoginActivity.this, "empty", Toast.LENGTH_SHORT).show();
-					Log.i(loginTag, "null user object");
-				}else{
-					Toast.makeText(LoginActivity.this, "success", Toast.LENGTH_SHORT).show();
-					Log.i(loginTag, user.getUserName());
-				}
-				
+				}				
 			}
 		});
 	}
@@ -201,7 +205,17 @@ public class LoginActivity extends Activity {
 				String username = usernameText.getText().toString();
 				String password = passwordText.getText().toString();
 				
-				
+				try{
+					UserRegisterController registerController = new UserRegisterController();
+					boolean registered = registerController.registerNewUser(username, password);
+					if(registered == true){
+						Toast.makeText(LoginActivity.this, "register success", Toast.LENGTH_SHORT).show();
+					}else{
+						Toast.makeText(LoginActivity.this, username_exists_message, Toast.LENGTH_SHORT).show();
+					}
+				}catch(Exception e){
+					
+				}
 				
 			}
 		});

@@ -68,7 +68,7 @@ public class UserLoginController {
 		
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 			HttpEntity entity = resp.getEntity();
-			Log.i(tag, "retrieved user from server");
+			Log.i(tag, "retrieved a user from server");
 			return JSON.getObjectMapper().readValue(entity.getContent(), User.class);
 		}
 		Log.i(tag, "failed to login.");

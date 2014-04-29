@@ -11,6 +11,10 @@ public class User implements Cloneable {
 	
 	private int score;
 	
+	public User() {
+		
+	}
+	
 	public User(String userName, String password) {
 		//access database to pull name/password info
 		this.userName = userName;
