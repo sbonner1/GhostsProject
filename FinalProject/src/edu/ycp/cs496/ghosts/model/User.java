@@ -14,8 +14,7 @@ public class User implements Cloneable {
 	public User(String userName, String password) {
 		//access database to pull name/password info
 		this.userName = userName;
-		this.passwordHash = password;
-		this.password = null;
+		this.password = password;
 		score = 0;
 	}
 	//getter and setter methods for this class
@@ -36,13 +35,14 @@ public class User implements Cloneable {
 		return password;
 	}
 	
-	public void setPasswordHash(String passwordHash) {
+	/*public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
 	}
 	
 	public String getPasswordHash() {
 		return passwordHash;
 	}
+	*/
 	
 	public void setUserScore(int score){
 		this.score = score;

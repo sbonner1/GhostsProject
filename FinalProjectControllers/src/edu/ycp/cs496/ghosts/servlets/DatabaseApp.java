@@ -173,7 +173,7 @@ public class DatabaseApp extends HttpServlet{
 			}
 			if(action.equals("addUser")){
 					User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
-					String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
+					String password = newUser.getUserPassword();
 					/*
 					GetUserList responseController = new GetUserList();
 					

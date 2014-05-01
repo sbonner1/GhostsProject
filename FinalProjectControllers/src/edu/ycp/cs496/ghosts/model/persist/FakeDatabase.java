@@ -28,7 +28,8 @@ public class FakeDatabase implements IDatabase {
 		userList.add(new User("Chris", "cflinch"));
 		userList.get(0).setUserScore(200);
 		userList.get(1).setUserScore(150);
-		userList.get(2).setUserScore(800);
+		userList.get(2).setUserScore(125);
+		
 	}
 	
 	@Override
@@ -62,7 +63,7 @@ public class FakeDatabase implements IDatabase {
 	public User findUser(String userName) {
 		for(User user: userList){
 			if(user.getUserName().equals(userName)){
-				return user;
+				return user.clone();
 			}
 		}
 		return null;
