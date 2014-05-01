@@ -15,8 +15,8 @@ public class User implements Cloneable {
 		//access database to pull name/password info
 		this.userName = userName;
 		this.passwordHash = password;
+		this.password = null;
 		score = 0;
-		
 	}
 	//getter and setter methods for this class
 	
