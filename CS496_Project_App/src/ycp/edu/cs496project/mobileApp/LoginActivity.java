@@ -214,9 +214,8 @@ public class LoginActivity extends Activity {
 						Toast.makeText(LoginActivity.this, username_exists_message, Toast.LENGTH_SHORT).show();
 					}
 				}catch(Exception e){
-					
+					e.printStackTrace();
 				}
-				
 			}
 		});
 	}

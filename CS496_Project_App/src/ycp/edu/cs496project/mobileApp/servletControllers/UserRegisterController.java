@@ -17,7 +17,24 @@ import android.util.Log;
 import ycp.edu.cs496project.mobileApp.json.JSON;
 import ycp.edu.cs496project.mobileApp.model.User;
 
+/**
+ * A controller that creates a User object from the username and password and sends a user object to the server
+ * to register a new user
+ * 
+ * @author josh coady
+ *
+ */
 public class UserRegisterController {
+	
+	/**
+	 * 
+	 * @param username a user's username
+	 * @param password the user's password
+	 * @return true if the new user was registered, false otherwise
+	 * @throws JsonGenerationException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	public boolean registerNewUser(String username, String password) throws JsonGenerationException, JsonMappingException, IOException{
 		
 		String tag = "register user";
