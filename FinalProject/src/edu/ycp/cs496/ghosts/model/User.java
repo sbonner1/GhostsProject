@@ -6,7 +6,7 @@ package edu.ycp.cs496.ghosts.model;
  */
 public class User implements Cloneable {
 	private String userName;
-	private String passwordHash;
+	//private String passwordHash;
 	private String password;
 	
 	private int score;
