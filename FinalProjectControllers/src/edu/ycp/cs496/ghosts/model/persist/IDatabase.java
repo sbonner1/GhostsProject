@@ -25,12 +25,12 @@ public interface IDatabase {
 
 	void deleteUser(String userName);
 
-	ArrayList<User> getUserList();
+	List<User> getUserList();
 
-	void replaceUserList(ArrayList<User> newUserList);
+	void replaceUserList(List<User> newUserList);
 
 	//public void addNewUser(User user, String password);
-	/**
+	/*
 	 * Add a new user.
 	 * 
 	 * @param user            the user to add

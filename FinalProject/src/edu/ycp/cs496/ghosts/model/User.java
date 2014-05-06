@@ -8,8 +8,13 @@ public class User implements Cloneable {
 	private String userName;
 	//private String passwordHash;
 	private String password;
-	
+	private int id;
 	private int score;
+	
+	public User() {
+		this.userName = "";
+		this.password = "";
+	}
 	
 	public User(String userName, String password) {
 		//access database to pull name/password info
@@ -36,6 +41,13 @@ public class User implements Cloneable {
 		return password;
 	}
 	
+	public void setId(int id){
+		this.id = id;
+	}
+	
+	public int getId(){
+		return id;
+	}
 	/*public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
 	}

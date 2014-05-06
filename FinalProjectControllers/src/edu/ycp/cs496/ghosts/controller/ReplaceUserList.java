@@ -10,7 +10,7 @@ import edu.ycp.cs496.ghosts.model.persist.IDatabase;
 
 
 public class ReplaceUserList {
-	public void replaceUserList(ArrayList<User> newUserList) {
+	public void replaceUserList(List<User> newUserList) {
 		IDatabase db = DatabaseProvider.getInstance();
 		db.replaceUserList(newUserList);
 	}

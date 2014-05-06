@@ -48,7 +48,7 @@ public class DatabaseApp extends HttpServlet{
 			 // if there is no single item, replace the entire inventory 
 			
 			if(pathInfo == null || pathInfo.equals("") || pathInfo.equals("/")){
-				ArrayList<User> newUserList = JSON.getObjectMapper().readValue(req.getReader(), new TypeReference<List<User>>(){});
+				List<User> newUserList = JSON.getObjectMapper().readValue(req.getReader(), new TypeReference<List<User>>(){});
 				
 				//update database with the controller
 				ReplaceUserList controller = new ReplaceUserList();
@@ -220,7 +220,7 @@ public class DatabaseApp extends HttpServlet{
 				GetUserList responseController = new GetUserList();
 				
 				//retrieve inventory and show the update
-				ArrayList<User> userList = responseController.getUserList();
+				List<User> userList = responseController.getUserList();
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
 	 			JSON.getObjectMapper().writeValue(resp.getWriter(), userList);
