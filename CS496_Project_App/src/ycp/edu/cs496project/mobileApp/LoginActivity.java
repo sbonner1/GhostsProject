@@ -27,12 +27,13 @@ public class LoginActivity extends Activity {
 	String loginTag = "login test";
 	String registerTag = "register test";
 	
-	//an error message to display if user attempts to login without typing a username or password
-	private static final String empty_str_error_message = "Please enter both a username and password.";
 	//an error message to display if the user incorrectly enters their username or password
 	private static final String invalid_submission_message = "Incorrect username or password";
 	//a message to display if a user registering selects a username that is already being used
 	private static final String username_exists_message = "Username already being used.";
+	
+	private final int passwordInputType = 0x00000081; //inputType code for the EditTexts for passwords
+	private final int normalTextInputType = 0x00000001; //inputType code for EditTexts for usernames
 	
 	private TextView userLabel; //text label for the username textbox
 	private TextView passwordLabel; //text label for the password textbox
@@ -40,7 +41,7 @@ public class LoginActivity extends Activity {
 	private EditText passwordText; //textbox to enter the user's password
 	private Button button; //a button to either log in or register a new user
 	
-	private User user;
+	private User user; //user object to hold user information
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class LoginActivity extends Activity {
 				LayoutParams.WRAP_CONTENT));
 		//the username textbox
 		usernameText = new EditText(this);
-		usernameText.setInputType(0x00000001); //set inputType to normal text
+		usernameText.setInputType(normalTextInputType); //set inputType to normal text
 		usernameText.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));
@@ -86,7 +87,7 @@ public class LoginActivity extends Activity {
 				LayoutParams.WRAP_CONTENT));
 		//the password texbox
 		passwordText = new EditText(this);
-		passwordText.setInputType(0x00000081); //set inputType text password type
+		passwordText.setInputType(passwordInputType); //set inputType text password type
 		passwordText.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));
@@ -127,7 +128,7 @@ public class LoginActivity extends Activity {
 				LayoutParams.WRAP_CONTENT));
 		//the username textbox
 		usernameText = new EditText(this);
-		usernameText.setInputType(0x00000001); //set inputType to normal text
+		usernameText.setInputType(normalTextInputType); //set inputType to normal text
 		usernameText.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));
@@ -139,7 +140,7 @@ public class LoginActivity extends Activity {
 				LayoutParams.WRAP_CONTENT));
 		//the password texbox
 		passwordText = new EditText(this);
-		passwordText.setInputType(0x00000081); //set inputType text password type
+		passwordText.setInputType(passwordInputType); //set inputType text password type
 		passwordText.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));
@@ -187,6 +188,8 @@ public class LoginActivity extends Activity {
 						Log.i(loginTag, "null user object");
 					}else{
 						Log.i(loginTag, user.getUserName());
+						Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+						startActivity(mainActivityIntent);
 					}
 				}catch(Exception e){
 					e.printStackTrace();
@@ -207,9 +210,18 @@ public class LoginActivity extends Activity {
 				
 				try{
 					UserRegisterController registerController = new UserRegisterController();
+					
+					//use the controller to create a user object and trying to add it to the server-side database
+					//if the new user was created, then the controller will return true, if a user with the same username already
+					//exists then the controller will return false
 					boolean registered = registerController.registerNewUser(username, password);
+					
+					//if a new user is created and registered, then inform the user and go to the main menu
+					//otherwise, the user needs to be informed that they need to use a different username
 					if(registered == true){
-						Toast.makeText(LoginActivity.this, "register success", Toast.LENGTH_SHORT).show();
+						Toast.makeText(LoginActivity.this, "Welcome, " + username, Toast.LENGTH_SHORT).show();
+						Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+						startActivity(mainActivityIntent);
 					}else{
 						Toast.makeText(LoginActivity.this, username_exists_message, Toast.LENGTH_SHORT).show();
 					}
