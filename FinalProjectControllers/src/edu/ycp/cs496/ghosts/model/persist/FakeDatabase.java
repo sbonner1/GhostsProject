@@ -17,7 +17,7 @@ import edu.ycp.cs496.ghosts.model.User;
 
 public class FakeDatabase implements IDatabase {
 	
-	private ArrayList<User> userList;
+	private List<User> userList;
 	
 	public FakeDatabase() {
 		userList = new ArrayList<User>();
@@ -94,7 +94,7 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	@Override
-	public void replaceUserList(ArrayList<User> newUserList) {
+	public void replaceUserList(List<User> newUserList) {
 		userList = newUserList;
 	}
 	

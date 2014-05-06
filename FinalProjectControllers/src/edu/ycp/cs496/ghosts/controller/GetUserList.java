@@ -8,7 +8,7 @@ import edu.ycp.cs496.ghosts.model.persist.DatabaseProvider;
 import edu.ycp.cs496.ghosts.model.persist.IDatabase;
 
 public class GetUserList {
-	public ArrayList<User> getUserList() {
+	public List<User> getUserList() {
 		IDatabase db = DatabaseProvider.getInstance();
 		return db.getUserList();
 	}
