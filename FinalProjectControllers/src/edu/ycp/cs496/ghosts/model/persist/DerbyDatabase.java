@@ -24,7 +24,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	private static final int MAX_ATTEMPTS = 10;
-	private static final String DB_DIRECTORY = "C:/Users/xyz/ghosts.db";
+	private static final String DB_DIRECTORY = "C:/cs496/ghosts.db";
 	private static final String DB_TABLENAME = "userList";
 	
 	@Override
@@ -38,7 +38,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				try {
-					stmt = conn.prepareStatement("select users.* from" + DB_TABLENAME +" where userList.userName = ?");
+					stmt = conn.prepareStatement("select * from " + DB_TABLENAME +" where userName = ?");
 					stmt.setString(1, userName);
 					
 					resultSet = stmt.executeQuery();
@@ -111,7 +111,7 @@ public class DerbyDatabase implements IDatabase {
 				ResultSet resultSet = null;
 				
 				try{
-					stmt = conn.prepareStatement("select users.* from " + DB_TABLENAME);
+					stmt = conn.prepareStatement("select * from " + DB_TABLENAME);
 					resultSet = stmt.executeQuery();
 					
 					List<User> result = new ArrayList<User>();
@@ -146,7 +146,7 @@ public class DerbyDatabase implements IDatabase {
 				
 				try {
 					stmt = conn.prepareStatement(
-							"insert into" + DB_TABLENAME + "(userName, password) values (?, ?)",
+							"insert into " + DB_TABLENAME + " (userName, password) values (?, ?)",
 							PreparedStatement.RETURN_GENERATED_KEYS
 					);
 					
@@ -277,7 +277,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt = null;
 				
 				try{
-					stmt = conn.prepareStatement("insert into" + DB_TABLENAME + " (userName, password) values (?,?)");
+					stmt = conn.prepareStatement("insert into " + DB_TABLENAME + " (userName, password) values (?,?)");
 					storeUserNoId(new User("testUser", "test"), stmt, 1);
 					stmt.addBatch();
 					
