@@ -13,6 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import ycp.edu.cs496project.mobileApp.json.JSON;
 import ycp.edu.cs496project.mobileApp.model.User;
@@ -24,9 +25,10 @@ import ycp.edu.cs496project.mobileApp.model.User;
  * @author josh coady
  *
  */
-public class UserRegisterController {
+public class UserRegisterController extends AsyncTask<String, Void, Boolean>{
 	
 	/**
+	 * controller method that makes a POST request sending the requested username and password to create a new user
 	 * 
 	 * @param username a user's username
 	 * @param password the user's password
@@ -35,7 +37,7 @@ public class UserRegisterController {
 	 * @throws JsonMappingException
 	 * @throws IOException
 	 */
-	public boolean registerNewUser(String username, String password) throws JsonGenerationException, JsonMappingException, IOException{
+	private boolean registerNewUser(String username, String password) throws JsonGenerationException, JsonMappingException, IOException{
 		
 		String tag = "register user";
 		
@@ -69,5 +71,18 @@ public class UserRegisterController {
 		}
 		Log.i(tag, "failed to connect to server");
 		return false;
+	}
+
+	/**
+	 * AysncTask method to register a new user via a thread separate from the UI thread
+	 */
+	@Override
+	protected Boolean doInBackground(String... params) {
+		try{
+			return registerNewUser(params[0], params[1]);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -11,6 +11,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import ycp.edu.cs496project.mobileApp.json.JSON;
 
@@ -20,8 +21,17 @@ import ycp.edu.cs496project.mobileApp.json.JSON;
  * @author josh coady
  *
  */
-public class HighscoreController {
-	public int[] getLeaderboard() throws URISyntaxException, ClientProtocolException, IOException{
+public class HighscoreController extends AsyncTask<int[], Void, int[]>{
+	
+	/**
+	 * retrieves the list of highscores from the server
+	 * 
+	 * @return an integer array of highscores
+	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	private int[] getLeaderboard() throws URISyntaxException, ClientProtocolException, IOException{
 		
 		String tag = "HighscoreController";
 		
@@ -46,6 +56,20 @@ public class HighscoreController {
 		
 		Log.i(tag, "Did not get array from server.");
 		//if an OK 200 response is not received then return null
+		return null;
+	}
+
+	/**
+	 * AsyncTask method to get access server using a non-UI thread
+	 */
+	@Override
+	protected int[] doInBackground(int[]... params) {
+		
+		try{
+			return getLeaderboard();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

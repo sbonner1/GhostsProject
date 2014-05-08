@@ -17,6 +17,7 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import ycp.edu.cs496project.mobileApp.json.JSON;
 import ycp.edu.cs496project.mobileApp.model.User;
@@ -28,8 +29,10 @@ import ycp.edu.cs496project.mobileApp.model.User;
  * @author josh coady
  *
  */
-public class UserLoginController {
+public class UserLoginController extends AsyncTask<String, Void, User>{
 	/**
+	 * a controller to see if a username and password relates to a user registered on the database, 
+	 * if such a user exists, then that user's information will be sent to the client
 	 * 
 	 * @param userName - the user's name
 	 * @param password - user's password
@@ -39,7 +42,7 @@ public class UserLoginController {
 	 * @throws URISyntaxException
 	 * @throws JSONException
 	 */
-	public User loginUser(String userName, String password) throws ClientProtocolException, IOException, URISyntaxException, JSONException{
+	private User loginUser(String userName, String password) throws ClientProtocolException, IOException, URISyntaxException, JSONException{
 		
 		String tag = "loginController";
 		
@@ -73,5 +76,19 @@ public class UserLoginController {
 		}
 		Log.i(tag, "failed to login.");
 		return null; 
+	}
+
+	/**
+	 * AsyncTask method to use login controller on a non-UI thread
+	 */
+	@Override
+	protected User doInBackground(String... params) {
+		
+		try{
+			return loginUser(params[0], params[1]);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

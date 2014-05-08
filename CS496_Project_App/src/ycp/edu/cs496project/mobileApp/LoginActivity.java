@@ -177,8 +177,9 @@ public class LoginActivity extends Activity {
 				
 				try{
 					//get the user's information from the server, if the user exists
-					user = controller.loginUser(username, password);
-					
+					controller.execute(username, password);
+					user = controller.get();
+							
 					//if no such user currently exists, then send a Toast with the message that either
 					//the username or password entered may be incorrect.
 					//if the user does exist and the information is retrieved from the server, then go directly to the 
@@ -214,7 +215,8 @@ public class LoginActivity extends Activity {
 					//use the controller to create a user object and trying to add it to the server-side database
 					//if the new user was created, then the controller will return true, if a user with the same username already
 					//exists then the controller will return false
-					boolean registered = registerController.registerNewUser(username, password);
+					registerController.execute(username, password);
+					boolean registered = registerController.get();
 					
 					//if a new user is created and registered, then inform the user and go to the main menu
 					//otherwise, the user needs to be informed that they need to use a different username
