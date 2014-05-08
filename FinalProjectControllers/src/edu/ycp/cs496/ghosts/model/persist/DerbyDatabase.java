@@ -73,7 +73,7 @@ public class DerbyDatabase implements IDatabase {
 				return true;
 			}
 		});
-	}
+	} 
 
 	@Override
 	public void deleteUserList() {
@@ -269,6 +269,7 @@ public class DerbyDatabase implements IDatabase {
 		stmt.setString(index++, user.getUserName());
 		stmt.setString(index++, user.getUserPassword());
 	}
+	
 	public void loadInitialData() {
 		executeTransaction(new Transaction<Boolean>() {
 
