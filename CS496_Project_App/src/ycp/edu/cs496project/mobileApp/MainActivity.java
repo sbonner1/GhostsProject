@@ -3,9 +3,11 @@ package ycp.edu.cs496project.mobileApp;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import android.R.color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.Menu;
 import android.view.View;
 
@@ -19,13 +21,15 @@ public class MainActivity extends Activity {
 	public static String URI_IP_ADDRESS = "10.0.2.2:8081";
 	public static final int ACTIVITY_REQUEST_CODE = 1;
 	
-	private String username; //a player's username
-	private String password; //the player's password
+	private String username = "josh"; //a player's username
+	private String password = "jcoady"; //the player's password
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 		
 		onActivityResult(0, 0, null);
 		

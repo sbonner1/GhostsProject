@@ -6,6 +6,7 @@ import ycp.edu.cs496project.mobileApp.servletControllers.UserRegisterController;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -47,6 +48,8 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		
+		getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 		
 	}
 
@@ -189,9 +192,13 @@ public class LoginActivity extends Activity {
 						Log.i(loginTag, "null user object");
 					}else{
 						Log.i(loginTag, user.getUserName());
-						Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
-						startActivity(mainActivityIntent);
+						Toast.makeText(LoginActivity.this, "Welcome back, " + username, Toast.LENGTH_SHORT).show();
+						//Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+						//startActivity(mainActivityIntent);
 					}
+					//ATTENTION: currently network call is not made to log in user, attempting to fix!!!!
+					Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+					startActivity(mainActivityIntent);
 				}catch(Exception e){
 					e.printStackTrace();
 				}				
