@@ -26,7 +26,7 @@ public class UserNameListController extends AsyncTask<String[], Void, String[]>{
 		
 		String tag = "UserNameList";
 		
-		String uri = "http://10.0.2.2:8081/DatabaseApp/?action=getUserList";
+		String uri = "http://" +  ycp.edu.cs496project.mobileApp.MainActivity.URI_IP_ADDRESS + "/DatabaseApp/?action=getUserList";
 		
 		//send an http POST request 
 		HttpClient client = new DefaultHttpClient();

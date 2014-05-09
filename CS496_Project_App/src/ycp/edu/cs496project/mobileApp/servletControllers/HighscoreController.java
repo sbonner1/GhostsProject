@@ -35,7 +35,7 @@ public class HighscoreController extends AsyncTask<int[], Void, int[]>{
 		
 		String tag = "HighscoreController";
 		
-		String uri = "http://10.0.2.2:8081/DatabaseApp/?action=getUserScoreList";
+		String uri = "http://" +  ycp.edu.cs496project.mobileApp.MainActivity.URI_IP_ADDRESS + "/DatabaseApp/?action=getUserScoreList";
 		
 		//send an http POST request 
 		HttpClient client = new DefaultHttpClient();

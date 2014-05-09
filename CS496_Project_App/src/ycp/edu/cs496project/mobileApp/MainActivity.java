@@ -1,7 +1,6 @@
 package ycp.edu.cs496project.mobileApp;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 /**
  * 
@@ -17,6 +15,9 @@ import android.widget.Toast;
  *
  */
 public class MainActivity extends Activity {
+	
+	public static String URI_IP_ADDRESS = "10.0.2.2:8081";
+	public static final int ACTIVITY_REQUEST_CODE = 1;
 	
 	private String username; //a player's username
 	private String password; //the player's password
@@ -26,10 +27,12 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		onActivityResult(0, 0, null);
+		
 		//if a user is not logged in, go to the login/ register activity to either log in or register
 		if(username == null || password == null){
 			Intent loginIntent = new Intent(this, LoginActivity.class);
-			startActivity(loginIntent);
+			startActivityForResult(loginIntent, ACTIVITY_REQUEST_CODE);
 		}
 		
 	}

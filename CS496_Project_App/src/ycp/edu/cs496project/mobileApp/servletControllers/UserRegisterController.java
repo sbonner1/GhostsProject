@@ -41,7 +41,7 @@ public class UserRegisterController extends AsyncTask<String, Void, Boolean>{
 		
 		String tag = "register user";
 		
-		String uri = "http://10.0.2.2:8081/DatabaseApp/?action=addUser";
+		String uri = "http://" +  ycp.edu.cs496project.mobileApp.MainActivity.URI_IP_ADDRESS + "/DatabaseApp/?action=addUser";
 		
 		User newUser = new User(username, password);
 		
