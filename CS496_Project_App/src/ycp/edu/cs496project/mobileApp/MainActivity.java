@@ -28,8 +28,8 @@ public class MainActivity extends Activity {
 		
 		//if a user is not logged in, go to the login/ register activity to either log in or register
 		if(username == null || password == null){
-			//Intent loginIntent = new Intent(this, LoginActivity.class);
-			//startActivity(loginIntent);
+			Intent loginIntent = new Intent(this, LoginActivity.class);
+			startActivity(loginIntent);
 		}
 		
 	}
