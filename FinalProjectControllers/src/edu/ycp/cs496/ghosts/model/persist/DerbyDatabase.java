@@ -9,7 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ycp.cs496.ghosts.model.User;
-
+/**
+ * 
+ * 
+ * @author shane
+ *
+ *class to implement the real derby database for the server side of the application.
+ *Handles the communication from the client side to execute updates.
+ */
 public class DerbyDatabase implements IDatabase {
 	static {
 		try {
@@ -27,9 +34,10 @@ public class DerbyDatabase implements IDatabase {
 	private static final String DB_DIRECTORY = "C:/Users/xyz/ghosts.db";
 	private static final String DB_TABLENAME = "userList";
 	
+	
+	//Return a user and its data
 	@Override
 	public User getUser(final String userName, final String password) {
-		// TODO Auto-generated method stub
 		return executeTransaction(new Transaction<User>(){
 
 			@Override
@@ -61,6 +69,8 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 
+	
+	//if a user wants to change their username, use this method
 	@Override
 	public void replaceUser(final String oldUserName, final User newUser) {
 		executeTransaction(new Transaction<Boolean>() {
@@ -74,7 +84,8 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	} 
-
+	
+	//remove a user from the database
 	@Override
 	public void deleteUserList() {
 		executeTransaction(new Transaction<Boolean>() {
@@ -87,7 +98,24 @@ public class DerbyDatabase implements IDatabase {
 		});
 
 	}
+	//used to update the user's score in the database
+	@Override
+	public void updateUserScore(final String userName, final String password, final int score){
+		executeTransaction(new Transaction<Boolean>() {
 
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = conn.prepareStatement("update " + DB_TABLENAME + " set score = ? where score = ?");
+				stmt.setString(1, userName);
+				stmt.setInt(3, score);
+				stmt.executeUpdate();
+				return true;
+			}
+			
+		});
+	}
+	
+	//remove the user from the database
 	@Override
 	public void deleteUser(final String userName) {
 		executeTransaction(new Transaction<Boolean>() {
@@ -100,7 +128,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-
+	//return the complete list of usernames from the database
 	@Override
 	public List<User> getUserList() {
 		return executeTransaction(new Transaction<List<User>>() {
@@ -129,12 +157,14 @@ public class DerbyDatabase implements IDatabase {
 			
 		});
 	}
-
+	
+	
 	@Override
 	public void replaceUserList(List<User> newUserList) {
 		//unused method
 	}
-
+	
+	//used for when the user registers, adds the user and its password to the database
 	@Override
 	public boolean addNewUser(final User user, final String hashedPassword) {
 		return executeTransaction(new Transaction<Boolean>(){
@@ -233,6 +263,8 @@ public class DerbyDatabase implements IDatabase {
 		
 		return conn;
 	}
+	
+	//create the database categories
 	public void createTables() {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -244,7 +276,8 @@ public class DerbyDatabase implements IDatabase {
 						"create table " + DB_TABLENAME + " (" + 
 						" id integer primary key not null generated always as identity," +
 						" userName varchar(80) unique," +
-						" password varchar(80)" +
+						" password varchar(80)," +
+						" score integer," +
 						")"
 					);
 					
@@ -268,6 +301,7 @@ public class DerbyDatabase implements IDatabase {
 		// a table in which a unique id is automatically generated.
 		stmt.setString(index++, user.getUserName());
 		stmt.setString(index++, user.getUserPassword());
+		stmt.setInt(index++, user.getUserScore());
 	}
 	
 	public void loadInitialData() {
@@ -297,6 +331,7 @@ public class DerbyDatabase implements IDatabase {
 		user.setId(resultSet.getInt(index++));
 		user.setUserName(resultSet.getString(index++));
 		user.setUserPassword(resultSet.getString(index++));
+		user.setUserScore(resultSet.getInt(index++));
 	}
 	public static void main(String[] args) {
 		DerbyDatabase db = new DerbyDatabase();

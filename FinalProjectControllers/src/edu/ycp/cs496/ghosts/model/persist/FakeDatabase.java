@@ -35,7 +35,7 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	@Override
-	public User getUser(String userName, String Password) {
+	public User getUser(String userName, String password) {
 		for(User user: userList){
 			if(user.getUserName().equals(userName)){// && user.getUserPassword() == password){
 				return user.clone();
@@ -111,6 +111,14 @@ public class FakeDatabase implements IDatabase {
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void updateUserScore(String userName, String password, int score) {
+		User user = findUser(userName);
+		
+		user.setUserScore(score);
+		
 	}
 
 	
