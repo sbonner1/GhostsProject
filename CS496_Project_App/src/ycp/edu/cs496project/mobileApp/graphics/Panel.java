@@ -26,10 +26,17 @@ public class Panel extends SurfaceView implements Callback
 	private int numGhosts;	
 	private int tooManyGhosts;
 	private int score;
-	private double countdownTime;
+	private double countdownTime; //displayed as "Bravery" to user
 	private int redChain;
 	private int yellowChain;
 	private int greenChain;
+	
+	private int redPlus;
+	private int yellowPlus;
+	private int greenPlus;
+	private double redBonus;
+	private double yellowBonus;
+	private double greenBonus;
 	
 	/* TODO 1: Add fields for: Sprite (for the ball object), 
 	 * a field for a thread object, 
@@ -55,8 +62,20 @@ public class Panel extends SurfaceView implements Callback
 			score = 0;
 			numGhosts = 0;
 			tooManyGhosts = 30;
-			countdownTime = 30.0;
+			countdownTime = 10.0;
 			redChain = 0;
+			yellowChain = 0;
+			greenChain = 0;
+			
+			//Initialize time plus counters
+			redPlus = 0;
+			yellowPlus = 0;
+			greenPlus = 0;
+			
+			//Initialize time bonuses
+			redBonus = 2.0;
+			yellowBonus = 3.0;
+			greenBonus = 5.0;
 			
 			//Register the class as the callback (using getHolder.addCallback(this);)
 			getHolder().addCallback(this);
@@ -147,7 +166,7 @@ public class Panel extends SurfaceView implements Callback
 	 */
 	public void tryToSpawn()
 	{
-		 int nextGhost = getRandomNum(0, 10);
+		 int nextGhost = getRandomNum(0, 100);
 		 if (getGameOver() == false)
 		 {
 			 if (nextGhost == 0)
@@ -155,19 +174,29 @@ public class Panel extends SurfaceView implements Callback
 				 createGhost(GhostEnums.deathGhost,0,0,3);
 			 }
 			 
-		     if (nextGhost >= 1 && nextGhost <= 5 )
+		     if (nextGhost >= 1 && nextGhost <= 50 )
 		     {
 		   	  	createGhost(GhostEnums.redGhost,0,0,3);	
 		     }
 		     
-		     if (nextGhost >= 6 && nextGhost <= 8)
+		     if (nextGhost >= 50 && nextGhost <= 75)
 		     {
 		   	  	createGhost(GhostEnums.yellowGhost,0,0,3);
 		     }
 		     
-		     if (nextGhost == 9)
+		     if (nextGhost >= 75 && nextGhost <= 95)
 		     {
 		   	  	createGhost(GhostEnums.greenGhost,0,0,4);
+		     }
+		     
+		     if (getRedChain() >= 10 && nextGhost >= 95)
+		     {
+		    	 createGhost(GhostEnums.rareRedGhost, 0, 0, 5);
+		     }
+		     
+		     if (nextGhost >= 95)
+		     {
+		    	 createGhost(GhostEnums.plusFiveGhost, 0, 0, 5);
 		     }
 		 }
 	}
@@ -215,6 +244,18 @@ public class Panel extends SurfaceView implements Callback
 			numGhosts++;
 		}
 		
+		if (ghostEnum == GhostEnums.rareRedGhost)
+		{
+			ghost = new Sprite(getResources(), R.drawable.rare_red2, startX, startY, velocityX, velocityY);
+			numGhosts++;
+		}
+		
+		if (ghostEnum == GhostEnums.plusFiveGhost)
+		{
+			ghost = new Sprite(getResources(), R.drawable.plus_five, startX, startY, velocityX, velocityY);
+			numGhosts++;
+		}
+		
 		mSpriteList.add(ghost);
 	}
 	// TODO 6: Draw Canvas and Ghosts
@@ -242,7 +283,7 @@ public class Panel extends SurfaceView implements Callback
 			{
 				canvas.drawText("Game Over", 10, 30, mPaint);
 			}
-			canvas.drawText(getCountdownString(getCountdownTime()), 10, 10, mPaint);
+			canvas.drawText("Bravery: "+ getCountdownString(getCountdownTime()), 10, 10, mPaint);
 			canvas.drawText("Score:" + getScoreString(getScore()), 100, 10, mPaint);
 			canvas.drawText("Red Chain:" + getScoreString(getRedChain()), 100, 40, mPaint);
 			canvas.drawText("Yellow Chain:" + getScoreString(getYellowChain()), 200, 40, mPaint);
@@ -290,32 +331,64 @@ public class Panel extends SurfaceView implements Callback
 			    			}
 			    		}
 		        				        		
-		        		//Keep track of chain values
+		        		//Keep track of chain values, update timers as needed, and set gameOver to true if death_ghost is tapped
 		        		for (Sprite sprite : toRemove) 
 		        		{
+		        			//If death_ghost is tapped, set gameOver to true
 		        			if (sprite.getGhostType() == R.drawable.death_ghost2)
 		        			{
 		        				setGameEnd();
 		        			}
+		        			
+		        			//Update chains, if three red ghosts are tapped in a row add redBonus to the timer
 		        			if (sprite.getGhostType() == R.drawable.red_ghost)
 		        			{
 		        				redChain++;
+		        				redPlus++;
+		        				if (redPlus == 3)
+		        				{
+		        					updateCountdownTime(redBonus);
+		        					redPlus = 0;
+		        				}
+			
 		        				yellowChain = 0;
 		        				greenChain = 0;
 		        			}
 		        			
+		        			//Update chains, if three yellow ghosts are tapped in a row add yellowBonus to the timer
 		        			if (sprite.getGhostType() == R.drawable.yellow_ghost)
 		        			{
 		        				redChain = 0;
 		        				yellowChain++;
+		        				yellowPlus++;
+		        				if (yellowPlus == 3)
+		        				{
+		        					updateCountdownTime(yellowBonus);
+		        					yellowPlus = 0;
+		        				}
 		        				greenChain = 0;
 		        			}
 		        			
+		        			//Update chains, if three green ghosts are tapped in a row add greenBonus to the timer
 		        			if (sprite.getGhostType() == R.drawable.green_ghost)
 		        			{
 		        				redChain = 0;
 		        				yellowChain = 0;
 		        				greenChain++;
+		        				greenPlus++;
+		        				if (greenPlus == 3)
+		        				{
+		        					updateCountdownTime(greenBonus);
+		        					greenPlus = 0;
+		        				}
+		        			}
+		        			
+		        		
+		        			
+		        			//Rare ghost does not break chain, adds a hard coded value to the timer
+		        			if (sprite.getGhostType() == R.drawable.plus_five)
+		        			{
+		        				updateCountdownTime(5.0);
 		        			}
 		        			
 		        			mSpriteList.remove(sprite);
@@ -376,13 +449,14 @@ public class Panel extends SurfaceView implements Callback
 		return (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 	}
 	
+	
 	/**
 	 * Decrements the timer by the double value parameter, called from ViewThread
 	 * @param value
 	 */
 	public void updateCountdownTime(double value)
 	{
-		countdownTime -= value;
+		countdownTime += value;
 	}
 
 	/**
@@ -433,7 +507,7 @@ public class Panel extends SurfaceView implements Callback
 	 */
 	public void setGameEnd()
 	{
-		gameOver = true;
+		countdownTime = 0;
 	}
 	
 	/**
