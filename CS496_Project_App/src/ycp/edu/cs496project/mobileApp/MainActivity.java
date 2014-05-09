@@ -3,7 +3,6 @@ package ycp.edu.cs496project.mobileApp;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import android.R.color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;

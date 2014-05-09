@@ -4,6 +4,8 @@ package ycp.edu.cs496project.mobileApp.model;
  *
  * * This class is the basic model construct for the user. 
  */
+
+//CLIENT SIDE
 public class User implements Cloneable {
 	private String userName;
 	private String passwordHash;

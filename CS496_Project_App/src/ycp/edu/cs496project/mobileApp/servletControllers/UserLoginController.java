@@ -19,8 +19,8 @@ import ycp.edu.cs496project.mobileApp.json.JSON;
 import ycp.edu.cs496project.mobileApp.model.User;
 
 /**
- * a controller to log into the server by sending the user's name and password to the server. This controller will also revieve
- * a respsonse from the server in the form of a user object. 
+ * a controller to log into the server by sending the user's name and password to the server. This controller will also receive
+ * a response from the server in the form of a user object. 
  * 
  * @author josh coady
  *

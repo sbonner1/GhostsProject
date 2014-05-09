@@ -17,6 +17,11 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
+/**
+ * 
+ * @author cflinch2
+ *
+ */
 public class Panel extends SurfaceView implements Callback 
 {
 	public static float mWidth;
