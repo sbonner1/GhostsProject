@@ -312,8 +312,19 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void updateUserScore(String userName, String password, int score) {
+	public void updateUserScore(final String userName, String password, final int score) {
 		// TODO Auto-generated method stub
-		
+		executeTransaction(new Transaction<Boolean>() {
+
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = conn.prepareStatement("update " + DB_TABLENAME + " set score = ? where score = ?");
+				stmt.setString(1, userName);
+				stmt.setInt(3, score);
+				stmt.executeUpdate();
+				return true;
+			}
+
+		});
 	}
 }
