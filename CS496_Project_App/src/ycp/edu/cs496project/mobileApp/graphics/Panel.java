@@ -51,6 +51,7 @@ public class Panel extends SurfaceView implements Callback
 		private ViewThread mThread;
 		private Paint mPaint;
 		private boolean gameOver;
+		private boolean gameOverIMG;
 		//////////////
 		private ArrayList<Sprite> mSpriteList = new ArrayList<Sprite>();
 		int startX, startY, velocityX, velocityY;
@@ -67,7 +68,7 @@ public class Panel extends SurfaceView implements Callback
 			score = 0;
 			numGhosts = 0;
 			tooManyGhosts = 30;
-			countdownTime = 10.0;
+			countdownTime = 5.0;
 			redChain = 0;
 			yellowChain = 0;
 			greenChain = 0;
@@ -94,6 +95,7 @@ public class Panel extends SurfaceView implements Callback
 			
 			//Set the game flag to false.
 			gameOver = false;
+			gameOverIMG = false;
 			
 			
 
@@ -158,7 +160,7 @@ public class Panel extends SurfaceView implements Callback
 		         sprite.update(elapsedTime);
 		         if (checkGameEnd() == true)
 		         {
-		        	 gameOver = true;
+		        	 gameOverIMG = true;
 		         }
 		      }
 		   }
@@ -178,28 +180,42 @@ public class Panel extends SurfaceView implements Callback
 			 {
 				 createGhost(GhostEnums.deathGhost,0,0,3);
 			 }
+			
 			 
 		     if (nextGhost >= 1 && nextGhost <= 50 )
 		     {
 		   	  	createGhost(GhostEnums.redGhost,0,0,3);	
 		     }
 		     
+			     if (getRedChain() >= 10 && nextGhost >= 95)
+			     {
+			    	 createGhost(GhostEnums.rareRedGhost, 0, 0, 5);
+			     }
+		     
 		     if (nextGhost >= 50 && nextGhost <= 75)
 		     {
 		   	  	createGhost(GhostEnums.yellowGhost,0,0,3);
 		     }
 		     
-		     if (nextGhost >= 75 && nextGhost <= 95)
+			     if (getYellowChain() >= 10 && nextGhost >= 95)
+			     {
+			    	 createGhost(GhostEnums.rareYellowGhost, 0, 0, 5);
+			     }
+		     
+			 if (nextGhost >= 75 && nextGhost <= 95)
 		     {
 		   	  	createGhost(GhostEnums.greenGhost,0,0,4);
 		     }
 		     
-		     if (getRedChain() >= 10 && nextGhost >= 95)
-		     {
-		    	 createGhost(GhostEnums.rareRedGhost, 0, 0, 5);
-		     }
 		     
-		     if (nextGhost >= 95)
+			     if (getGreenChain() >= 10 && nextGhost >= 95)
+			     {
+			    	 createGhost(GhostEnums.rareGreenGhost, 0, 0, 5);
+			     }
+		     
+		   
+		     
+		     if (nextGhost >= 95 && (getRedChain() < 6 || getYellowChain() < 6 || getGreenChain() < 6))
 		     {
 		    	 createGhost(GhostEnums.plusFiveGhost, 0, 0, 5);
 		     }
@@ -237,11 +253,23 @@ public class Panel extends SurfaceView implements Callback
 			numGhosts++;
 		}
 		
+			if (ghostEnum == GhostEnums.rareRedGhost)
+			{
+				ghost = new Sprite(getResources(), R.drawable.rare_red2, startX, startY, velocityX, velocityY);
+				numGhosts++;
+			}
+		
 		if (ghostEnum == GhostEnums.yellowGhost)
 		{
 			ghost = new Sprite(getResources(), R.drawable.yellow_ghost, startX, startY, velocityX, velocityY);
 			numGhosts++;
 		}
+		
+			if (ghostEnum == GhostEnums.rareYellowGhost)
+			{
+				ghost = new Sprite(getResources(), R.drawable.rare_yellow, startX, startY, velocityX, velocityY);
+				numGhosts++;
+			}
 		
 		if (ghostEnum == GhostEnums.greenGhost)
 		{
@@ -249,11 +277,13 @@ public class Panel extends SurfaceView implements Callback
 			numGhosts++;
 		}
 		
-		if (ghostEnum == GhostEnums.rareRedGhost)
-		{
-			ghost = new Sprite(getResources(), R.drawable.rare_red2, startX, startY, velocityX, velocityY);
-			numGhosts++;
-		}
+			if (ghostEnum == GhostEnums.rareGreenGhost)
+			{
+				ghost = new Sprite(getResources(), R.drawable.rare_green, startX, startY, velocityX, velocityY);
+				numGhosts++;
+			}
+		
+	
 		
 		if (ghostEnum == GhostEnums.plusFiveGhost)
 		{
@@ -284,15 +314,31 @@ public class Panel extends SurfaceView implements Callback
 		        sprite.doDraw(canvas);
 		    }
 			
-			if (getGameOver() == true)
+			if (getGameOverIMG() == true)
 			{
-				canvas.drawText("Game Over", 10, 30, mPaint);
+				//canvas.drawText("Game Over", 10, 30, mPaint);
+				Sprite gameOverImg = new Sprite(getResources(), R.drawable.gameovertest, mWidth/2, mHeight/2, 0, 0);
+				mSpriteList.add(gameOverImg);
+				gameOver = true;
 			}
+			
 			canvas.drawText("Bravery: "+ getCountdownString(getCountdownTime()), 10, 10, mPaint);
 			canvas.drawText("Score:" + getScoreString(getScore()), 100, 10, mPaint);
-			canvas.drawText("Red Chain:" + getScoreString(getRedChain()), 100, 40, mPaint);
-			canvas.drawText("Yellow Chain:" + getScoreString(getYellowChain()), 200, 40, mPaint);
-			canvas.drawText("Green Chain:" + getScoreString(getGreenChain()), 300, 40, mPaint);
+			
+			if (getRedChain() > 0)
+			{
+				canvas.drawText("RED Chain:" + getScoreString(getRedChain()), 100, 40, mPaint);
+			}
+			
+			if (getYellowChain() > 0)
+			{
+				canvas.drawText("YELLOW Chain:" + getScoreString(getYellowChain()), 100, 40, mPaint);
+			}
+			
+			if (getGreenChain() > 0)
+			{
+				canvas.drawText("GREEN Chain:" + getScoreString(getGreenChain()), 100, 40, mPaint);
+			}
 		}
 	}
 	
@@ -515,6 +561,11 @@ public class Panel extends SurfaceView implements Callback
 		countdownTime = 0;
 	}
 	
+	
+	public boolean getGameOverIMG()
+	{
+		return gameOverIMG;
+	}
 	/**
 	 * Getter for gameOver value, used in multiple locations
 	 * @return

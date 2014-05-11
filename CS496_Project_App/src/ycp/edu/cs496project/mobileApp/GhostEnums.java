@@ -5,8 +5,14 @@ public enum GhostEnums {
 	redGhost,
 	rareRedGhost,
 	yellowGhost,
+	rareYellowGhost,
 	greenGhost,
-	plusFiveGhost;
+	rareGreenGhost,
+	plusFiveGhost,
+	gameoverCourage,
+	gameoverDeath,
+	titleBackground,
+	gameoverTest;
 	
 
 }

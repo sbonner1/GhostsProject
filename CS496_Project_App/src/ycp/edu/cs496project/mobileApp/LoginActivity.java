@@ -49,7 +49,7 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-		getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+		//getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 		
 	}
 

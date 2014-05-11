@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+		//getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 		
 	}
 
