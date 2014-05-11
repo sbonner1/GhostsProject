@@ -34,7 +34,6 @@ public class DerbyDatabase implements IDatabase {
 
 			@Override
 			public User execute(Connection conn) throws SQLException {
-				// TODO Auto-generated method stub
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				try {
