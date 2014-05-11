@@ -6,11 +6,13 @@ import java.util.Random;
 import ycp.edu.cs496project.mobileApp.GhostEnums;
 import ycp.edu.cs496project.mobileApp.R;
 import ycp.edu.cs496project.mobileApp.R.drawable;
-
+import ycp.edu.cs496project.mobileApp.model.User;
+import ycp.edu.cs496project.mobileApp.servletControllers.UpdateHighScoreController;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -43,6 +45,9 @@ public class Panel extends SurfaceView implements Callback
 	private double yellowBonus;
 	private double greenBonus;
 	
+	
+	private User pUser; // the user to store the new highscore
+	
 	/* TODO 1: Add fields for: Sprite (for the ball object), 
 	 * a field for a thread object, 
 	 * a field for a Paint object
@@ -58,9 +63,11 @@ public class Panel extends SurfaceView implements Callback
 		
 	private Random generater;
 		
-	public Panel(Context context) 
+	public Panel(Context context, User user) 
 	{
 		super(context);
+		
+		pUser = user;
 		
 		generater = new Random(System.currentTimeMillis());
 
@@ -161,6 +168,22 @@ public class Panel extends SurfaceView implements Callback
 		         if (checkGameEnd() == true)
 		         {
 		        	 gameOverIMG = true;
+		        	 
+		        	 if(score > pUser.getUserScore()){
+		        		 pUser.setUserScore(score);
+		        		 try{
+		        			 UpdateHighScoreController controller = new UpdateHighScoreController();
+		        			 controller.execute(pUser);
+		        			 if(controller.get() == true){
+		        				 Log.i("user info", "success updating score");
+		        			 }else{
+		        				 Log.i("user info", "bad");
+		        			 }
+		        		 }catch(Exception e){
+		        			 e.printStackTrace();
+		        		 }
+		        	 }
+		        	 
 		         }
 		      }
 		   }

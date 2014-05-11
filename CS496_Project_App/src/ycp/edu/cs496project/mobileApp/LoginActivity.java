@@ -1,5 +1,7 @@
 package ycp.edu.cs496project.mobileApp;
 
+import java.util.ArrayList;
+
 import ycp.edu.cs496project.mobileApp.model.User;
 import ycp.edu.cs496project.mobileApp.servletControllers.UserLoginController;
 import ycp.edu.cs496project.mobileApp.servletControllers.UserRegisterController;
@@ -27,6 +29,9 @@ public class LoginActivity extends Activity {
 	
 	String loginTag = "login test";
 	String registerTag = "register test";
+	
+	public final static String USER_INFO_MESSAGE = "ycp.edu.cs496project.mobileApp.USER_INFOR_MESSAGE";
+	public final static String EXTRA_STRING_ARRAYLIST = "ycp.edu.cs496project.mobileApp.STRING_ARRAYLIST";
 	
 	//an error message to display if the user incorrectly enters their username or password
 	private static final String invalid_submission_message = "Incorrect username or password";
@@ -193,6 +198,16 @@ public class LoginActivity extends Activity {
 						Log.i(loginTag, user.getUserName());
 						Toast.makeText(LoginActivity.this, "Welcome back, " + username, Toast.LENGTH_SHORT).show();
 						Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+						
+						Log.i(loginTag, user.getUserName());
+						Log.i(loginTag, user.getUserPassword());
+						
+						ArrayList<String> str_arr = new ArrayList<String>();
+						str_arr.add(username);
+						str_arr.add(user.getUserPassword());
+						str_arr.add(Integer.toString(user.getUserScore()));
+						
+						mainActivityIntent.putStringArrayListExtra(USER_INFO_MESSAGE, str_arr);
 						startActivity(mainActivityIntent);
 					}
 				}catch(Exception e){

@@ -86,7 +86,25 @@ public class DerbyDatabase implements IDatabase {
 		});
 
 	}
+	
+	//used to update the user's score in the database
+	@Override
+	public void updateUserScore(final User user){
+		executeTransaction(new Transaction<Boolean>() {
 
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = conn.prepareStatement("update " + DB_TABLENAME + " set score = ? where score = ?");
+				stmt.setString(1, user.getUserName());
+				stmt.setInt(3, user.getUserScore());
+				stmt.executeUpdate();
+				return true;
+			}
+
+		});
+	}
+	
+	//remove the user from the database
 	@Override
 	public void deleteUser(final String userName) {
 		executeTransaction(new Transaction<Boolean>() {
@@ -309,22 +327,5 @@ public class DerbyDatabase implements IDatabase {
 		System.out.println("Loading initial data...");
 		db.loadInitialData();
 		System.out.println("Done!");
-	}
-
-	@Override
-	public void updateUserScore(final String userName, String password, final int score) {
-		// TODO Auto-generated method stub
-		executeTransaction(new Transaction<Boolean>() {
-
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = conn.prepareStatement("update " + DB_TABLENAME + " set score = ? where score = ?");
-				stmt.setString(1, userName);
-				stmt.setInt(3, score);
-				stmt.executeUpdate();
-				return true;
-			}
-
-		});
 	}
 }

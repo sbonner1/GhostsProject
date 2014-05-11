@@ -19,9 +19,9 @@ import ycp.edu.cs496project.mobileApp.json.JSON;
 import ycp.edu.cs496project.mobileApp.model.User;
 
 /**
- * a controller to get the top X number of highscores the database, currently gets ALL of them, needs reworked to limit X
+ * a controller to update the the user's highscore data on the server, when a new, larger highscore is earned
  * 
- * @author josh coady & cflinch2
+ * @author jcoady & cfinch2
  *
  */
 
@@ -32,28 +32,25 @@ import ycp.edu.cs496project.mobileApp.model.User;
  * database method will perform the operation
  */ 
 
-public class UpdateHighScoreController extends AsyncTask<Boolean, Void, Boolean>{
+public class UpdateHighScoreController extends AsyncTask<User, Void, Boolean>{
 	
 	/**
-	 * retrieves the list of highscores from the server
+	 * takes a user object with the user's username, password and new highscore. This user is then sent to the server where it 
+	 * will take the update the user's old highscore with the new highscore.
 	 * 
-	 * @return an integer array of highscores
+	 * @return true if the highscore was successfully updated, false otherwise
 	 * @throws URISyntaxException
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
-	private boolean getLeaderboard(String userName, String password, int currentScore) throws URISyntaxException, ClientProtocolException, IOException{
+	private boolean updateHighscore(User updateUser) throws URISyntaxException, ClientProtocolException, IOException{
 		
 		//Send data to server
-		String uri = "http://10.0.2.2:8081/DatabaseApp/?action=updateUserScore";
-		
-		//Initialize user object
-		User userScore = new User(userName, password);
-		userScore.setUserScore(currentScore);
+		String uri = "http://" + ycp.edu.cs496project.mobileApp.MainActivity.URI_IP_ADDRESS + "/DatabaseApp/?action=updateUserScore";
 		
 		//create a StringWriter that places 
 		StringWriter sw = new StringWriter();
-		JSON.getObjectMapper().writeValue(sw, userScore);
+		JSON.getObjectMapper().writeValue(sw, updateUser);
 		
 		//send an http POST request 
 		HttpClient client = new DefaultHttpClient();
@@ -64,6 +61,8 @@ public class UpdateHighScoreController extends AsyncTask<Boolean, Void, Boolean>
 		StringEntity jsonEntity = new StringEntity(sw.toString());
 		jsonEntity.setContentType("application/json");
 		httpPost.setEntity(jsonEntity);
+		
+		Log.i("update score", Integer.toString(updateUser.getUserScore()));
 		
 		//execute the POST request
 		resp = client.execute(httpPost);
@@ -83,10 +82,10 @@ public class UpdateHighScoreController extends AsyncTask<Boolean, Void, Boolean>
 	 */
 	
 	@Override
-	protected Boolean doInBackground(Boolean... params) {
+	protected Boolean doInBackground(User... user) {
 		
 		try{
-			//return getLeaderboard(params[0], params[1], params[2]);
+			return updateHighscore(user[0]);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

@@ -2,13 +2,17 @@ package ycp.edu.cs496project.mobileApp;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
+import ycp.edu.cs496project.mobileApp.model.User;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * The main menu activity. After logging in or registering, the main menu will appear with two buttons. One button will take the 
@@ -21,14 +25,24 @@ import android.view.View;
 public class MainActivity extends Activity {
 	
 	public static String URI_IP_ADDRESS = "10.0.2.2:8081";
-	public static final int ACTIVITY_REQUEST_CODE = 1;
+	
+	private User user;
+	
+	private ArrayList<String> str_arr;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		//getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+		str_arr = new ArrayList<String>();
+		
+		Intent userInfoIntent = getIntent();
+		
+		//get the user info from the login/register activity
+		str_arr = userInfoIntent.getStringArrayListExtra(LoginActivity.USER_INFO_MESSAGE);
+		
+		Log.i("main", str_arr.get(0));
 		
 	}
 
@@ -48,6 +62,16 @@ public class MainActivity extends Activity {
 	public void onPlayClick(View v){
 		//create an intent to go to the gameplay activity
 		Intent startGameIntent = new Intent(this, MarbleMadness.class);
+		
+		
+		/*ArrayList<String> str_arr = new ArrayList<String>();
+		str_arr.add(user.getUserName());
+		str_arr.add(user.getUserPassword());
+		str_arr.add(Integer.toString(user.getUserScore()));
+		*/
+		
+		startGameIntent.putStringArrayListExtra(LoginActivity.USER_INFO_MESSAGE, str_arr);
+		
 		startActivity(startGameIntent);
 	}
 	

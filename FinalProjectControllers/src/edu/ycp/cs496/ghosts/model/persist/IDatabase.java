@@ -50,6 +50,7 @@ public interface IDatabase {
 	 */
 	public User findUser(String userName);
 
-	void updateUserScore(String userName, String password, int score);
+
+	void updateUserScore(User user);
 	
 }
