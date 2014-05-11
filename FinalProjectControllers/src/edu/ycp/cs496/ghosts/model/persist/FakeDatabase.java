@@ -114,10 +114,8 @@ public class FakeDatabase implements IDatabase {
 	}
 
 	@Override
-	public void updateUserScore(String userName, String password, int score) {
-		User user = findUser(userName);
-		
-		user.setUserScore(score);
+	public void updateUserScore(User user) {
+		// TODO Auto-generated method stub
 		
 	}
 
