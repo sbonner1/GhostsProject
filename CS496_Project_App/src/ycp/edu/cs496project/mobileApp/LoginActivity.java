@@ -189,16 +189,12 @@ public class LoginActivity extends Activity {
 					//main menu (MainActivity).
 					if(user == null){
 						Toast.makeText(LoginActivity.this, invalid_submission_message, Toast.LENGTH_SHORT).show();
-						Log.i(loginTag, "null user object");
 					}else{
 						Log.i(loginTag, user.getUserName());
 						Toast.makeText(LoginActivity.this, "Welcome back, " + username, Toast.LENGTH_SHORT).show();
-						//Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
-						//startActivity(mainActivityIntent);
+						Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+						startActivity(mainActivityIntent);
 					}
-					//ATTENTION: currently network call is not made to log in user, attempting to fix!!!!
-					Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
-					startActivity(mainActivityIntent);
 				}catch(Exception e){
 					e.printStackTrace();
 				}				

@@ -11,6 +11,9 @@ import android.view.Menu;
 import android.view.View;
 
 /**
+ * The main menu activity. After logging in or registering, the main menu will appear with two buttons. One button will take the 
+ * user directly to the game, the other button will take the user to a new activity which will be able to display a leaderboard 
+ * with the highest scores gained by all users playing the game, and the user will be able to view his/her won trophies
  * 
  * @author josh coady
  *
@@ -20,23 +23,12 @@ public class MainActivity extends Activity {
 	public static String URI_IP_ADDRESS = "10.0.2.2:8081";
 	public static final int ACTIVITY_REQUEST_CODE = 1;
 	
-	private String username = "josh"; //a player's username
-	private String password = "jcoady"; //the player's password
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
 		getWindow().getDecorView().setBackgroundColor(Color.BLACK);
-		
-		onActivityResult(0, 0, null);
-		
-		//if a user is not logged in, go to the login/ register activity to either log in or register
-		if(username == null || password == null){
-			Intent loginIntent = new Intent(this, LoginActivity.class);
-			startActivityForResult(loginIntent, ACTIVITY_REQUEST_CODE);
-		}
 		
 	}
 
@@ -72,10 +64,12 @@ public class MainActivity extends Activity {
 		startActivity(playerInfoIntent);
 	}
 	
+	/*
 	//onClick event to go to login 
 	public void onGoToLoginClick(View v){
 		Intent loginIntent = new Intent(this, LoginActivity.class);
 		startActivity(loginIntent);
 	}
+	*/
 
 }
