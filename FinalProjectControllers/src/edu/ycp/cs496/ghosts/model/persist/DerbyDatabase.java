@@ -29,16 +29,18 @@ public class DerbyDatabase implements IDatabase {
 	
 	//return the user that the client is searching for
 	@Override
-	public User getUser(final String userName, final String password) {
+	public User getUser(final String userName /* final String password)*/) { 
 		return executeTransaction(new Transaction<User>(){
 
 			@Override
 			public User execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
+		
 				try {
 					stmt = conn.prepareStatement("select * from " + DB_TABLENAME +" where userName = ?");
 					stmt.setString(1, userName);
+					//stmt.setString(2, password);
 					
 					resultSet = stmt.executeQuery();
 					
@@ -47,7 +49,7 @@ public class DerbyDatabase implements IDatabase {
 						return null;
 					}
 					
-					User user = new User(userName, password);
+					User user = new User();
 					loadUser(user, resultSet, 1);
 					return user;
 				}finally{
@@ -73,6 +75,46 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	
+	@Override
+	public User loginUser(final String userName, final String password) {
+		return executeTransaction(new Transaction<User>(){
+
+			@Override
+			public User execute(Connection conn) throws SQLException {
+
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+		
+				try {
+					stmt = conn.prepareStatement("select * from " + DB_TABLENAME +" where userName = ?");
+					stmt.setString(1, userName);
+					//stmt.setString(2, password);
+					
+					resultSet = stmt.executeQuery();
+					
+					if(!resultSet.next()){
+						//no such user
+						return null;
+					}
+					
+					User user = new User();
+					user.setUserName(userName);
+					user.setUserPassword(password);
+					loadUser(user, resultSet, 1);
+					return user;
+				}finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+				
+				}
+		});
+
+		
+	}
+
+	
 	//clear the database of all existing users
 	@Override
 	public void deleteUserList() {
@@ -306,7 +348,7 @@ public class DerbyDatabase implements IDatabase {
 				
 				try{
 					stmt = conn.prepareStatement("insert into " + DB_TABLENAME + " (userName, password) values (?,?)");
-					storeUserNoId(new User("testUser", "test"), stmt, 1);
+					storeUserNoId(new User(), stmt, 1);
 					stmt.addBatch();
 					
 					stmt.executeBatch();
@@ -333,4 +375,5 @@ public class DerbyDatabase implements IDatabase {
 		db.loadInitialData();
 		System.out.println("Done!");
 	}
+
 }

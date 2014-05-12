@@ -91,6 +91,11 @@ public class DatabaseApp extends HttpServlet{
 				return;
 			}
 			
+			if(action.equals("loginUser")){
+				
+			}
+			
+			
 			if(action.equals("getUserList")){
 				//retrieve inventory from database
 				GetUserList getController = new GetUserList();
@@ -132,7 +137,7 @@ public class DatabaseApp extends HttpServlet{
 				
 				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 				GetUserController getController = new GetUserController();
-				User user = getController.getUser(pathInfo, password);
+				User user = getController.getUser(pathInfo);
 				if (user == null) {
 					// No such item, so return a NOT FOUND response
 					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -155,7 +160,7 @@ public class DatabaseApp extends HttpServlet{
 				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 				
 				GetUserController controller = new GetUserController(); 
-				User user = controller.getUser(pathInfo, password);		
+				User user = controller.getUser(pathInfo);		
 				System.out.println("accessed database");
 				if (user == null) {
 					// No such item, so return a NOT FOUND response

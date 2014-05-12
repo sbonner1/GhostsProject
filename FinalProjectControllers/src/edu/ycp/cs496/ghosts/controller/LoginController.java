@@ -2,6 +2,7 @@ package edu.ycp.cs496.ghosts.controller;
 
 import edu.ycp.cs496.ghosts.model.User;
 import edu.ycp.cs496.ghosts.model.persist.DatabaseProvider;
+import edu.ycp.cs496.ghosts.model.persist.IDatabase;
 /**
  * 
  * @author shane
@@ -9,8 +10,19 @@ import edu.ycp.cs496.ghosts.model.persist.DatabaseProvider;
  *
  */
 public class LoginController {
-	public User findUser(String userName, String password) {
-		return DatabaseProvider.getInstance().getUser(userName, password);
+	public User loginUser(String userName, String password) {
+		GetUserController controller = new GetUserController();
+		User tempUser = controller.getUser(userName);
+		String tempPassword = tempUser.getUserPassword();
+		
+		if(BCrypt.checkpw(password, tempPassword)){
+			IDatabase db = DatabaseProvider.getInstance();
+			return db.loginUser(userName, password);
+		}
+		
+		return null;
+		
+		//return DatabaseProvider.getInstance().getUser(userName, password);
 	}
 }
 
