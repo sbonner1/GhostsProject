@@ -12,16 +12,15 @@ import edu.ycp.cs496.ghosts.model.persist.IDatabase;
 public class LoginController {
 	public User loginUser(String userName, String password) {
 		GetUserController controller = new GetUserController();
-		User tempUser = controller.getUser(userName);
+		User tempUser = controller.getUser(userName, password);
 		String tempPassword = tempUser.getUserPassword();
 		
 		if(BCrypt.checkpw(password, tempPassword)){
 			IDatabase db = DatabaseProvider.getInstance();
 			return db.loginUser(userName, password);
-		}
-		
-		return null;
-		
+		}else{
+			return null;
+		}	
 		//return DatabaseProvider.getInstance().getUser(userName, password);
 	}
 }

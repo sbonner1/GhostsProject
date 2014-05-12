@@ -20,7 +20,7 @@ public class User implements Cloneable {
 	private int yellowChain;
 	private int greenChain;
 	
-	/*public User() {
+	public User() {
 		this.userName = "";
 		this.password = "";
 		this.highScore = 0;
@@ -28,9 +28,9 @@ public class User implements Cloneable {
 		this.yellowChain = 0;
 		this.greenChain = 0;
 	}
-	*/
 	
-	public User(/*String userName, String password*/){//, int highScore, int redChain, int yellowChain, int greenChain) {
+	
+	public User(String userName, String password){//, int highScore, int redChain, int yellowChain, int greenChain) {
 		//access database to pull name/password info
 		this.userName = userName;
 		this.password = password;

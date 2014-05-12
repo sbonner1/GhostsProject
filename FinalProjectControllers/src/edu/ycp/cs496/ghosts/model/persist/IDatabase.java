@@ -12,6 +12,7 @@ import java.util.List;
 
 
 
+
 /**
  * @author sbonner1
  * Class to hold the methods for the IDatabase that the FakeDatabase, and later real database,
@@ -57,6 +58,7 @@ public interface IDatabase {
 
 	public User loginUser(String userName, String password);
 
-	User getUser(String userName);
+
+	User getUser(String userName, String password);
 	
 }

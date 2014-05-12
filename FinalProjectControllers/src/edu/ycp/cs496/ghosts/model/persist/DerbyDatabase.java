@@ -29,7 +29,7 @@ public class DerbyDatabase implements IDatabase {
 	
 	//return the user that the client is searching for
 	@Override
-	public User getUser(final String userName /* final String password)*/) { 
+	public User getUser(final String userName, final String password) { 
 		return executeTransaction(new Transaction<User>(){
 
 			@Override
@@ -49,7 +49,7 @@ public class DerbyDatabase implements IDatabase {
 						return null;
 					}
 					
-					User user = new User();
+					User user = new User(userName, password);
 					loadUser(user, resultSet, 1);
 					return user;
 				}finally{
@@ -98,9 +98,9 @@ public class DerbyDatabase implements IDatabase {
 						return null;
 					}
 					
-					User user = new User();
-					user.setUserName(userName);
-					user.setUserPassword(password);
+					User user = new User(userName, password);
+					//user.setUserName(userName);
+					//user.setUserPassword(password);
 					loadUser(user, resultSet, 1);
 					return user;
 				}finally{
@@ -108,12 +108,11 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt);
 				}
 				
-				}
+			}
 		});
 
 		
 	}
-
 	
 	//clear the database of all existing users
 	@Override
@@ -348,7 +347,7 @@ public class DerbyDatabase implements IDatabase {
 				
 				try{
 					stmt = conn.prepareStatement("insert into " + DB_TABLENAME + " (userName, password) values (?,?)");
-					storeUserNoId(new User(), stmt, 1);
+					storeUserNoId(new User("testUser", "password"), stmt, 1);
 					stmt.addBatch();
 					
 					stmt.executeBatch();
