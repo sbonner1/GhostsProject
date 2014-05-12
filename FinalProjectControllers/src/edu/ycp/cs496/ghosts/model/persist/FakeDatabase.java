@@ -15,8 +15,6 @@ import edu.ycp.cs496.ghosts.model.User;
  * 
  */
 
-
-
 public class FakeDatabase implements IDatabase {
 	
 	private List<User> userList;
@@ -35,8 +33,9 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	@Override
-	public User getUser(String userName, String password) {
+	public User getUser(String userName, String Password) {
 		for(User user: userList){
+			System.out.println("Check: " + userName + "/" + user.getUserName());
 			if(user.getUserName().equals(userName)){// && user.getUserPassword() == password){
 				return user.clone();
 			}

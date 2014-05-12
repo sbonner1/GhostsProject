@@ -11,14 +11,22 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import ycp.edu.cs496project.mobileApp.json.JSON;
+import android.os.AsyncTask;
 import android.util.Log;
 
-public class UserNameListController {
-	public String[] getUserNameList() throws ClientProtocolException, IOException{
+public class UserNameListController extends AsyncTask<String[], Void, String[]>{
+	
+	/**
+	 * 
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	private String[] getUserNameList() throws ClientProtocolException, IOException{
 		
 		String tag = "UserNameList";
 		
-		String uri = "http://10.0.2.2:8081/DatabaseApp/?action=getUserList";
+		String uri = "http://" +  ycp.edu.cs496project.mobileApp.MainActivity.URI_IP_ADDRESS + "/DatabaseApp/?action=getUserList";
 		
 		//send an http POST request 
 		HttpClient client = new DefaultHttpClient();
@@ -39,6 +47,19 @@ public class UserNameListController {
 		
 		Log.i(tag, "Did not get array from server.");
 		
+		return null;
+	}
+
+	/**
+	 * AsyncTask method to retrieve list of usernames on a non-UI thread
+	 */
+	@Override
+	protected String[] doInBackground(String[]... params) {
+		try{
+			return getUserNameList();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

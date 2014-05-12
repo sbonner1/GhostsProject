@@ -1,7 +1,9 @@
 package ycp.edu.cs496project.mobileApp.graphics;
 
+import ycp.edu.cs496project.mobileApp.MarbleMadness;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
+import android.widget.Toast;
 
 public class ViewThread extends Thread {
 	// TODO 1: Add class fields
@@ -14,6 +16,8 @@ public class ViewThread extends Thread {
 	SurfaceHolder mHolder;
 	Long mStartTime;
 	Long mElapsed;
+	Long spawnElapsing = (long) 0;
+	Long countdownElapsing = (long) 0;
 	boolean gameOver = false;
 	
 	public ViewThread(Panel panel) {
@@ -52,9 +56,28 @@ public class ViewThread extends Thread {
 	    	  {
 	    		  // Update state based on elapsed time //compute the current elapsed time, 
 	              mElapsed = System.currentTimeMillis() - mStartTime;
-	              //update the panel object,
+	              
+	              //update the panel object, shows movement of ghosts
 	              mPanel.update(mElapsed);
-
+	              
+	              //Updates spawnElapsing until it reaches 0.5 seconds and then calls tryToSpawn
+	                spawnElapsing += mElapsed;
+	                countdownElapsing += mElapsed;
+	                
+	                if(mPanel.getGameOver() != true) 
+	                {
+		                if (spawnElapsing >= 750 && mPanel.getNumGhosts() < mPanel.getTooManyGhosts())
+		                { 
+		                	mPanel.tryToSpawn();
+		                	spawnElapsing = (long) 0;
+		                }
+		                
+		                if (countdownElapsing >= 1000)
+		                {
+		                	mPanel.updateCountdownTime(-1.0);
+		                	countdownElapsing = (long) 0;
+		                }
+	                }
 	              // Render updated state//draw the panel object, and 
 	              mPanel.doDraw(canvas,mElapsed);
 
@@ -64,7 +87,15 @@ public class ViewThread extends Thread {
 
 	           // Update start time		//Do not forget to update the start time variable with the new current time
 	           mStartTime = System.currentTimeMillis();  
+	    	  
+	           
+	          /* 
+	           // Stop gameloop if game is over
+	           if (mPanel.checkGameEnd() == true)
+	           {
+	        	   mRun = false;
+	           }
+	           */
 	      }
-	     
 	}
 }

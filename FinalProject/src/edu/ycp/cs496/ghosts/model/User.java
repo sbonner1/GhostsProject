@@ -1,26 +1,47 @@
 package edu.ycp.cs496.ghosts.model;
+
+//import ycp.edu.cs496project.mobileApp.model.User;
+
+
 /**
  * @author sbonner1
  *
  * * This class is the basic model construct for the user. 
  */
+
+//SERVER SIDE
+
+
 public class User implements Cloneable {
 	private String userName;
 	//private String passwordHash;
 	private String password;
 	private int id;
 	private int score;
+	private int highScore;
+	private int redChain;
+	private int yellowChain;
+	private int greenChain;
 	
 	public User() {
 		this.userName = "";
 		this.password = "";
+		this.highScore = 0;
+		this.redChain = 0;
+		this.yellowChain = 0;
+		this.greenChain = 0;
 	}
+
 	
-	public User(String userName, String password) {
+	public User(String userName, String password){//, int highScore, int redChain, int yellowChain, int greenChain) {
 		//access database to pull name/password info
 		this.userName = userName;
 		this.password = password;
-		score = 0;
+		
+		//this.highScore = 0;
+		//this.redChain = 0;
+		//this.yellowChain = 0;
+		//this.greenChain = 0;
 		
 	}
 	//getter and setter methods for this class
@@ -75,3 +96,5 @@ public class User implements Cloneable {
 		}
 	}
 }
+
+

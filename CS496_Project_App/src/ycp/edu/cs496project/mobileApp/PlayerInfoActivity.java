@@ -58,6 +58,10 @@ public class PlayerInfoActivity extends FragmentActivity{
 		//get the leaderboard from the server
 		getLeaderboard();
 		
+		/*
+		 * implement a method to get the user's trophies from the server
+		 */
+		
 		highScoreAdapter = new ArrayAdapter<String>(this, R.layout.tab_list_item, userNameArr);
 		Log.i(logTag, "highscore adapter initialized.");
 		
@@ -117,7 +121,8 @@ public class PlayerInfoActivity extends FragmentActivity{
 		
 		//get the highscores from the server
 		try {
-			leaderboardArr = scoreController.getLeaderboard();
+			scoreController.execute();
+			leaderboardArr = scoreController.get();
 			
 			//if the user is unable to retrieve the leaderboard from the server, then initialize
 			//an array of empty strings so the activity does not crash, otherwise, display the leaderboard from the server.
@@ -140,7 +145,8 @@ public class PlayerInfoActivity extends FragmentActivity{
 		
 		//get the usernames from the server
 		try{
-			userNameArr = nameListController.getUserNameList();
+			nameListController.execute();
+			userNameArr = nameListController.get();
 			
 			//if the controller returns a null array, then initialize the array with "null"
 			if(userNameArr == null){

@@ -9,6 +9,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import edu.ycp.cs496.ghosts.model.persist.DatabaseProvider;
+import edu.ycp.cs496.ghosts.model.persist.DerbyDatabase;
 import edu.ycp.cs496.ghosts.model.persist.FakeDatabase;
 
 public class DatabaseInitListener implements ServletContextListener {
@@ -16,7 +17,7 @@ public class DatabaseInitListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent e) {
 		// Webapp is starting
-		DatabaseProvider.setInstance(new FakeDatabase()); // TODO use real database
+		DatabaseProvider.setInstance(new DerbyDatabase()); 
 		System.out.println("Initialized database!");
 	}
 
