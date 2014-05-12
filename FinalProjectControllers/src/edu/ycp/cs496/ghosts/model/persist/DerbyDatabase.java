@@ -27,9 +27,9 @@ public class DerbyDatabase implements IDatabase {
 	private static final String DB_DIRECTORY = "C:/cs496/ghosts.db";
 	private static final String DB_TABLENAME = "userList";
 	
+	//return the user that the client is searching for
 	@Override
 	public User getUser(final String userName, final String password) {
-		// TODO Auto-generated method stub
 		return executeTransaction(new Transaction<User>(){
 
 			@Override
@@ -59,7 +59,7 @@ public class DerbyDatabase implements IDatabase {
 			
 		});
 	}
-
+	//if a user wants to change their username, use this method
 	@Override
 	public void replaceUser(final String oldUserName, final User newUser) {
 		executeTransaction(new Transaction<Boolean>() {
@@ -73,7 +73,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-
+	//clear the database of all existing users
 	@Override
 	public void deleteUserList() {
 		executeTransaction(new Transaction<Boolean>() {
@@ -117,7 +117,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-
+	//used for high scores/printing the entire list of users
 	@Override
 	public List<User> getUserList() {
 		return executeTransaction(new Transaction<List<User>>() {
@@ -251,6 +251,8 @@ public class DerbyDatabase implements IDatabase {
 		
 		return conn;
 	}
+	//this is the main part of the database. the tables store all the data
+	//that the client side needs
 	public void createTables() {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override

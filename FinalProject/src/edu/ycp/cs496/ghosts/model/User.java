@@ -2,14 +2,11 @@ package edu.ycp.cs496.ghosts.model;
 
 //import ycp.edu.cs496project.mobileApp.model.User;
 
-
 /**
  * @author sbonner1
  *
  * * This class is the basic model construct for the user. 
  */
-
-//SERVER SIDE
 
 
 public class User implements Cloneable {
@@ -61,7 +58,7 @@ public class User implements Cloneable {
 	public String getUserPassword(){
 		return password;
 	}
-	
+	//set the id for the database
 	public void setId(int id){
 		this.id = id;
 	}
