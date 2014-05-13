@@ -338,6 +338,7 @@ public class DerbyDatabase implements IDatabase {
 		// a table in which a unique id is automatically generated.
 		stmt.setString(index++, user.getUserName());
 		stmt.setString(index++, user.getUserPassword());
+		stmt.setInt(index++, user.getUserScore());
 	}
 	public void loadInitialData() {
 		executeTransaction(new Transaction<Boolean>() {
