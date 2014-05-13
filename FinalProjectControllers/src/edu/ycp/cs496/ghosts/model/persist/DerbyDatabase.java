@@ -135,9 +135,9 @@ public class DerbyDatabase implements IDatabase {
 
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = conn.prepareStatement("update " + DB_TABLENAME + " set score = ? where score = ?");
-				stmt.setString(1, user.getUserName());
-				stmt.setInt(3, score);
+				PreparedStatement stmt = conn.prepareStatement("update " + DB_TABLENAME + " set score = ? where userName = ?");
+				stmt.setInt(1, score);
+				stmt.setString(2, user.getUserName());
 				stmt.executeUpdate();
 				return true;
 			}
@@ -307,7 +307,7 @@ public class DerbyDatabase implements IDatabase {
 						" id integer primary key not null generated always as identity," +
 						" userName varchar(80) unique," +
 						" password varchar(80)," +
-						" score integer" +
+						" score integer not null" +
 						
 					/*	" integer high score" +
 						" integer max red chain" +
