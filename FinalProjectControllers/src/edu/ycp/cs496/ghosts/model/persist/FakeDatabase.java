@@ -112,11 +112,6 @@ public class FakeDatabase implements IDatabase {
 		}
 	}
 
-	@Override
-	public void updateUserScore(User user) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public User loginUser(String userName, String password) {
@@ -127,6 +122,12 @@ public class FakeDatabase implements IDatabase {
 
 	@Override
 	public User getUser(String userName, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User updateUserScore(User user, int score) {
 		// TODO Auto-generated method stub
 		return null;
 	}

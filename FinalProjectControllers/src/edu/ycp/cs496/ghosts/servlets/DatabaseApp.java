@@ -25,6 +25,7 @@ import edu.ycp.cs496.ghosts.controller.GetUserController;
 import edu.ycp.cs496.ghosts.controller.GetUserList;
 import edu.ycp.cs496.ghosts.controller.ReplaceUser;
 import edu.ycp.cs496.ghosts.controller.ReplaceUserList;
+import edu.ycp.cs496.ghosts.controller.UpdateUserScore;
 import edu.ycp.cs496.ghosts.model.User;
 //import org.eclipse.jetty.util.ajax.JSON;
 import edu.ycp.cs496.ghosts.model.json.JSON;
@@ -95,7 +96,20 @@ public class DatabaseApp extends HttpServlet{
 				
 			}
 			
+			if(action.equals("updateUserScore")){
+				User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
+				int score = newUser.getUserScore();
 			
+				UpdateUserScore controller = new UpdateUserScore();
+				controller.updateUserScore(newUser, score);
+				//boolean success = addController.addNewUser(newUser, password);
+				
+				
+				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.setContentType("application/json");
+				JSON.getObjectMapper().writeValue(resp.getWriter(), newUser);
+				
+			}
 			if(action.equals("getUserList")){
 				//retrieve inventory from database
 				GetUserList getController = new GetUserList();

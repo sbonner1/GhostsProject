@@ -130,19 +130,20 @@ public class DerbyDatabase implements IDatabase {
 	
 	//used to update the user's score in the database
 	@Override
-	public void updateUserScore(final User user){
+	public User updateUserScore(final User user, final int score){
 		executeTransaction(new Transaction<Boolean>() {
 
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = conn.prepareStatement("update " + DB_TABLENAME + " set score = ? where score = ?");
 				stmt.setString(1, user.getUserName());
-				stmt.setInt(3, user.getUserScore());
+				stmt.setInt(3, score);
 				stmt.executeUpdate();
 				return true;
 			}
 
 		});
+		return user;
 	}
 	
 	//remove the user from the database
