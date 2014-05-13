@@ -307,7 +307,7 @@ public class DerbyDatabase implements IDatabase {
 						" id integer primary key not null generated always as identity," +
 						" userName varchar(80) unique," +
 						" password varchar(80)," +
-						" score integer not null" +
+						" score integer" +
 						
 					/*	" integer high score" +
 						" integer max red chain" +
